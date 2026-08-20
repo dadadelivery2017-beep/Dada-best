@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Dada Best - ניהול הזמנות</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f5f7;
+      color: #1f2937;
+    }
+
+    header {
+      background: #111827;
+      color: white;
+      padding: 22px;
+    }
+
+    .header-inner {
+      max-width: 1250px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 25px;
+    }
+
+    header p {
+      margin: 6px 0 0;
+      color: #cbd5e1;
+    }
+
+    .refresh {
+      background: white;
+      color: #111827;
+      border: 0;
+      padding: 11px 17px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .container {
+      max-width: 1250px;
+      margin: 25px auto;
+      padding: 0 18px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .stat {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.06);
+    }
+
+    .stat-title {
+      color: #6b7280;
+      font-size: 14px;
+    }
+
+    .stat-number {
+      font-size: 30px;
+      font-weight: bold;
+      margin-top: 8px;
+    }
+
+    .toolbar {
+      background: white;
+      padding: 16px;
+      border-radius: 12px;
+      margin-bottom: 18px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    input,
+    select {
+      padding: 11px 13px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 15px;
+      background: white;
+    }
+
+    #search {
+      flex: 1;
+      min-width: 220px;
+    }
+
+    .orders {
+      display: grid;
+      gap: 16px;
+    }
+
+    .order {
+      background: white;
+      border-radius: 14px;
+      padding: 20px;
+      box-shadow: 0 2px 9px rgba(0,0,0,.06);
+    }
+
+    .order-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 15px;
+      margin-bottom: 18px;
+    }
+
+    .order-number {
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .date {
+      color: #6b7280;
+      font-size: 13px;
+      margin-top: 5px;
+    }
+
+    .status {
+      border: 0;
+      border-radius: 20px;
+      padding: 8px 12px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .status-new {
+      background: #dbeafe;
+      color: #1d4ed8;
+    }
+
+    .status-progress {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .status-shipped {
+      background: #e0e7ff;
+      color: #4338ca;
+    }
+
+    .status-done {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .order-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
+    .box {
+      background: #f9fafb;
+      border-radius: 10px;
+      padding: 15px;
+    }
+
+    .box h3 {
+      margin: 0 0 10px;
+      font-size: 16px;
+    }
+
+    .box p {
+      margin: 6px 0;
+    }
+
+    .items {
+      margin-top: 15px;
+    }
+
+    .item {
+      display: flex;
+      justify-content: space-between;
+      padding: 9px 0;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .total {
+      text-align: left;
+      font-size: 20px;
+      font-weight: bold;
+      margin-top: 15px;
+    }
+
+    .delete {
+      background: #fee2e2;
+      color: #b91c1c;
+      border: 0;
+      padding: 9px 13px;
+      border-radius: 7px;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+
+    .empty {
+      background: white;
+      padding: 50px 20px;
+      border-radius: 12px;
+      text-align: center;
+      color: #6b7280;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 40px;
+    }
+
+    @media (max-width: 700px) {
+
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      .order-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .order-top {
+        flex-direction: column;
+      }
+
+      .header-inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="header-inner">
+
+    <div>
+      <h1>Dada Best — ניהול הזמנות</h1>
+      <p>ניהול ההזמנות של החנות</p>
+    </div>
+
+    <button class="refresh" onclick="loadOrders()">
+      ↻ רענון
+    </button>
+
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="stats">
+
+    <div class="stat">
+      <div class="stat-title">סה״כ הזמנות</div>
+      <div class="stat-number" id="totalOrders">0</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-title">הזמנות חדשות</div>
+      <div class="stat-number" id="newOrders">0</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-title">מחזור הזמנות</div>
+      <div class="stat-number" id="totalRevenue">0 ₪</div>
+    </div>
+
+  </div>
+
+  <div class="toolbar">
+
+    <input
+      id="search"
+      type="text"
+      placeholder="חיפוש לפי שם, טלפון או מספר הזמנה..."
+      oninput="renderOrders()"
+    >
+
+    <select id="statusFilter" onchange="renderOrders()">
+      <option value="">כל הסטטוסים</option>
+      <option value="חדשה">חדשה</option>
+      <option value="בטיפול">בטיפול</option>
+      <option value="נשלחה">נשלחה</option>
+      <option value="הושלמה">הושלמה</option>
+    </select>
+
+  </div>
+
+  <div id="orders" class="orders">
+    <div class="loading">
+      טוען הזמנות...
+    </div>
+  </div>
+
+</div>
+
+<script>
+
+  let orders = [];
+
+
+  async function loadOrders() {
+
+    const container =
+      document.getElementById("orders");
+
+    container.innerHTML =
+      '<div class="loading">טוען הזמנות...</div>';
+
+    try {
+
+      const response =
+        await fetch("/api/orders");
+
+      if (!response.ok) {
+        throw new Error("Failed to load orders");
+      }
+
+      orders = await response.json();
+
+      updateStats();
+
+      renderOrders();
+
+    } catch (error) {
+
+      console.error(error);
+
+      container.innerHTML = `
+        <div class="empty">
+          <h3>לא הצלחנו לטעון את ההזמנות</h3>
+          <p>בדוק שהשרת והמסד נתונים פעילים.</p>
+        </div>
+      `;
+    }
+  }
+
+
+  function updateStats() {
+
+    document.getElementById("totalOrders")
+      .textContent = orders.length;
+
+
+    const newOrders =
+      orders.filter(order =>
+        order.status === "חדשה"
+      ).length;
+
+    document.getElementById("newOrders")
+      .textContent = newOrders;
+
+
+    const revenue =
+      orders.reduce(
+        (sum, order) =>
+          sum + Number(order.total || 0),
+        0
+      );
+
+    document.getElementById("totalRevenue")
+      .textContent =
+        revenue.toFixed(2) + " ₪";
+  }
+
+
+  function renderOrders() {
+
+    const container =
+      document.getElementById("orders");
+
+    const search =
+      document
+        .getElementById("search")
+        .value
+        .toLowerCase()
+        .trim();
+
+    const status =
+      document
+        .getElementById("statusFilter")
+        .value;
+
+
+    const filtered =
+      orders.filter(order => {
+
+        const matchesSearch =
+          !search ||
+          String(order.order_number || "")
+            .toLowerCase()
+            .includes(search) ||
+
+          String(order.customer_name || "")
+            .toLowerCase()
+            .includes(search) ||
+
+          String(order.phone || "")
+            .toLowerCase()
+            .includes(search);
+
+        const matchesStatus =
+          !status ||
+          order.status === status;
+
+        return matchesSearch && matchesStatus;
+      });
+
+
+    if (filtered.length === 0) {
+
+      container.innerHTML = `
+        <div class="empty">
+          אין הזמנות להצגה
+        </div>
+      `;
+
+      return;
+    }
+
+
+    container.innerHTML =
+      filtered.map(createOrderHTML).join("");
+  }
+
+
+  function createOrderHTML(order) {
+
+    const statusClass =
+      getStatusClass(order.status);
+
+    const date =
+      order.created_at
+        ? new Date(order.created_at)
+            .toLocaleString("he-IL")
+        : "";
+
+
+    let items = [];
+
+    try {
+
+      items =
+        typeof order.items === "string"
+          ? JSON.parse(order.items)
+          : order.items || [];
+
+    } catch {
+
+      items = [];
+    }
+
+
+    const itemsHTML =
+      items.map(item => `
+        <div class="item">
+
+          <span>
+            ${escapeHTML(item.name || "מוצר")}
+            × ${item.quantity || 1}
+          </span>
+
+          <strong>
+            ${Number(
+              item.price || 0
+            ) * Number(
+              item.quantity || 1
+            )} ₪
+          </strong>
+
+        </div>
+      `).join("");
+
+
+    return `
+
+      <div class="order">
+
+        <div class="order-top">
+
+          <div>
+            <div class="order-number">
+              ${escapeHTML(
+                order.order_number || ""
+              )}
+            </div>
+
+            <div class="date">
+              ${date}
+            </div>
+          </div>
+
+          <select
+            class="status ${statusClass}"
+            onchange="changeStatus(${order.id}, this.value)">
+
+            <option
+              value="חדשה"
+              ${order.status === "חדשה" ? "selected" : ""}>
+              חדשה
+            </option>
+
+            <option
+              value="בטיפול"
+              ${order.status === "בטיפול" ? "selected" : ""}>
+              בטיפול
+            </option>
+
+            <option
+              value="נשלחה"
+              ${order.status === "נשלחה" ? "selected" : ""}>
+              נשלחה
+            </option>
+
+            <option
+              value="הושלמה"
+              ${order.status === "הושלמה" ? "selected" : ""}>
+              הושלמה
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div class="order-grid">
+
+          <div class="box">
+
+            <h3>👤 פרטי לקוח</h3>
+
+            <p>
+              <strong>שם:</strong>
+              ${escapeHTML(
+                order.customer_name || ""
+              )}
+            </p>
+
+            <p>
+              <strong>טלפון:</strong>
+              ${escapeHTML(
+                order.phone || ""
+              )}
+            </p>
+
+            <p>
+              <strong>אימייל:</strong>
+              ${escapeHTML(
+                order.email || "-"
+              )}
+            </p>
+
+          </div>
+
+
+          <div class="box">
+
+            <h3>📍 כתובת משלוח</h3>
+
+            <p>
+              ${escapeHTML(
+                order.city || ""
+              )},
+              ${escapeHTML(
+                order.street || ""
+              )}
+              ${escapeHTML(
+                order.house_number || ""
+              )}
+            </p>
+
+            ${
+              order.apartment
+                ? `<p>דירה: ${escapeHTML(order.apartment)}</p>`
+                : ""
+            }
+
+            ${
+              order.zip
+                ? `<p>מיקוד: ${escapeHTML(order.zip)}</p>`
+                : ""
+            }
+
+            <p>
+              <strong>משלוח:</strong>
+              ${escapeHTML(
+                order.shipping || "-"
+              )}
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="box items">
+
+          <h3>🛍️ מוצרים</h3>
+
+          ${
+            itemsHTML ||
+            "<p>אין פריטים</p>"
+          }
+
+          <div class="total">
+            סה״כ:
+            ${Number(
+              order.total || 0
+            ).toFixed(2)}
+            ₪
+          </div>
+
+        </div>
+
+
+        ${
+          order.notes
+            ? `
+              <div class="box" style="margin-top:15px">
+                <h3>📝 הערות</h3>
+                <p>${escapeHTML(order.notes)}</p>
+              </div>
+            `
+            : ""
+        }
+
+
+        <button
+          class="delete"
+          onclick="deleteOrder(${order.id})">
+          🗑 מחיקת הזמנה
+        </button>
+
+      </div>
+    `;
+  }
+
+
+  function getStatusClass(status) {
+
+    if (status === "חדשה")
+      return "status-new";
+
+    if (status === "בטיפול")
+      return "status-progress";
+
+    if (status === "נשלחה")
+      return "status-shipped";
+
+    if (status === "הושלמה")
+      return "status-done";
+
+    return "";
+  }
+
+
+  async function changeStatus(id, status) {
+
+    try {
+
+      const response =
+        await fetch(
+          `/api/orders/${id}`,
+          {
+            method: "PATCH",
+
+            headers: {
+              "Content-Type":
+                "application/json"
+            },
+
+            body: JSON.stringify({
+              status: status
+            })
+          }
+        );
+
+
+      if (!response.ok) {
+        throw new Error(
+          "Failed to update status"
+        );
+      }
+
+
+      const updated =
+        await response.json();
+
+
+      const index =
+        orders.findIndex(
+          order => order.id === id
+        );
+
+
+      if (index !== -1) {
+        orders[index] = updated;
+      }
+
+
+      updateStats();
+      renderOrders();
+
+    } catch (error) {
+
+      console.error(error);
+
+      alert(
+        "לא הצלחנו לעדכן את סטטוס ההזמנה."
+      );
+
+      loadOrders();
+    }
+  }
+
+
+  async function deleteOrder(id) {
+
+    const confirmed =
+      confirm(
+        "האם אתה בטוח שברצונך למחוק את ההזמנה?"
+      );
+
+    if (!confirmed) {
+      return;
+    }
+
+
+    try {
+
+      const response =
+        await fetch(
+          `/api/orders/${id}`,
+          {
+            method: "DELETE"
+          }
+        );
+
+
+      if (!response.ok) {
+        throw new Error(
+          "Failed to delete order"
+        );
+      }
+
+
+      orders =
+        orders.filter(
+          order => order.id !== id
+        );
+
+
+      updateStats();
+      renderOrders();
+
+    } catch (error) {
+
+      console.error(error);
+
+      alert(
+        "לא הצלחנו למחוק את ההזמנה."
+      );
+    }
+  }
+
+
+  function escapeHTML(value) {
+
+    return String(value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
+
+  loadOrders();
+
+</script>
+
+</body>
+</html>
