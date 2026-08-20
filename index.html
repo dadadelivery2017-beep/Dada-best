@@ -1,442 +1,1394 @@
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>מצלמות אבטחה | התקנה מקצועית</title>
 
-    <link rel="stylesheet" href="style.css">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Dada Best | החנות שלך</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:Arial,sans-serif;
+    background:#fffaf3;
+    color:#292929;
+}
+
+/* HEADER */
+
+header{
+    position:sticky;
+    top:0;
+    z-index:50;
+    background:white;
+    box-shadow:0 4px 18px rgba(0,0,0,.08);
+}
+
+.header{
+    max-width:1150px;
+    margin:auto;
+    padding:16px 20px;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.logo{
+    font-size:28px;
+    font-weight:900;
+
+    background:linear-gradient(
+        90deg,
+        #ff6a00,
+        #ff9500,
+        #ffd21f
+    );
+
+    -webkit-background-clip:text;
+    color:transparent;
+}
+
+.header-buttons{
+    display:flex;
+    gap:10px;
+}
+
+button{
+    font-family:inherit;
+}
+
+.cart-button{
+    border:none;
+    padding:12px 18px;
+    border-radius:12px;
+
+    background:linear-gradient(
+        135deg,
+        #ff6a00,
+        #ffc400
+    );
+
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+
+    box-shadow:0 5px 15px rgba(255,106,0,.25);
+}
+
+/* HERO */
+
+.hero{
+    padding:85px 20px;
+    text-align:center;
+    color:white;
+
+    background:
+    linear-gradient(
+        135deg,
+        #ff5a00,
+        #ff8c00,
+        #ffd21f
+    );
+}
+
+.hero h1{
+    font-size:55px;
+    margin-bottom:15px;
+}
+
+.hero p{
+    font-size:20px;
+    opacity:.95;
+}
+
+/* PRODUCTS */
+
+.container{
+    max-width:1150px;
+    margin:auto;
+    padding:60px 20px;
+}
+
+.title{
+    text-align:center;
+    margin-bottom:40px;
+}
+
+.title h2{
+    font-size:36px;
+    margin-bottom:10px;
+}
+
+.title p{
+    color:#777;
+}
+
+.products{
+    display:grid;
+    grid-template-columns:
+    repeat(3,1fr);
+
+    gap:25px;
+}
+
+.product{
+    background:white;
+    border-radius:20px;
+    overflow:hidden;
+
+    border:1px solid #f0e5d5;
+
+    box-shadow:
+    0 10px 30px
+    rgba(120,70,0,.08);
+
+    transition:.25s;
+}
+
+.product:hover{
+    transform:translateY(-6px);
+}
+
+.product-image{
+    height:210px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    font-size:75px;
+
+    background:
+    linear-gradient(
+        135deg,
+        #fff0df,
+        #fff8cf
+    );
+}
+
+.product-content{
+    padding:22px;
+}
+
+.product h3{
+    margin-bottom:10px;
+}
+
+.product p{
+    color:#777;
+    min-height:45px;
+    line-height:1.5;
+}
+
+.price{
+    font-size:25px;
+    font-weight:bold;
+    margin:18px 0;
+}
+
+.add{
+    width:100%;
+    padding:14px;
+
+    border:none;
+    border-radius:10px;
+
+    color:white;
+    font-weight:bold;
+
+    cursor:pointer;
+
+    background:
+    linear-gradient(
+        135deg,
+        #ff6a00,
+        #ffbf00
+    );
+}
+
+/* CART */
+
+.cart{
+    position:fixed;
+    top:0;
+    left:-420px;
+
+    width:380px;
+    max-width:92%;
+
+    height:100vh;
+
+    background:white;
+
+    z-index:100;
+
+    padding:25px;
+
+    box-shadow:
+    10px 0 40px
+    rgba(0,0,0,.2);
+
+    transition:.3s;
+
+    overflow-y:auto;
+}
+
+.cart.open{
+    left:0;
+}
+
+.cart-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    margin-bottom:25px;
+}
+
+.close{
+    border:none;
+    background:none;
+
+    font-size:28px;
+
+    cursor:pointer;
+}
+
+.cart-item{
+    padding:15px 0;
+
+    border-bottom:
+    1px solid #eee;
+}
+
+.quantity{
+    display:flex;
+    align-items:center;
+
+    gap:10px;
+
+    margin-top:10px;
+}
+
+.quantity button{
+    width:30px;
+    height:30px;
+
+    border:none;
+    border-radius:7px;
+
+    background:#fff0d9;
+
+    cursor:pointer;
+}
+
+.remove{
+    margin-top:8px;
+
+    border:none;
+
+    background:#ef4444;
+    color:white;
+
+    padding:6px 10px;
+
+    border-radius:6px;
+
+    cursor:pointer;
+}
+
+.total{
+    font-size:24px;
+    font-weight:bold;
+
+    margin-top:25px;
+}
+
+.checkout{
+    width:100%;
+
+    margin-top:20px;
+
+    padding:15px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:#ff7a00;
+    color:white;
+
+    font-weight:bold;
+
+    cursor:pointer;
+}
+
+/* MODAL */
+
+.overlay{
+    position:fixed;
+    inset:0;
+
+    background:
+    rgba(0,0,0,.55);
+
+    z-index:150;
+
+    display:none;
+}
+
+.overlay.open{
+    display:block;
+}
+
+.modal{
+    position:fixed;
+
+    top:50%;
+    left:50%;
+
+    transform:
+    translate(-50%,-50%);
+
+    width:600px;
+    max-width:94%;
+
+    max-height:90vh;
+
+    overflow-y:auto;
+
+    background:white;
+
+    border-radius:20px;
+
+    padding:28px;
+
+    z-index:200;
+
+    display:none;
+}
+
+.modal.open{
+    display:block;
+}
+
+.form-group{
+    margin-bottom:15px;
+}
+
+.form-group label{
+    display:block;
+
+    font-weight:bold;
+
+    margin-bottom:7px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea{
+
+    width:100%;
+
+    padding:12px;
+
+    border:1px solid #ddd;
+
+    border-radius:9px;
+
+    font-size:15px;
+}
+
+.form-group textarea{
+    min-height:90px;
+}
+
+.form-row{
+    display:grid;
+
+    grid-template-columns:
+    1fr 1fr;
+
+    gap:15px;
+}
+
+.submit-order{
+
+    width:100%;
+
+    padding:15px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:
+    linear-gradient(
+        135deg,
+        #ff6200,
+        #ffc400
+    );
+
+    color:white;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    font-size:16px;
+}
+
+/* FOOTER */
+
+footer{
+    margin-top:40px;
+
+    background:#21170c;
+
+    color:#d9c7ae;
+
+    text-align:center;
+
+    padding:30px;
+}
+
+/* MOBILE */
+
+@media(max-width:800px){
+
+    .products{
+        grid-template-columns:
+        1fr 1fr;
+    }
+
+    .hero h1{
+        font-size:40px;
+    }
+
+}
+
+@media(max-width:550px){
+
+    .products{
+        grid-template-columns:1fr;
+    }
+
+    .form-row{
+        grid-template-columns:1fr;
+    }
+
+    .header{
+        padding:12px;
+    }
+
+    .logo{
+        font-size:22px;
+    }
+
+}
+
+</style>
+
 </head>
+
 
 <body>
 
-    <header>
-        <div class="container">
-            <div class="logo">SECURE<span>CAM</span></div>
 
-            <nav>
-                <a href="#services">שירותים</a>
-                <a href="#about">אודות</a>
-                <a href="#contact">צור קשר</a>
-            </nav>
+<header>
 
-            <a href="#contact" class="header-button">
-                הצעת מחיר
-            </a>
-        </div>
-    </header>
+<div class="header">
 
+<div class="logo">
+Dada Best
+</div>
 
-    <main>
+<div class="header-buttons">
 
-        <section class="hero">
+<button
+class="cart-button"
+onclick="openCart()"
+>
 
-            <div class="container hero-content">
+🛒 סל הקניות
+(<span id="cartCount">0</span>)
 
-                <div class="hero-text">
+</button>
 
-                    <span class="badge">
-                        פתרונות אבטחה לבית ולעסק
-                    </span>
+</div>
 
-                    <h1>
-                        שומרים על מה
-                        <span>שחשוב לך</span>
-                    </h1>
+</div>
 
-                    <p>
-                        התקנת מצלמות אבטחה מקצועית,
-                        מערכות הקלטה וצפייה מרחוק
-                        לבית ולעסק.
-                    </p>
+</header>
 
-                    <div class="hero-buttons">
 
-                        <a href="#contact" class="button primary">
-                            קבל הצעת מחיר
-                        </a>
+<section class="hero">
 
-                        <a href="#services" class="button secondary">
-                            השירותים שלנו
-                        </a>
+<h1>
+Dada Best
+</h1>
 
-                    </div>
+<p>
+הבחירה הטובה ביותר במקום אחד
+</p>
 
-                </div>
+</section>
 
-            </div>
 
-        </section>
+<main class="container">
 
+<div class="title">
 
-        <section id="services" class="section">
+<h2>
+המוצרים שלנו
+</h2>
 
-            <div class="container">
+<p>
+מוצרים איכותיים במחירים מעולים
+</p>
 
-                <div class="section-title">
+</div>
 
-                    <span>מה אנחנו מציעים</span>
 
-                    <h2>
-                        פתרונות מצלמות מקצועיים
-                    </h2>
+<div class="products">
 
-                    <p>
-                        מערכת מותאמת לצרכים שלך,
-                        עם התקנה מסודרת ושירות מקצועי.
-                    </p>
 
-                </div>
+<!-- PRODUCT 1 -->
 
+<div class="product">
 
-                <div class="services-grid">
+<div class="product-image">
+📦
+</div>
 
-                    <article class="service-card">
+<div class="product-content">
 
-                        <div class="icon">📹</div>
+<h3>
+מוצר ראשון
+</h3>
 
-                        <h3>
-                            התקנת מצלמות
-                        </h3>
+<p>
+תיאור קצר של המוצר.
+</p>
 
-                        <p>
-                            התקנת מצלמות לבית,
-                            לעסק ולשטחים חיצוניים.
-                        </p>
+<div class="price">
+₪99
+</div>
 
-                    </article>
+<button
+class="add"
+onclick="
+addToCart('מוצר ראשון',99)
+"
+>
 
+הוסף לסל
 
-                    <article class="service-card">
+</button>
 
-                        <div class="icon">🏠</div>
+</div>
 
-                        <h3>
-                            מצלמות לבית
-                        </h3>
+</div>
 
-                        <p>
-                            אבטחה לכניסה, חצר,
-                            חניה ואזורים חשובים בבית.
-                        </p>
 
-                    </article>
+<!-- PRODUCT 2 -->
 
+<div class="product">
 
-                    <article class="service-card">
+<div class="product-image">
+⭐
+</div>
 
-                        <div class="icon">🏢</div>
+<div class="product-content">
 
-                        <h3>
-                            מצלמות לעסק
-                        </h3>
+<h3>
+מוצר שני
+</h3>
 
-                        <p>
-                            פתרונות אבטחה לעסקים,
-                            חנויות, מחסנים ומשרדים.
-                        </p>
+<p>
+תיאור קצר של המוצר.
+</p>
 
-                    </article>
+<div class="price">
+₪149
+</div>
 
+<button
+class="add"
+onclick="
+addToCart('מוצר שני',149)
+"
+>
 
-                    <article class="service-card">
+הוסף לסל
 
-                        <div class="icon">💾</div>
+</button>
 
-                        <h3>
-                            מערכות NVR
-                        </h3>
+</div>
 
-                        <p>
-                            התקנה והגדרה של מערכות
-                            הקלטה ושמירת צילומים.
-                        </p>
+</div>
 
-                    </article>
 
+<!-- PRODUCT 3 -->
 
-                    <article class="service-card">
+<div class="product">
 
-                        <div class="icon">📱</div>
+<div class="product-image">
+🔥
+</div>
 
-                        <h3>
-                            צפייה מהטלפון
-                        </h3>
+<div class="product-content">
 
-                        <p>
-                            צפייה במצלמות מכל מקום
-                            דרך הטלפון.
-                        </p>
+<h3>
+מוצר שלישי
+</h3>
 
-                    </article>
+<p>
+תיאור קצר של המוצר.
+</p>
 
+<div class="price">
+₪199
+</div>
 
-                    <article class="service-card">
+<button
+class="add"
+onclick="
+addToCart('מוצר שלישי',199)
+"
+>
 
-                        <div class="icon">🛠️</div>
+הוסף לסל
 
-                        <h3>
-                            תיקון ושדרוג
-                        </h3>
+</button>
 
-                        <p>
-                            טיפול בתקלות ושדרוג
-                            מערכות מצלמות קיימות.
-                        </p>
+</div>
 
-                    </article>
+</div>
 
-                </div>
 
-            </div>
+</div>
 
-        </section>
+</main>
 
 
-        <section id="about" class="about">
+<footer>
 
-            <div class="container about-grid">
+Dada Best © 2026
 
-                <div>
+</footer>
 
-                    <span class="section-label">
-                        למה לבחור בנו?
-                    </span>
 
-                    <h2>
-                        אבטחה טובה מתחילה
-                        בהתקנה נכונה.
-                    </h2>
+<!-- CART -->
 
-                    <p>
-                        אנחנו מתאימים את המערכת למקום,
-                        לצרכים ולתקציב שלך.
-                    </p>
+<aside
+class="cart"
+id="cart"
+>
 
-                    <ul>
+<div class="cart-header">
 
-                        <li>✓ התאמת מערכת אישית</li>
-                        <li>✓ התקנה מקצועית ונקייה</li>
-                        <li>✓ צפייה מרחוק מהטלפון</li>
-                        <li>✓ הסבר מלא על המערכת</li>
-                        <li>✓ שירות גם לאחר ההתקנה</li>
+<h2>
+סל הקניות
+</h2>
 
-                    </ul>
+<button
+class="close"
+onclick="closeCart()"
+>
+×
+</button>
 
-                </div>
+</div>
 
 
-                <div class="about-box">
+<div id="cartItems">
 
-                    <div class="camera-lens">
-                        ◉
-                    </div>
+<p>
+הסל ריק
+</p>
 
-                    <h3>
-                        אבטחה 24/7
-                    </h3>
+</div>
 
-                    <p>
-                        אתם יודעים מה קורה,
-                        גם כשאתם לא נמצאים.
-                    </p>
 
-                </div>
+<div class="total">
 
-            </div>
+סה"כ:
+₪<span id="total">0</span>
 
-        </section>
+</div>
 
 
-        <section class="section">
+<button
+class="checkout"
+onclick="openCheckout()"
+>
 
-            <div class="container">
+המשך להזמנה
 
-                <div class="section-title">
+</button>
 
-                    <span>איך זה עובד?</span>
+</aside>
 
-                    <h2>
-                        פשוט ומהיר
-                    </h2>
 
-                </div>
+<div
+class="overlay"
+id="overlay"
+onclick="closeAll()"
+></div>
 
 
-                <div class="steps">
+<!-- CHECKOUT -->
 
-                    <div class="step">
+<div
+class="modal"
+id="checkoutModal"
+>
 
-                        <div class="number">01</div>
+<div class="cart-header">
 
-                        <h3>
-                            פונים אלינו
-                        </h3>
+<h2>
+פרטי משלוח
+</h2>
 
-                        <p>
-                            משאירים פרטים ומספרים
-                            לנו מה אתם צריכים.
-                        </p>
+<button
+class="close"
+onclick="closeCheckout()"
+>
+×
+</button>
 
-                    </div>
+</div>
 
 
-                    <div class="step">
+<form
+onsubmit="submitOrder(event)"
+>
 
-                        <div class="number">02</div>
 
-                        <h3>
-                            מתאימים מערכת
-                        </h3>
+<div class="form-group">
 
-                        <p>
-                            בוחרים את הציוד המתאים
-                            למקום ולתקציב.
-                        </p>
+<label>
+שם מלא *
+</label>
 
-                    </div>
+<input
+id="customerName"
+required
+placeholder="ישראל ישראלי"
+>
 
+</div>
 
-                    <div class="step">
 
-                        <div class="number">03</div>
+<div class="form-group">
 
-                        <h3>
-                            מתקינים
-                        </h3>
+<label>
+טלפון *
+</label>
 
-                        <p>
-                            התקנה מסודרת והגדרת
-                            כל המערכת.
-                        </p>
+<input
+id="customerPhone"
+type="tel"
+required
+placeholder="050-1234567"
+>
 
-                    </div>
+</div>
 
 
-                    <div class="step">
+<div class="form-group">
 
-                        <div class="number">04</div>
+<label>
+אימייל
+</label>
 
-                        <h3>
-                            אתם מוגנים
-                        </h3>
+<input
+id="customerEmail"
+type="email"
+placeholder="example@email.com"
+>
 
-                        <p>
-                            צופים ומנהלים את המערכת
-                            גם מהטלפון.
-                        </p>
+</div>
 
-                    </div>
 
-                </div>
+<div class="form-row">
 
-            </div>
 
-        </section>
+<div class="form-group">
 
+<label>
+עיר *
+</label>
 
-        <section id="contact" class="contact">
+<input
+id="city"
+required
+>
 
-            <div class="container">
+</div>
 
-                <div class="contact-box">
 
-                    <div>
+<div class="form-group">
 
-                        <span class="section-label">
-                            דברו איתנו
-                        </span>
+<label>
+מיקוד
+</label>
 
-                        <h2>
-                            רוצים הצעת מחיר?
-                        </h2>
+<input
+id="zip"
+>
 
-                        <p>
-                            השאירו פרטים ונחזור אליכם
-                            בהקדם.
-                        </p>
+</div>
 
-                    </div>
 
+</div>
 
-                    <form>
 
-                        <input
-                            type="text"
-                            placeholder="שם מלא"
-                        >
+<div class="form-row">
 
-                        <input
-                            type="tel"
-                            placeholder="טלפון"
-                        >
 
-                        <select>
+<div class="form-group">
 
-                            <option>
-                                במה אפשר לעזור?
-                            </option>
+<label>
+רחוב *
+</label>
 
-                            <option>
-                                התקנת מצלמות לבית
-                            </option>
+<input
+id="street"
+required
+>
 
-                            <option>
-                                התקנת מצלמות לעסק
-                            </option>
+</div>
 
-                            <option>
-                                מערכת NVR
-                            </option>
 
-                            <option>
-                                תיקון מערכת קיימת
-                            </option>
+<div class="form-group">
 
-                        </select>
+<label>
+מספר בית *
+</label>
 
-                        <textarea
-                            placeholder="פרטים נוספים"
-                            rows="4"
-                        ></textarea>
+<input
+id="houseNumber"
+required
+>
 
-                        <button type="button">
-                            שליחת בקשה
-                        </button>
+</div>
 
-                    </form>
 
-                </div>
+</div>
 
-            </div>
 
-        </section>
+<div class="form-group">
 
-    </main>
+<label>
+דירה
+</label>
 
+<input
+id="apartment"
+>
 
-    <footer>
+</div>
 
-        <div class="container">
 
-            <strong>
-                SECURE<span>CAM</span>
-            </strong>
+<div class="form-group">
 
-            <p>
-                התקנת מצלמות אבטחה לבית ולעסק
-            </p>
+<label>
+שיטת משלוח
+</label>
 
-            <small>
-                © 2026 כל הזכויות שמורות
-            </small>
+<select id="shipping">
 
-        </div>
+<option>
+משלוח רגיל
+</option>
 
-    </footer>
+<option>
+משלוח מהיר
+</option>
 
+<option>
+איסוף עצמי
+</option>
 
-    <script src="script.js"></script>
+</select>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+הערות
+</label>
+
+<textarea
+id="notes"
+placeholder="הערות להזמנה..."
+></textarea>
+
+</div>
+
+
+<button
+class="submit-order"
+type="submit"
+>
+
+✓ שליחת הזמנה
+
+</button>
+
+
+</form>
+
+</div>
+
+
+<script>
+
+let cart =
+JSON.parse(
+localStorage.getItem(
+"dada_cart"
+) || "[]"
+);
+
+
+function saveCart(){
+
+localStorage.setItem(
+"dada_cart",
+JSON.stringify(cart)
+);
+
+}
+
+
+function addToCart(name,price){
+
+let item =
+cart.find(
+x => x.name === name
+);
+
+
+if(item){
+
+item.quantity++;
+
+}else{
+
+cart.push({
+
+name:name,
+
+price:price,
+
+quantity:1
+
+});
+
+}
+
+
+saveCart();
+
+updateCart();
+
+openCart();
+
+}
+
+
+function updateCart(){
+
+const items =
+document.getElementById(
+"cartItems"
+);
+
+const count =
+document.getElementById(
+"cartCount"
+);
+
+const total =
+document.getElementById(
+"total"
+);
+
+
+if(cart.length === 0){
+
+items.innerHTML =
+"<p>הסל ריק</p>";
+
+count.textContent =
+"0";
+
+total.textContent =
+"0";
+
+return;
+
+}
+
+
+let html = "";
+
+let itemCount = 0;
+
+let sum = 0;
+
+
+cart.forEach(
+(item,index)=>{
+
+itemCount +=
+item.quantity;
+
+sum +=
+item.price *
+item.quantity;
+
+
+html += `
+
+<div class="cart-item">
+
+<strong>
+${item.name}
+</strong>
+
+₪${item.price}
+
+<div class="quantity">
+
+<button
+onclick="
+changeQuantity(${index},-1)
+"
+>
+−
+</button>
+
+<span>
+${item.quantity}
+</span>
+
+<button
+onclick="
+changeQuantity(${index},1)
+"
+>
++
+</button>
+
+</div>
+
+<button
+class="remove"
+onclick="
+removeItem(${index})
+"
+>
+
+הסר
+
+</button>
+
+</div>
+
+`;
+
+});
+
+
+items.innerHTML =
+html;
+
+count.textContent =
+itemCount;
+
+total.textContent =
+sum;
+
+}
+
+
+function changeQuantity(index,change){
+
+cart[index].quantity +=
+change;
+
+
+if(
+cart[index].quantity <= 0
+){
+
+cart.splice(index,1);
+
+}
+
+
+saveCart();
+
+updateCart();
+
+}
+
+
+function removeItem(index){
+
+cart.splice(index,1);
+
+saveCart();
+
+updateCart();
+
+}
+
+
+function openCart(){
+
+document
+.getElementById("cart")
+.classList.add("open");
+
+document
+.getElementById("overlay")
+.classList.add("open");
+
+}
+
+
+function closeCart(){
+
+document
+.getElementById("cart")
+.classList.remove("open");
+
+document
+.getElementById("overlay")
+.classList.remove("open");
+
+}
+
+
+function openCheckout(){
+
+if(cart.length === 0){
+
+alert(
+"הסל שלך ריק"
+);
+
+return;
+
+}
+
+
+closeCart();
+
+document
+.getElementById(
+"checkoutModal"
+)
+.classList.add("open");
+
+document
+.getElementById("overlay")
+.classList.add("open");
+
+}
+
+
+function closeCheckout(){
+
+document
+.getElementById(
+"checkoutModal"
+)
+.classList.remove("open");
+
+document
+.getElementById("overlay")
+.classList.remove("open");
+
+}
+
+
+function closeAll(){
+
+closeCart();
+
+closeCheckout();
+
+}
+
+
+function submitOrder(event){
+
+event.preventDefault();
+
+
+if(cart.length === 0){
+
+alert(
+"הסל שלך ריק"
+);
+
+return;
+
+}
+
+
+const total =
+cart.reduce(
+(sum,item)=>
+sum +
+item.price *
+item.quantity,
+0
+);
+
+
+const order = {
+
+id:
+"DADA-" +
+Date.now()
+.toString()
+.slice(-7),
+
+date:
+new Date()
+.toLocaleString("he-IL"),
+
+customer:{
+
+name:
+document
+.getElementById(
+"customerName"
+).value,
+
+phone:
+document
+.getElementById(
+"customerPhone"
+).value,
+
+email:
+document
+.getElementById(
+"customerEmail"
+).value,
+
+city:
+document
+.getElementById(
+"city"
+).value,
+
+zip:
+document
+.getElementById(
+"zip"
+).value,
+
+street:
+document
+.getElementById(
+"street"
+).value,
+
+house:
+document
+.getElementById(
+"houseNumber"
+).value,
+
+apartment:
+document
+.getElementById(
+"apartment"
+).value,
+
+shipping:
+document
+.getElementById(
+"shipping"
+).value,
+
+notes:
+document
+.getElementById(
+"notes"
+).value
+
+},
+
+items:
+cart,
+
+total:total,
+
+status:
+"חדשה"
+
+};
+
+
+let orders =
+JSON.parse(
+localStorage.getItem(
+"dada_orders"
+) || "[]"
+);
+
+
+orders.unshift(order);
+
+
+localStorage.setItem(
+"dada_orders",
+JSON.stringify(orders)
+);
+
+
+cart = [];
+
+saveCart();
+
+updateCart();
+
+closeCheckout();
+
+
+alert(
+"🎉 ההזמנה התקבלה!\n\n" +
+"מספר הזמנה: " +
+order.id
+);
+
+}
+
+
+updateCart();
+
+</script>
 
 </body>
+
 </html>
