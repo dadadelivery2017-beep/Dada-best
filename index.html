@@ -21,8 +21,6 @@ body{
     color:#292929;
 }
 
-/* HEADER */
-
 header{
     position:sticky;
     top:0;
@@ -35,7 +33,6 @@ header{
     max-width:1150px;
     margin:auto;
     padding:16px 20px;
-
     display:flex;
     justify-content:space-between;
     align-items:center;
@@ -44,59 +41,26 @@ header{
 .logo{
     font-size:28px;
     font-weight:900;
-
-    background:linear-gradient(
-        90deg,
-        #ff6a00,
-        #ff9500,
-        #ffd21f
-    );
-
+    background:linear-gradient(90deg,#ff6a00,#ff9500,#ffd21f);
     -webkit-background-clip:text;
     color:transparent;
-}
-
-.header-buttons{
-    display:flex;
-    gap:10px;
-}
-
-button{
-    font-family:inherit;
 }
 
 .cart-button{
     border:none;
     padding:12px 18px;
     border-radius:12px;
-
-    background:linear-gradient(
-        135deg,
-        #ff6a00,
-        #ffc400
-    );
-
+    background:linear-gradient(135deg,#ff6a00,#ffc400);
     color:white;
     font-weight:bold;
     cursor:pointer;
-
-    box-shadow:0 5px 15px rgba(255,106,0,.25);
 }
-
-/* HERO */
 
 .hero{
     padding:85px 20px;
     text-align:center;
     color:white;
-
-    background:
-    linear-gradient(
-        135deg,
-        #ff5a00,
-        #ff8c00,
-        #ffd21f
-    );
+    background:linear-gradient(135deg,#ff5a00,#ff8c00,#ffd21f);
 }
 
 .hero h1{
@@ -106,10 +70,7 @@ button{
 
 .hero p{
     font-size:20px;
-    opacity:.95;
 }
-
-/* PRODUCTS */
 
 .container{
     max-width:1150px;
@@ -133,9 +94,7 @@ button{
 
 .products{
     display:grid;
-    grid-template-columns:
-    repeat(3,1fr);
-
+    grid-template-columns:repeat(3,1fr);
     gap:25px;
 }
 
@@ -143,13 +102,8 @@ button{
     background:white;
     border-radius:20px;
     overflow:hidden;
-
     border:1px solid #f0e5d5;
-
-    box-shadow:
-    0 10px 30px
-    rgba(120,70,0,.08);
-
+    box-shadow:0 10px 30px rgba(120,70,0,.08);
     transition:.25s;
 }
 
@@ -159,19 +113,11 @@ button{
 
 .product-image{
     height:210px;
-
     display:flex;
     justify-content:center;
     align-items:center;
-
     font-size:75px;
-
-    background:
-    linear-gradient(
-        135deg,
-        #fff0df,
-        #fff8cf
-    );
+    background:linear-gradient(135deg,#fff0df,#fff8cf);
 }
 
 .product-content{
@@ -197,47 +143,26 @@ button{
 .add{
     width:100%;
     padding:14px;
-
     border:none;
     border-radius:10px;
-
     color:white;
     font-weight:bold;
-
     cursor:pointer;
-
-    background:
-    linear-gradient(
-        135deg,
-        #ff6a00,
-        #ffbf00
-    );
+    background:linear-gradient(135deg,#ff6a00,#ffbf00);
 }
-
-/* CART */
 
 .cart{
     position:fixed;
     top:0;
     left:-420px;
-
     width:380px;
     max-width:92%;
-
     height:100vh;
-
     background:white;
-
     z-index:100;
-
     padding:25px;
-
-    box-shadow:
-    10px 0 40px
-    rgba(0,0,0,.2);
-
+    box-shadow:10px 0 40px rgba(0,0,0,.2);
     transition:.3s;
-
     overflow-y:auto;
 }
 
@@ -249,99 +174,70 @@ button{
     display:flex;
     justify-content:space-between;
     align-items:center;
-
     margin-bottom:25px;
 }
 
 .close{
     border:none;
     background:none;
-
     font-size:28px;
-
     cursor:pointer;
 }
 
 .cart-item{
     padding:15px 0;
-
-    border-bottom:
-    1px solid #eee;
+    border-bottom:1px solid #eee;
 }
 
 .quantity{
     display:flex;
     align-items:center;
-
     gap:10px;
-
     margin-top:10px;
 }
 
 .quantity button{
     width:30px;
     height:30px;
-
     border:none;
     border-radius:7px;
-
     background:#fff0d9;
-
     cursor:pointer;
 }
 
 .remove{
     margin-top:8px;
-
     border:none;
-
     background:#ef4444;
     color:white;
-
     padding:6px 10px;
-
     border-radius:6px;
-
     cursor:pointer;
 }
 
 .total{
     font-size:24px;
     font-weight:bold;
-
     margin-top:25px;
 }
 
 .checkout{
     width:100%;
-
     margin-top:20px;
-
     padding:15px;
-
     border:none;
-
     border-radius:10px;
-
     background:#ff7a00;
     color:white;
-
     font-weight:bold;
-
     cursor:pointer;
 }
-
-/* MODAL */
 
 .overlay{
     position:fixed;
     inset:0;
-
-    background:
-    rgba(0,0,0,.55);
-
+    background:rgba(0,0,0,.55);
     z-index:150;
-
     display:none;
 }
 
@@ -351,28 +247,17 @@ button{
 
 .modal{
     position:fixed;
-
     top:50%;
     left:50%;
-
-    transform:
-    translate(-50%,-50%);
-
+    transform:translate(-50%,-50%);
     width:600px;
     max-width:94%;
-
     max-height:90vh;
-
     overflow-y:auto;
-
     background:white;
-
     border-radius:20px;
-
     padding:28px;
-
     z-index:200;
-
     display:none;
 }
 
@@ -386,24 +271,17 @@ button{
 
 .form-group label{
     display:block;
-
     font-weight:bold;
-
     margin-bottom:7px;
 }
 
 .form-group input,
 .form-group select,
 .form-group textarea{
-
     width:100%;
-
     padding:12px;
-
     border:1px solid #ddd;
-
     border-radius:9px;
-
     font-size:15px;
 }
 
@@ -413,60 +291,34 @@ button{
 
 .form-row{
     display:grid;
-
-    grid-template-columns:
-    1fr 1fr;
-
+    grid-template-columns:1fr 1fr;
     gap:15px;
 }
 
 .submit-order{
-
     width:100%;
-
     padding:15px;
-
     border:none;
-
     border-radius:10px;
-
-    background:
-    linear-gradient(
-        135deg,
-        #ff6200,
-        #ffc400
-    );
-
+    background:linear-gradient(135deg,#ff6200,#ffc400);
     color:white;
-
     font-weight:bold;
-
     cursor:pointer;
-
     font-size:16px;
 }
 
-/* FOOTER */
-
 footer{
     margin-top:40px;
-
     background:#21170c;
-
     color:#d9c7ae;
-
     text-align:center;
-
     padding:30px;
 }
-
-/* MOBILE */
 
 @media(max-width:800px){
 
     .products{
-        grid-template-columns:
-        1fr 1fr;
+        grid-template-columns:1fr 1fr;
     }
 
     .hero h1{
@@ -485,10 +337,6 @@ footer{
         grid-template-columns:1fr;
     }
 
-    .header{
-        padding:12px;
-    }
-
     .logo{
         font-size:22px;
     }
@@ -499,9 +347,7 @@ footer{
 
 </head>
 
-
 <body>
-
 
 <header>
 
@@ -511,19 +357,10 @@ footer{
 Dada Best
 </div>
 
-<div class="header-buttons">
-
-<button
-class="cart-button"
-onclick="openCart()"
->
-
+<button class="cart-button" onclick="openCart()">
 🛒 סל הקניות
 (<span id="cartCount">0</span>)
-
 </button>
-
-</div>
 
 </div>
 
@@ -532,9 +369,7 @@ onclick="openCart()"
 
 <section class="hero">
 
-<h1>
-Dada Best
-</h1>
+<h1>Dada Best</h1>
 
 <p>
 הבחירה הטובה ביותר במקום אחד
@@ -561,8 +396,6 @@ Dada Best
 <div class="products">
 
 
-<!-- PRODUCT 1 -->
-
 <div class="product">
 
 <div class="product-image">
@@ -585,21 +418,15 @@ Dada Best
 
 <button
 class="add"
-onclick="
-addToCart('מוצר ראשון',99)
-"
+onclick="addToCart('מוצר ראשון',99)"
 >
-
 הוסף לסל
-
 </button>
 
 </div>
 
 </div>
 
-
-<!-- PRODUCT 2 -->
 
 <div class="product">
 
@@ -623,21 +450,15 @@ addToCart('מוצר ראשון',99)
 
 <button
 class="add"
-onclick="
-addToCart('מוצר שני',149)
-"
+onclick="addToCart('מוצר שני',149)"
 >
-
 הוסף לסל
-
 </button>
 
 </div>
 
 </div>
 
-
-<!-- PRODUCT 3 -->
 
 <div class="product">
 
@@ -661,13 +482,9 @@ addToCart('מוצר שני',149)
 
 <button
 class="add"
-onclick="
-addToCart('מוצר שלישי',199)
-"
+onclick="addToCart('מוצר שלישי',199)"
 >
-
 הוסף לסל
-
 </button>
 
 </div>
@@ -681,18 +498,11 @@ addToCart('מוצר שלישי',199)
 
 
 <footer>
-
 Dada Best © 2026
-
 </footer>
 
 
-<!-- CART -->
-
-<aside
-class="cart"
-id="cart"
->
+<aside class="cart" id="cart">
 
 <div class="cart-header">
 
@@ -700,40 +510,26 @@ id="cart"
 סל הקניות
 </h2>
 
-<button
-class="close"
-onclick="closeCart()"
->
+<button class="close" onclick="closeCart()">
 ×
 </button>
 
 </div>
 
-
 <div id="cartItems">
-
-<p>
-הסל ריק
-</p>
-
+<p>הסל ריק</p>
 </div>
-
 
 <div class="total">
-
 סה"כ:
 ₪<span id="total">0</span>
-
 </div>
-
 
 <button
 class="checkout"
 onclick="openCheckout()"
 >
-
 המשך להזמנה
-
 </button>
 
 </aside>
@@ -746,8 +542,6 @@ onclick="closeAll()"
 ></div>
 
 
-<!-- CHECKOUT -->
-
 <div
 class="modal"
 id="checkoutModal"
@@ -759,19 +553,14 @@ id="checkoutModal"
 פרטי משלוח
 </h2>
 
-<button
-class="close"
-onclick="closeCheckout()"
->
+<button class="close" onclick="closeCheckout()">
 ×
 </button>
 
 </div>
 
 
-<form
-onsubmit="submitOrder(event)"
->
+<form onsubmit="submitOrder(event)">
 
 
 <div class="form-group">
@@ -783,9 +572,7 @@ onsubmit="submitOrder(event)"
 <input
 id="customerName"
 required
-placeholder="ישראל ישראלי"
 >
-
 </div>
 
 
@@ -799,9 +586,7 @@ placeholder="ישראל ישראלי"
 id="customerPhone"
 type="tel"
 required
-placeholder="050-1234567"
 >
-
 </div>
 
 
@@ -814,14 +599,11 @@ placeholder="050-1234567"
 <input
 id="customerEmail"
 type="email"
-placeholder="example@email.com"
 >
-
 </div>
 
 
 <div class="form-row">
-
 
 <div class="form-group">
 
@@ -849,12 +631,10 @@ id="zip"
 
 </div>
 
-
 </div>
 
 
 <div class="form-row">
-
 
 <div class="form-group">
 
@@ -883,7 +663,6 @@ required
 
 </div>
 
-
 </div>
 
 
@@ -908,17 +687,9 @@ id="apartment"
 
 <select id="shipping">
 
-<option>
-משלוח רגיל
-</option>
-
-<option>
-משלוח מהיר
-</option>
-
-<option>
-איסוף עצמי
-</option>
+<option>משלוח רגיל</option>
+<option>משלוח מהיר</option>
+<option>איסוף עצמי</option>
 
 </select>
 
@@ -931,10 +702,7 @@ id="apartment"
 הערות
 </label>
 
-<textarea
-id="notes"
-placeholder="הערות להזמנה..."
-></textarea>
+<textarea id="notes"></textarea>
 
 </div>
 
@@ -943,9 +711,7 @@ placeholder="הערות להזמנה..."
 class="submit-order"
 type="submit"
 >
-
 ✓ שליחת הזמנה
-
 </button>
 
 
@@ -956,431 +722,375 @@ type="submit"
 
 <script>
 
-let cart =
-JSON.parse(
-localStorage.getItem(
-"dada_cart"
-) || "[]"
-);
+let cart = [];
 
 
-function saveCart(){
+function addToCart(name, price){
 
-localStorage.setItem(
-"dada_cart",
-JSON.stringify(cart)
-);
+    const item =
+        cart.find(x => x.name === name);
 
-}
+    if(item){
 
+        item.quantity++;
 
-function addToCart(name,price){
+    }else{
 
-let item =
-cart.find(
-x => x.name === name
-);
+        cart.push({
+            name:name,
+            price:price,
+            quantity:1
+        });
 
+    }
 
-if(item){
-
-item.quantity++;
-
-}else{
-
-cart.push({
-
-name:name,
-
-price:price,
-
-quantity:1
-
-});
-
-}
-
-
-saveCart();
-
-updateCart();
-
-openCart();
+    updateCart();
+    openCart();
 
 }
 
 
 function updateCart(){
 
-const items =
-document.getElementById(
-"cartItems"
-);
+    const items =
+        document.getElementById("cartItems");
 
-const count =
-document.getElementById(
-"cartCount"
-);
+    const count =
+        document.getElementById("cartCount");
 
-const total =
-document.getElementById(
-"total"
-);
+    const total =
+        document.getElementById("total");
 
 
-if(cart.length === 0){
+    if(cart.length === 0){
 
-items.innerHTML =
-"<p>הסל ריק</p>";
+        items.innerHTML =
+            "<p>הסל ריק</p>";
 
-count.textContent =
-"0";
+        count.textContent = "0";
+        total.textContent = "0";
 
-total.textContent =
-"0";
+        return;
 
-return;
-
-}
+    }
 
 
-let html = "";
-
-let itemCount = 0;
-
-let sum = 0;
+    let html = "";
+    let itemCount = 0;
+    let sum = 0;
 
 
-cart.forEach(
-(item,index)=>{
+    cart.forEach((item,index)=>{
 
-itemCount +=
-item.quantity;
+        itemCount += item.quantity;
 
-sum +=
-item.price *
-item.quantity;
+        sum +=
+            item.price *
+            item.quantity;
 
 
-html += `
+        html += `
 
-<div class="cart-item">
+        <div class="cart-item">
 
-<strong>
-${item.name}
-</strong>
+            <strong>
+                ${item.name}
+            </strong>
 
-₪${item.price}
+            ₪${item.price}
 
-<div class="quantity">
+            <div class="quantity">
 
-<button
-onclick="
-changeQuantity(${index},-1)
-"
->
-−
-</button>
+                <button
+                    onclick="changeQuantity(${index},-1)"
+                >
+                    −
+                </button>
 
-<span>
-${item.quantity}
-</span>
+                <span>
+                    ${item.quantity}
+                </span>
 
-<button
-onclick="
-changeQuantity(${index},1)
-"
->
-+
-</button>
+                <button
+                    onclick="changeQuantity(${index},1)"
+                >
+                    +
+                </button>
 
-</div>
+            </div>
 
-<button
-class="remove"
-onclick="
-removeItem(${index})
-"
->
+            <button
+                class="remove"
+                onclick="removeItem(${index})"
+            >
+                הסר
+            </button>
 
-הסר
+        </div>
 
-</button>
+        `;
 
-</div>
-
-`;
-
-});
+    });
 
 
-items.innerHTML =
-html;
+    items.innerHTML = html;
 
-count.textContent =
-itemCount;
+    count.textContent = itemCount;
 
-total.textContent =
-sum;
+    total.textContent = sum;
 
 }
 
 
-function changeQuantity(index,change){
+function changeQuantity(index, change){
 
-cart[index].quantity +=
-change;
-
-
-if(
-cart[index].quantity <= 0
-){
-
-cart.splice(index,1);
-
-}
+    cart[index].quantity += change;
 
 
-saveCart();
+    if(cart[index].quantity <= 0){
 
-updateCart();
+        cart.splice(index,1);
+
+    }
+
+
+    updateCart();
 
 }
 
 
 function removeItem(index){
 
-cart.splice(index,1);
+    cart.splice(index,1);
 
-saveCart();
-
-updateCart();
+    updateCart();
 
 }
 
 
 function openCart(){
 
-document
-.getElementById("cart")
-.classList.add("open");
+    document
+        .getElementById("cart")
+        .classList.add("open");
 
-document
-.getElementById("overlay")
-.classList.add("open");
+    document
+        .getElementById("overlay")
+        .classList.add("open");
 
 }
 
 
 function closeCart(){
 
-document
-.getElementById("cart")
-.classList.remove("open");
+    document
+        .getElementById("cart")
+        .classList.remove("open");
 
-document
-.getElementById("overlay")
-.classList.remove("open");
+    document
+        .getElementById("overlay")
+        .classList.remove("open");
 
 }
 
 
 function openCheckout(){
 
-if(cart.length === 0){
+    if(cart.length === 0){
 
-alert(
-"הסל שלך ריק"
-);
+        alert("הסל שלך ריק");
 
-return;
+        return;
 
-}
+    }
 
 
-closeCart();
+    closeCart();
 
-document
-.getElementById(
-"checkoutModal"
-)
-.classList.add("open");
+    document
+        .getElementById("checkoutModal")
+        .classList.add("open");
 
-document
-.getElementById("overlay")
-.classList.add("open");
+    document
+        .getElementById("overlay")
+        .classList.add("open");
 
 }
 
 
 function closeCheckout(){
 
-document
-.getElementById(
-"checkoutModal"
-)
-.classList.remove("open");
+    document
+        .getElementById("checkoutModal")
+        .classList.remove("open");
 
-document
-.getElementById("overlay")
-.classList.remove("open");
+    document
+        .getElementById("overlay")
+        .classList.remove("open");
 
 }
 
 
 function closeAll(){
 
-closeCart();
-
-closeCheckout();
-
-}
-
-
-function submitOrder(event){
-
-event.preventDefault();
-
-
-if(cart.length === 0){
-
-alert(
-"הסל שלך ריק"
-);
-
-return;
+    closeCart();
+    closeCheckout();
 
 }
 
 
-const total =
-cart.reduce(
-(sum,item)=>
-sum +
-item.price *
-item.quantity,
-0
-);
+/* שליחת הזמנה לשרת */
+
+async function submitOrder(event){
+
+    event.preventDefault();
 
 
-const order = {
+    if(cart.length === 0){
 
-id:
-"DADA-" +
-Date.now()
-.toString()
-.slice(-7),
+        alert("הסל שלך ריק");
 
-date:
-new Date()
-.toLocaleString("he-IL"),
+        return;
 
-customer:{
-
-name:
-document
-.getElementById(
-"customerName"
-).value,
-
-phone:
-document
-.getElementById(
-"customerPhone"
-).value,
-
-email:
-document
-.getElementById(
-"customerEmail"
-).value,
-
-city:
-document
-.getElementById(
-"city"
-).value,
-
-zip:
-document
-.getElementById(
-"zip"
-).value,
-
-street:
-document
-.getElementById(
-"street"
-).value,
-
-house:
-document
-.getElementById(
-"houseNumber"
-).value,
-
-apartment:
-document
-.getElementById(
-"apartment"
-).value,
-
-shipping:
-document
-.getElementById(
-"shipping"
-).value,
-
-notes:
-document
-.getElementById(
-"notes"
-).value
-
-},
-
-items:
-cart,
-
-total:total,
-
-status:
-"חדשה"
-
-};
+    }
 
 
-let orders =
-JSON.parse(
-localStorage.getItem(
-"dada_orders"
-) || "[]"
-);
+    const total =
+        cart.reduce(
+            (sum,item) =>
+                sum +
+                item.price *
+                item.quantity,
+            0
+        );
 
 
-orders.unshift(order);
+    const customer = {
+
+        name:
+            document
+            .getElementById("customerName")
+            .value,
+
+        phone:
+            document
+            .getElementById("customerPhone")
+            .value,
+
+        email:
+            document
+            .getElementById("customerEmail")
+            .value,
+
+        city:
+            document
+            .getElementById("city")
+            .value,
+
+        zip:
+            document
+            .getElementById("zip")
+            .value,
+
+        street:
+            document
+            .getElementById("street")
+            .value,
+
+        house:
+            document
+            .getElementById("houseNumber")
+            .value,
+
+        apartment:
+            document
+            .getElementById("apartment")
+            .value,
+
+        shipping:
+            document
+            .getElementById("shipping")
+            .value,
+
+        notes:
+            document
+            .getElementById("notes")
+            .value
+
+    };
 
 
-localStorage.setItem(
-"dada_orders",
-JSON.stringify(orders)
-);
+    try{
+
+        const response =
+            await fetch(
+                "/api/orders",
+                {
+
+                    method:"POST",
+
+                    headers:{
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify({
+
+                            customer:customer,
+
+                            items:cart,
+
+                            total:total
+
+                        })
+
+                }
+            );
 
 
-cart = [];
-
-saveCart();
-
-updateCart();
-
-closeCheckout();
+        const data =
+            await response.json();
 
 
-alert(
-"🎉 ההזמנה התקבלה!\n\n" +
-"מספר הזמנה: " +
-order.id
-);
+        if(!response.ok){
+
+            throw new Error(
+                data.error ||
+                "שגיאה בשליחת ההזמנה"
+            );
+
+        }
+
+
+        alert(
+            "🎉 ההזמנה התקבלה בהצלחה!\n\n" +
+            "מספר הזמנה: " +
+            data.order_number
+        );
+
+
+        cart = [];
+
+        updateCart();
+
+        closeCheckout();
+
+        document
+            .querySelector("form")
+            .reset();
+
+
+    }catch(error){
+
+        console.error(error);
+
+        alert(
+            "לא הצלחנו לשלוח את ההזמנה.\n" +
+            "נסה שוב בעוד רגע."
+        );
+
+    }
 
 }
 
