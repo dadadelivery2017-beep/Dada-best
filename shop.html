@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SecureCam | חנות ציוד אבטחה</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fa;
+            color: #172033;
+        }
+
+        header {
+            background: #07101d;
+            color: white;
+            padding: 20px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .header {
+            max-width: 1100px;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .logo span {
+            color: #28a9ff;
+        }
+
+        .cart-button {
+            background: #28a9ff;
+            border: none;
+            color: white;
+            padding: 12px 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #07101d, #14263d);
+            color: white;
+            text-align: center;
+            padding: 70px 20px;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .hero h1 span {
+            color: #28a9ff;
+        }
+
+        .hero p {
+            color: #cbd6e4;
+            font-size: 18px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            padding: 60px 20px;
+        }
+
+        .title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .title h2 {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        .title p {
+            color: #697586;
+        }
+
+        .products {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .product {
+            background: white;
+            border-radius: 18px;
+            overflow: hidden;
+            border: 1px solid #e2e7ed;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transition: 0.25s;
+        }
+
+        .product:hover {
+            transform: translateY(-6px);
+        }
+
+        .product-image {
+            height: 210px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #eaf6ff;
+            font-size: 80px;
+        }
+
+        .product-content {
+            padding: 22px;
+        }
+
+        .product h3 {
+            margin-bottom: 8px;
+        }
+
+        .product p {
+            color: #697586;
+            min-height: 50px;
+        }
+
+        .price {
+            font-size: 25px;
+            font-weight: bold;
+            margin: 18px 0;
+            color: #172033;
+        }
+
+        .add {
+            width: 100%;
+            border: none;
+            padding: 13px;
+            background: #172033;
+            color: white;
+            border-radius: 9px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .add:hover {
+            background: #28a9ff;
+        }
+
+        /* CART */
+
+        .cart {
+            position: fixed;
+            top: 0;
+            left: -400px;
+            width: 360px;
+            max-width: 90%;
+            height: 100vh;
+            background: white;
+            z-index: 100;
+            box-shadow: 10px 0 40px rgba(0,0,0,0.2);
+            padding: 25px;
+            transition: 0.3s;
+            overflow-y: auto;
+        }
+
+        .cart.open {
+            left: 0;
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .close {
+            background: none;
+            border: none;
+            font-size: 25px;
+            cursor: pointer;
+        }
+
+        .cart-item {
+            padding: 15px 0;
+            border-bottom: 1px solid #e5e9ee;
+        }
+
+        .cart-item strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .cart-item button {
+            margin-top: 8px;
+            border: none;
+            background: #e74c3c;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .total {
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 25px;
+        }
+
+        .checkout {
+            width: 100%;
+            margin-top: 20px;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            background: #25d366;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        footer {
+            background: #07101d;
+            color: #9eacbd;
+            text-align: center;
+            padding: 30px;
+        }
+
+        @media (max-width: 800px) {
+
+            .products {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .hero h1 {
+                font-size: 38px;
+            }
+        }
+
+        @media (max-width: 550px) {
+
+            .products {
+                grid-template-columns: 1fr;
+            }
+
+            .cart {
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="header">
+
+        <div class="logo">
+            SECURE<span>CAM</span>
+        </div>
+
+        <button class="cart-button" onclick="openCart()">
+            🛒 סל הקניות
+            (<span id="cartCount">0</span>)
+        </button>
+
+    </div>
+
+</header>
+
+
+<section class="hero">
+
+    <h1>
+        חנות <span>ציוד אבטחה</span>
+    </h1>
+
+    <p>
+        מצלמות, מערכות הקלטה וציוד אבטחה לבית ולעסק
+    </p>
+
+</section>
+
+
+<main class="container">
+
+    <div class="title">
+
+        <h2>
+            המוצרים שלנו
+        </h2>
+
+        <p>
+            ציוד איכותי להתקנה עצמית או עם התקנה מקצועית
+        </p>
+
+    </div>
+
+
+    <div class="products">
+
+
+        <div class="product">
+
+            <div class="product-image">
+                📹
+            </div>
+
+            <div class="product-content">
+
+                <h3>
+                    מצלמת אבטחה 4MP
+                </h3>
+
+                <p>
+                    מצלמת IP איכותית לבית ולעסק.
+                </p>
+
+                <div class="price">
+                    ₪349
+                </div>
+
+                <button
+                    class="add"
+                    onclick="addToCart('מצלמת אבטחה 4MP', 349)"
+                >
+                    הוסף לסל
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="product">
+
+            <div class="product-image">
+                💾
+            </div>
+
+            <div class="product-content">
+
+                <h3>
+                    NVR 8 ערוצים
+                </h3>
+
+                <p>
+                    מערכת הקלטה לעד 8 מצלמות.
+                </p>
+
+                <div class="price">
+                    ₪799
+                </div>
+
+                <button
+                    class="add"
+                    onclick="addToCart('NVR 8 ערוצים', 799)"
+                >
+                    הוסף לסל
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="product">
+
+            <div class="product-image">
+                💽
+            </div>
+
+            <div class="product-content">
+
+                <h3>
+                    דיסק קשיח 2TB
+                </h3>
+
+                <p>
+                    דיסק ייעודי למערכות הקלטה.
+                </p>
+
+                <div class="price">
+                    ₪449
+                </div>
+
+                <button
+                    class="add"
+                    onclick="addToCart('דיסק קשיח 2TB', 449)"
+                >
+                    הוסף לסל
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="product">
+
+            <div class="product-image">
+                📡
+            </div>
+
+            <div class="product-content">
+
+                <h3>
+                    מצלמת WiFi
+                </h3>
+
+                <p>
+                    מצלמה אלחוטית עם צפייה מהטלפון.
+                </p>
+
+                <div class="price">
+                    ₪299
+                </div>
+
+                <button
+                    class="add"
+                    onclick="addToCart('מצלמת WiFi', 299)"
+                >
+                    הוסף לסל
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="product">
+
+            <div class="product-image">
+                🔌
+            </div>
+
+            <div class="product-content">
+
+                <h3>
+                    ספק כוח למצלמות
+                </h3>
+
+                <p>
+                    ספק כוח איכותי למערכות אבטחה.
+                </p>
+
+                <div class="price">
+                    ₪89
+                </div>
+
+                <button
+                    class="add"
+                    onclick="addToCart('ספק כוח למצלמות', 89)"
+                >
+                    הוסף לסל
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="product">
+
+            <div class="product-image">
+                🧰
+            </div>
+
+            <div class="product-content">
+
+                <h3>
+                    ערכת התקנה
+                </h3>
+
+                <p>
+                    ציוד בסיסי להתקנת מצלמות.
+                </p>
+
+                <div class="price">
+                    ₪159
+                </div>
+
+                <button
+                    class="add"
+                    onclick="addToCart('ערכת התקנה', 159)"
+                >
+                    הוסף לסל
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<!-- CART -->
+
+<aside class="cart" id="cart">
+
+    <div class="cart-header">
+
+        <h2>
+            סל הקניות
+        </h2>
+
+        <button class="close" onclick="closeCart()">
+            ×
+        </button>
+
+    </div>
+
+
+    <div id="cartItems">
+
+        <p>
+            הסל ריק
+        </p>
+
+    </div>
+
+
+    <div class="total">
+
+        סה"כ:
+        ₪<span id="total">0</span>
+
+    </div>
+
+
+    <button
+        class="checkout"
+        onclick="checkout()"
+    >
+        המשך להזמנה
+    </button>
+
+</aside>
+
+
+<footer>
+
+    SECURECAM © 2026
+
+</footer>
+
+
+<script>
+
+    let cart = [];
+
+
+    function addToCart(name, price) {
+
+        cart.push({
+            name: name,
+            price: price
+        });
+
+        updateCart();
+
+        openCart();
+    }
+
+
+    function updateCart() {
+
+        const items = document.getElementById("cartItems");
+
+        const count = document.getElementById("cartCount");
+
+        const total = document.getElementById("total");
+
+
+        count.textContent = cart.length;
+
+
+        if (cart.length === 0) {
+
+            items.innerHTML = "<p>הסל ריק</p>";
+
+            total.textContent = "0";
+
+            return;
+        }
+
+
+        let html = "";
+
+        let sum = 0;
+
+
+        cart.forEach((item, index) => {
+
+            sum += item.price;
+
+
+            html += `
+                <div class="cart-item">
+
+                    <strong>
+                        ${item.name}
+                    </strong>
+
+                    ₪${item.price}
+
+                    <br>
+
+                    <button
+                        onclick="removeItem(${index})"
+                    >
+                        הסר
+                    </button>
+
+                </div>
+            `;
+
+        });
+
+
+        items.innerHTML = html;
+
+        total.textContent = sum;
+    }
+
+
+    function removeItem(index) {
+
+        cart.splice(index, 1);
+
+        updateCart();
+    }
+
+
+    function openCart() {
+
+        document
+            .getElementById("cart")
+            .classList.add("open");
+    }
+
+
+    function closeCart() {
+
+        document
+            .getElementById("cart")
+            .classList.remove("open");
+    }
+
+
+    function checkout() {
+
+        if (cart.length === 0) {
+
+            alert("הסל שלך ריק");
+
+            return;
+        }
+
+
+        alert(
+            "ההזמנה התקבלה לניסיון! " +
+            "בגרסה הבאה נחבר סליקה אמיתית."
+        );
+    }
+
+</script>
+
+</body>
+</html>
