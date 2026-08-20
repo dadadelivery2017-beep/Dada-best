@@ -1,436 +1,550 @@
-const express = require("express");
-const { Pool } = require("pg");
-const path = require("path");
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dada Best</title>
 
-const app = express();
-const PORT = process.env.PORT || 3000;
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-const pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-    ssl: process.env.DATABASE_URL
-        ? { rejectUnauthorized: false }
-        : false
-});
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f7f7f7;
+      color: #222;
+    }
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+    header {
+      background: #111;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
 
-/*
-  Serve the website files
-*/
-app.use(express.static(__dirname));
+    header h1 {
+      margin: 0;
+      font-size: 32px;
+    }
+
+    header p {
+      margin: 8px 0 0;
+      color: #ddd;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .product {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,.08);
+      text-align: center;
+    }
+
+    .product .image {
+      height: 160px;
+      background: #eee;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 55px;
+      margin-bottom: 15px;
+    }
+
+    .product h3 {
+      margin: 10px 0;
+    }
+
+    .price {
+      font-size: 20px;
+      font-weight: bold;
+      margin: 10px 0;
+    }
+
+    button {
+      border: 0;
+      border-radius: 8px;
+      padding: 12px 18px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .add {
+      background: #111;
+      color: white;
+    }
+
+    .cart {
+      margin-top: 35px;
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,.08);
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #eee;
+      padding: 12px 0;
+      gap: 10px;
+    }
+
+    .remove {
+      background: #e53935;
+      color: white;
+      padding: 6px 10px;
+      font-size: 13px;
+    }
+
+    .checkout {
+      margin-top: 25px;
+      background: #fafafa;
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    .checkout h2 {
+      margin-top: 0;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      padding: 12px;
+      margin: 7px 0 12px;
+      border: 1px solid #ccc;
+      border-radius: 7px;
+      font-size: 16px;
+    }
+
+    .submit {
+      width: 100%;
+      background: #198754;
+      color: white;
+      font-size: 18px;
+      padding: 15px;
+    }
+
+    .message {
+      margin-top: 15px;
+      padding: 12px;
+      border-radius: 8px;
+      display: none;
+    }
+
+    .success {
+      background: #d1e7dd;
+      color: #0f5132;
+    }
+
+    .error {
+      background: #f8d7da;
+      color: #842029;
+    }
+
+    .empty {
+      color: #777;
+      text-align: center;
+      padding: 20px;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>Dada Best</h1>
+  <p>החנות שלנו</p>
+</header>
+
+<div class="container">
+
+  <h2>המוצרים שלנו</h2>
+
+  <div class="products">
+
+    <div class="product">
+      <div class="image">🛍️</div>
+      <h3>מוצר ראשון</h3>
+      <p>מוצר איכותי מבית Dada Best</p>
+      <div class="price">49 ₪</div>
+      <button class="add"
+        onclick="addToCart('מוצר ראשון', 49)">
+        הוסף לסל
+      </button>
+    </div>
+
+    <div class="product">
+      <div class="image">🎁</div>
+      <h3>מוצר שני</h3>
+      <p>מוצר איכותי מבית Dada Best</p>
+      <div class="price">79 ₪</div>
+      <button class="add"
+        onclick="addToCart('מוצר שני', 79)">
+        הוסף לסל
+      </button>
+    </div>
+
+    <div class="product">
+      <div class="image">⭐</div>
+      <h3>מוצר שלישי</h3>
+      <p>המוצר המומלץ שלנו</p>
+      <div class="price">99 ₪</div>
+      <button class="add"
+        onclick="addToCart('מוצר שלישי', 99)">
+        הוסף לסל
+      </button>
+    </div>
+
+  </div>
+
+  <div class="cart">
+
+    <h2>🛒 סל הקניות</h2>
+
+    <div id="cartItems">
+      <div class="empty">הסל ריק</div>
+    </div>
+
+    <h3>
+      סה״כ:
+      <span id="total">0</span> ₪
+    </h3>
+
+    <div class="checkout">
+
+      <h2>פרטי הזמנה</h2>
+
+      <form id="orderForm">
+
+        <label>שם מלא</label>
+        <input
+          type="text"
+          id="name"
+          required
+          placeholder="השם שלך">
+
+        <label>טלפון</label>
+        <input
+          type="tel"
+          id="phone"
+          required
+          placeholder="050-0000000">
+
+        <label>אימייל</label>
+        <input
+          type="email"
+          id="email"
+          placeholder="example@email.com">
+
+        <label>עיר</label>
+        <input
+          type="text"
+          id="city"
+          required
+          placeholder="עיר">
+
+        <label>רחוב</label>
+        <input
+          type="text"
+          id="street"
+          required
+          placeholder="רחוב">
+
+        <label>מספר בית</label>
+        <input
+          type="text"
+          id="house"
+          required
+          placeholder="מספר">
+
+        <label>דירה</label>
+        <input
+          type="text"
+          id="apartment"
+          placeholder="דירה">
+
+        <label>מיקוד</label>
+        <input
+          type="text"
+          id="zip"
+          placeholder="מיקוד">
+
+        <label>משלוח</label>
+        <select id="shipping">
+          <option value="משלוח רגיל">משלוח רגיל</option>
+          <option value="איסוף עצמי">איסוף עצמי</option>
+        </select>
+
+        <label>הערות</label>
+        <textarea
+          id="notes"
+          rows="4"
+          placeholder="הערות להזמנה"></textarea>
+
+        <button
+          type="submit"
+          class="submit">
+          שליחת הזמנה
+        </button>
+
+      </form>
+
+      <div
+        id="message"
+        class="message">
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+
+  let cart = [];
+
+  function addToCart(name, price) {
+
+    cart.push({
+      name: name,
+      price: price,
+      quantity: 1
+    });
+
+    renderCart();
+  }
 
 
-/*
-  Create the orders table
-*/
-async function initDatabase() {
+  function removeFromCart(index) {
 
-    await pool.query(`
-        CREATE TABLE IF NOT EXISTS orders (
-            id SERIAL PRIMARY KEY,
-            order_number VARCHAR(50) UNIQUE NOT NULL,
+    cart.splice(index, 1);
 
-            customer_name VARCHAR(150) NOT NULL,
-            phone VARCHAR(50) NOT NULL,
-            email VARCHAR(150),
+    renderCart();
+  }
 
-            city VARCHAR(100) NOT NULL,
-            street VARCHAR(150) NOT NULL,
-            house_number VARCHAR(30) NOT NULL,
-            apartment VARCHAR(30),
-            zip VARCHAR(30),
 
-            shipping VARCHAR(100),
-            notes TEXT,
+  function renderCart() {
 
-            items JSONB NOT NULL,
-            total NUMERIC(10,2) NOT NULL,
+    const container =
+      document.getElementById("cartItems");
 
-            status VARCHAR(50) DEFAULT 'חדשה',
+    const totalElement =
+      document.getElementById("total");
 
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    if (cart.length === 0) {
+
+      container.innerHTML =
+        '<div class="empty">הסל ריק</div>';
+
+      totalElement.textContent = "0";
+
+      return;
+    }
+
+    let total = 0;
+
+    container.innerHTML = "";
+
+    cart.forEach((item, index) => {
+
+      total += item.price * item.quantity;
+
+      const div =
+        document.createElement("div");
+
+      div.className = "cart-item";
+
+      div.innerHTML = `
+        <span>
+          ${item.name}
+          × ${item.quantity}
+        </span>
+
+        <span>
+          ${item.price * item.quantity} ₪
+        </span>
+
+        <button
+          class="remove"
+          onclick="removeFromCart(${index})">
+          הסר
+        </button>
+      `;
+
+      container.appendChild(div);
+
+    });
+
+    totalElement.textContent = total;
+  }
+
+
+  document
+    .getElementById("orderForm")
+    .addEventListener("submit", async function(event) {
+
+      event.preventDefault();
+
+      const message =
+        document.getElementById("message");
+
+      if (cart.length === 0) {
+
+        message.className =
+          "message error";
+
+        message.style.display = "block";
+
+        message.textContent =
+          "אי אפשר לשלוח הזמנה כשהסל ריק.";
+
+        return;
+      }
+
+
+      const total =
+        cart.reduce(
+          (sum, item) =>
+            sum + item.price * item.quantity,
+          0
         );
-    `);
-
-    console.log("Database initialized successfully");
-}
 
 
-/*
-  Health check
-*/
-app.get("/api/health", async (req, res) => {
+      const customer = {
 
-    try {
+        name:
+          document.getElementById("name").value,
 
-        await pool.query("SELECT 1");
+        phone:
+          document.getElementById("phone").value,
 
-        res.json({
-            success: true,
-            message: "Dada Best server is working"
-        });
+        email:
+          document.getElementById("email").value,
 
-    } catch (error) {
+        city:
+          document.getElementById("city").value,
+
+        street:
+          document.getElementById("street").value,
+
+        house:
+          document.getElementById("house").value,
+
+        apartment:
+          document.getElementById("apartment").value,
+
+        zip:
+          document.getElementById("zip").value,
+
+        shipping:
+          document.getElementById("shipping").value,
+
+        notes:
+          document.getElementById("notes").value
+
+      };
+
+
+      try {
+
+        const response =
+          await fetch("/api/orders", {
+
+            method: "POST",
+
+            headers: {
+              "Content-Type":
+                "application/json"
+            },
+
+            body: JSON.stringify({
+
+              customer: customer,
+
+              items: cart,
+
+              total: total
+
+            })
+
+          });
+
+
+        const data =
+          await response.json();
+
+
+        if (!response.ok) {
+
+          throw new Error(
+            data.error ||
+            "שגיאה בשליחת ההזמנה"
+          );
+
+        }
+
+
+        message.className =
+          "message success";
+
+        message.style.display =
+          "block";
+
+        message.textContent =
+          "ההזמנה התקבלה בהצלחה! מספר הזמנה: "
+          + data.order_number;
+
+
+        cart = [];
+
+        renderCart();
+
+        document
+          .getElementById("orderForm")
+          .reset();
+
+
+      } catch (error) {
 
         console.error(error);
 
-        res.status(500).json({
-            success: false,
-            message: "Database connection failed"
-        });
+        message.className =
+          "message error";
 
-    }
+        message.style.display =
+          "block";
 
-});
+        message.textContent =
+          "אירעה שגיאה בשליחת ההזמנה: "
+          + error.message;
 
+      }
 
-/*
-  Get all orders
-*/
-app.get("/api/orders", async (req, res) => {
+    });
 
-    try {
 
-        const result = await pool.query(`
-            SELECT *
-            FROM orders
-            ORDER BY created_at DESC
-        `);
+  renderCart();
 
-        res.json(result.rows);
+</script>
 
-    } catch (error) {
-
-        console.error("GET ORDERS ERROR:", error);
-
-        res.status(500).json({
-            error: "Failed to load orders"
-        });
-
-    }
-
-});
-
-
-/*
-  Create new order
-*/
-app.post("/api/orders", async (req, res) => {
-
-    try {
-
-        const {
-            customer,
-            items,
-            total
-        } = req.body;
-
-
-        if (!customer) {
-
-            return res.status(400).json({
-                error: "Customer information is missing"
-            });
-
-        }
-
-
-        if (!customer.name ||
-            !customer.phone ||
-            !customer.city ||
-            !customer.street ||
-            !customer.house) {
-
-            return res.status(400).json({
-                error: "Missing required customer information"
-            });
-
-        }
-
-
-        if (!Array.isArray(items) ||
-            items.length === 0) {
-
-            return res.status(400).json({
-                error: "Order has no products"
-            });
-
-        }
-
-
-        const orderNumber =
-            "DADA-" +
-            Date.now()
-                .toString()
-                .slice(-8);
-
-
-        const result = await pool.query(
-            `
-            INSERT INTO orders (
-
-                order_number,
-
-                customer_name,
-                phone,
-                email,
-
-                city,
-                street,
-                house_number,
-                apartment,
-                zip,
-
-                shipping,
-                notes,
-
-                items,
-                total
-
-            )
-
-            VALUES (
-
-                $1,
-                $2,
-                $3,
-                $4,
-                $5,
-                $6,
-                $7,
-                $8,
-                $9,
-                $10,
-                $11,
-                $12,
-                $13
-
-            )
-
-            RETURNING *
-            `,
-
-            [
-                orderNumber,
-
-                customer.name,
-                customer.phone,
-                customer.email || "",
-
-                customer.city,
-                customer.street,
-                customer.house,
-                customer.apartment || "",
-                customer.zip || "",
-
-                customer.shipping || "משלוח רגיל",
-                customer.notes || "",
-
-                JSON.stringify(items),
-
-                Number(total) || 0
-            ]
-        );
-
-
-        res.status(201).json(
-            result.rows[0]
-        );
-
-    } catch (error) {
-
-        console.error(
-            "CREATE ORDER ERROR:",
-            error
-        );
-
-        res.status(500).json({
-            error: "Failed to create order"
-        });
-
-    }
-
-});
-
-
-/*
-  Update order status
-*/
-app.patch("/api/orders/:id", async (req, res) => {
-
-    try {
-
-        const {
-            status
-        } = req.body;
-
-
-        const allowedStatuses = [
-            "חדשה",
-            "בטיפול",
-            "נשלחה",
-            "הושלמה"
-        ];
-
-
-        if (!allowedStatuses.includes(status)) {
-
-            return res.status(400).json({
-                error: "Invalid status"
-            });
-
-        }
-
-
-        const result = await pool.query(
-            `
-            UPDATE orders
-
-            SET status = $1
-
-            WHERE id = $2
-
-            RETURNING *
-            `,
-
-            [
-                status,
-                req.params.id
-            ]
-        );
-
-
-        if (result.rows.length === 0) {
-
-            return res.status(404).json({
-                error: "Order not found"
-            });
-
-        }
-
-
-        res.json(
-            result.rows[0]
-        );
-
-    } catch (error) {
-
-        console.error(
-            "UPDATE ORDER ERROR:",
-            error
-        );
-
-        res.status(500).json({
-            error: "Failed to update order"
-        });
-
-    }
-
-});
-
-
-/*
-  Delete order
-*/
-app.delete("/api/orders/:id", async (req, res) => {
-
-    try {
-
-        const result = await pool.query(
-            `
-            DELETE FROM orders
-
-            WHERE id = $1
-
-            RETURNING id
-            `,
-
-            [
-                req.params.id
-            ]
-        );
-
-
-        if (result.rows.length === 0) {
-
-            return res.status(404).json({
-                error: "Order not found"
-            });
-
-        }
-
-
-        res.json({
-            success: true
-        });
-
-    } catch (error) {
-
-        console.error(
-            "DELETE ORDER ERROR:",
-            error
-        );
-
-        res.status(500).json({
-            error: "Failed to delete order"
-        });
-
-    }
-
-});
-
-
-/*
-  Website fallback
-
-  Express 5 does not use app.get("*")
-*/
-app.use((req, res) => {
-
-    res.sendFile(
-        path.join(
-            __dirname,
-            "index.html"
-        )
-    );
-
-});
-
-
-/*
-  Start server
-*/
-async function startServer() {
-
-    try {
-
-        await initDatabase();
-
-        app.listen(
-            PORT,
-            "0.0.0.0",
-            () => {
-
-                console.log(
-                    `Dada Best running on port ${PORT}`
-                );
-
-            }
-        );
-
-    } catch (error) {
-
-        console.error(
-            "SERVER START ERROR:",
-            error
-        );
-
-        process.exit(1);
-
-    }
-
-}
-
-
-startServer();
+</body>
+</html>
