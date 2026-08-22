@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
@@ -16,7 +15,9 @@
       color: #172033;
     }
 
-    button, input, textarea, select { font-family: inherit; }
+    button, input, textarea, select {
+      font-family: inherit;
+    }
 
     button {
       cursor: pointer;
@@ -104,6 +105,10 @@
       font-weight: bold;
     }
 
+    .primary-btn:hover {
+      opacity: .95;
+    }
+
     .login-error {
       margin-top: 15px;
       padding: 12px;
@@ -137,7 +142,9 @@
       gap: 12px;
     }
 
-    .topbar-title strong { font-size: 20px; }
+    .topbar-title strong {
+      font-size: 20px;
+    }
 
     .status {
       font-size: 13px;
@@ -149,6 +156,10 @@
       color: white;
       padding: 9px 15px;
       border-radius: 9px;
+    }
+
+    .logout:hover {
+      background: #475569;
     }
 
     .layout {
@@ -194,9 +205,13 @@
       width: 100%;
     }
 
-    .tab { display: none; }
+    .tab {
+      display: none;
+    }
 
-    .tab.active { display: block; }
+    .tab.active {
+      display: block;
+    }
 
     .page-header {
       display: flex;
@@ -228,9 +243,17 @@
       color: white;
     }
 
+    .btn-blue:hover {
+      background: #1d4ed8;
+    }
+
     .btn-green {
       background: #16a34a;
       color: white;
+    }
+
+    .btn-green:hover {
+      background: #15803d;
     }
 
     .btn-red {
@@ -238,14 +261,26 @@
       color: white;
     }
 
+    .btn-red:hover {
+      background: #b91c1c;
+    }
+
     .btn-gray {
       background: #e2e8f0;
       color: #334155;
     }
 
+    .btn-gray:hover {
+      background: #cbd5e1;
+    }
+
     .btn-email {
       background: linear-gradient(135deg, #7c3aed, #2563eb);
       color: white;
+    }
+
+    .btn-email:hover {
+      opacity: .95;
     }
 
     .card {
@@ -314,11 +349,17 @@
       object-fit: cover;
     }
 
-    .product-card h3 { margin: 5px 0; }
+    .product-card h3 {
+      margin: 5px 0;
+    }
 
-    .product-card small { color: #64748b; }
+    .product-card small {
+      color: #64748b;
+    }
 
-    .product-form { margin-top: 15px; }
+    .product-form {
+      margin-top: 15px;
+    }
 
     .product-actions {
       display: flex;
@@ -326,7 +367,9 @@
       margin-top: 12px;
     }
 
-    .product-actions button { flex: 1; }
+    .product-actions button {
+      flex: 1;
+    }
 
     .order-card {
       background: white;
@@ -371,11 +414,14 @@
       margin-bottom: 4px;
     }
 
-    .items-list { margin-top: 12px; }
+    .items-list {
+      margin-top: 12px;
+    }
 
     .item-row {
       display: flex;
       justify-content: space-between;
+      gap: 10px;
       padding: 8px 0;
       border-bottom: 1px solid #f1f5f9;
     }
@@ -425,8 +471,21 @@
       color: #64748b;
     }
 
+    .payment-badge {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: #ecfeff;
+      color: #0e7490;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
     @media (max-width: 900px) {
-      .layout { display: block; }
+
+      .layout {
+        display: block;
+      }
 
       .sidebar {
         width: 100%;
@@ -445,18 +504,35 @@
       .stats-grid {
         grid-template-columns: repeat(2, 1fr);
       }
+
     }
 
     @media (max-width: 600px) {
-      .main { padding: 15px; }
 
-      .topbar { padding: 12px 15px; }
+      .main {
+        padding: 15px;
+      }
 
-      .stats-grid { grid-template-columns: 1fr; }
+      .topbar {
+        padding: 12px 15px;
+      }
 
-      .order-info { grid-template-columns: 1fr; }
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
 
-      .product-grid { grid-template-columns: 1fr; }
+      .order-info {
+        grid-template-columns: 1fr;
+      }
+
+      .product-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .login-card {
+        padding: 25px 20px;
+      }
+
     }
   </style>
 </head>
@@ -464,37 +540,71 @@
 <body>
 
 <section id="loginScreen">
+
   <div class="login-card">
 
-    <div class="logo">DB</div>
+    <div class="logo">
+      DB
+    </div>
 
-    <h1>Dada Best</h1>
+    <h1>
+      Dada Best
+    </h1>
 
-    <p>לוח ניהול החנות</p>
+    <p>
+      לוח ניהול החנות
+    </p>
 
     <form id="loginForm">
 
       <div class="field">
-        <label>סיסמת אדמין</label>
+
+        <label>
+          שם משתמש
+        </label>
+
+        <input
+          type="text"
+          id="adminUsername"
+          required
+          autocomplete="username"
+          placeholder="הזן שם משתמש"
+          value="admin key">
+
+      </div>
+
+      <div class="field">
+
+        <label>
+          סיסמה
+        </label>
 
         <input
           type="password"
           id="adminPassword"
           required
+          autocomplete="current-password"
           placeholder="הזן סיסמה">
+
       </div>
 
       <button
         type="submit"
         class="primary-btn">
+
         כניסה למערכת
+
       </button>
 
     </form>
 
-    <div id="loginError" class="login-error"></div>
+    <div
+      id="loginError"
+      class="login-error">
+    </div>
 
   </div>
+
 </section>
 
 
@@ -504,22 +614,29 @@
 
     <div class="topbar-title">
 
-      <div class="logo" style="
-        width:42px;
-        height:42px;
-        margin:0;
-        border-radius:12px;
-        font-size:18px;
-      ">
+      <div
+        class="logo"
+        style="
+          width:42px;
+          height:42px;
+          margin:0;
+          border-radius:12px;
+          font-size:18px;
+        "
+      >
         DB
       </div>
 
       <div>
-        <strong>Dada Best Admin</strong>
+
+        <strong>
+          Dada Best Admin
+        </strong>
 
         <div class="status">
           מערכת ניהול
         </div>
+
       </div>
 
     </div>
@@ -527,7 +644,9 @@
     <button
       class="logout"
       onclick="logout()">
+
       יציאה
+
     </button>
 
   </header>
@@ -540,31 +659,41 @@
       <button
         class="nav-btn active"
         data-tab="productsTab">
+
         📦 מוצרים
+
       </button>
 
       <button
         class="nav-btn"
         data-tab="categoriesTab">
+
         🗂️ קטגוריות
+
       </button>
 
       <button
         class="nav-btn"
         data-tab="ordersTab">
+
         🛒 הזמנות
+
       </button>
 
       <button
         class="nav-btn"
         data-tab="statsTab">
+
         📊 סטטיסטיקות
+
       </button>
 
       <button
         class="nav-btn"
         data-tab="emailTab">
+
         📧 מייל
+
       </button>
 
     </aside>
@@ -572,25 +701,38 @@
 
     <main class="main">
 
-      <div id="globalMessage" class="message"></div>
+      <div
+        id="globalMessage"
+        class="message">
+      </div>
 
 
-      <section id="productsTab" class="tab active">
+      <!-- PRODUCTS -->
+
+      <section
+        id="productsTab"
+        class="tab active">
 
         <div class="page-header">
 
           <div>
-            <h1>מוצרים</h1>
+
+            <h1>
+              מוצרים
+            </h1>
 
             <p>
               ניהול מחירים, מלאי ומוצרים
             </p>
+
           </div>
 
           <button
             class="btn btn-blue"
             onclick="showAddProduct()">
+
             + מוצר חדש
+
           </button>
 
         </div>
@@ -612,23 +754,35 @@
               id="productId">
 
             <div class="field">
-              <label>שם מוצר</label>
+
+              <label>
+                שם מוצר
+              </label>
 
               <input
                 id="productName"
                 required>
+
             </div>
 
             <div class="field">
-              <label>תיאור</label>
+
+              <label>
+                תיאור
+              </label>
 
               <textarea
                 id="productDescription"
-                rows="3"></textarea>
+                rows="3">
+              </textarea>
+
             </div>
 
             <div class="field">
-              <label>מחיר ₪</label>
+
+              <label>
+                מחיר ₪
+              </label>
 
               <input
                 id="productPrice"
@@ -636,10 +790,14 @@
                 min="0"
                 step="0.01"
                 required>
+
             </div>
 
             <div class="field">
-              <label>מלאי</label>
+
+              <label>
+                מלאי
+              </label>
 
               <input
                 id="productStock"
@@ -647,27 +805,37 @@
                 min="0"
                 step="1"
                 required>
-            </div>
 
-            <div class="field">
-              <label>קטגוריה</label>
-
-              <input
-                id="productCategory"
-                placeholder="לדוגמה: מצלמות">
-            </div>
-
-            <div class="field">
-              <label>תמונה / אימוג׳י</label>
-
-              <input
-                id="productImage"
-                placeholder="https://... או 📹">
             </div>
 
             <div class="field">
 
               <label>
+                קטגוריה
+              </label>
+
+              <input
+                id="productCategory"
+                placeholder="לדוגמה: מצלמות">
+
+            </div>
+
+            <div class="field">
+
+              <label>
+                תמונה / אימוג׳י
+              </label>
+
+              <input
+                id="productImage"
+                placeholder="https://... או 📹">
+
+            </div>
+
+            <div class="field">
+
+              <label>
+
                 <input
                   type="checkbox"
                   id="productActive"
@@ -675,6 +843,7 @@
                   style="width:auto;">
 
                 מוצר פעיל באתר
+
               </label>
 
             </div>
@@ -682,17 +851,22 @@
             <button
               class="btn btn-green"
               type="submit">
+
               שמור מוצר
+
             </button>
 
             <button
               class="btn btn-gray"
               type="button"
               onclick="hideProductForm()">
+
               ביטול
+
             </button>
 
           </form>
+
         </div>
 
 
@@ -704,16 +878,24 @@
       </section>
 
 
-      <section id="categoriesTab" class="tab">
+      <!-- CATEGORIES -->
+
+      <section
+        id="categoriesTab"
+        class="tab">
 
         <div class="page-header">
 
           <div>
-            <h1>קטגוריות</h1>
+
+            <h1>
+              קטגוריות
+            </h1>
 
             <p>
               הקטגוריות הקיימות במוצרים
             </p>
+
           </div>
 
         </div>
@@ -730,22 +912,32 @@
       </section>
 
 
-      <section id="ordersTab" class="tab">
+      <!-- ORDERS -->
+
+      <section
+        id="ordersTab"
+        class="tab">
 
         <div class="page-header">
 
           <div>
-            <h1>הזמנות</h1>
+
+            <h1>
+              הזמנות
+            </h1>
 
             <p>
               פרטי הלקוחות וההזמנות
             </p>
+
           </div>
 
           <button
             class="btn btn-blue"
             onclick="loadOrders()">
+
             🔄 רענן
+
           </button>
 
         </div>
@@ -755,16 +947,24 @@
       </section>
 
 
-      <section id="statsTab" class="tab">
+      <!-- STATS -->
+
+      <section
+        id="statsTab"
+        class="tab">
 
         <div class="page-header">
 
           <div>
-            <h1>סטטיסטיקות</h1>
+
+            <h1>
+              סטטיסטיקות
+            </h1>
 
             <p>
               תמונת מצב של החנות
             </p>
+
           </div>
 
         </div>
@@ -780,10 +980,13 @@
             <div
               id="statProducts"
               class="stat-value">
+
               0
+
             </div>
 
           </div>
+
 
           <div class="stat-card">
 
@@ -794,10 +997,13 @@
             <div
               id="statOrders"
               class="stat-value">
+
               0
+
             </div>
 
           </div>
+
 
           <div class="stat-card">
 
@@ -808,10 +1014,13 @@
             <div
               id="statRevenue"
               class="stat-value">
+
               0 ₪
+
             </div>
 
           </div>
+
 
           <div class="stat-card">
 
@@ -822,7 +1031,9 @@
             <div
               id="statNewOrders"
               class="stat-value">
+
               0
+
             </div>
 
           </div>
@@ -832,13 +1043,19 @@
       </section>
 
 
-      <section id="emailTab" class="tab">
+      <!-- EMAIL -->
+
+      <section
+        id="emailTab"
+        class="tab">
 
         <div class="page-header">
 
           <div>
 
-            <h1>מערכת מייל</h1>
+            <h1>
+              מערכת מייל
+            </h1>
 
             <p>
               בדיקת החיבור ל־Resend
@@ -869,7 +1086,9 @@
             id="testEmailButton"
             class="btn btn-email"
             onclick="sendTestEmail()">
+
             📧 שלח מייל בדיקה
+
           </button>
 
           <div
@@ -891,53 +1110,99 @@
 
 <script>
 
+  /* =========================================================
+     STATE
+  ========================================================= */
+
   let adminKey =
-    localStorage.getItem("dada_admin_key") || "";
+    localStorage.getItem(
+      "dada_admin_key"
+    ) || "";
 
   let products = [];
+
   let orders = [];
 
 
-  function showMessage(text, type = "success") {
+  /* =========================================================
+     MESSAGES
+  ========================================================= */
+
+  function showMessage(
+    text,
+    type = "success"
+  ) {
 
     const box =
-      document.getElementById("globalMessage");
+      document.getElementById(
+        "globalMessage"
+      );
 
     box.className =
       "message " + type;
 
-    box.textContent = text;
+    box.textContent =
+      text;
 
     setTimeout(() => {
-      box.className = "message";
+
+      box.className =
+        "message";
+
     }, 5000);
+
   }
 
 
-  async function api(url, options = {}) {
+  /* =========================================================
+     API
+  ========================================================= */
+
+  async function api(
+    url,
+    options = {}
+  ) {
 
     options.headers = {
+
       ...(options.headers || {}),
-      "Content-Type": "application/json",
-      "x-admin-key": adminKey
+
+      "Content-Type":
+        "application/json",
+
+      "x-admin-key":
+        adminKey
+
     };
 
     const response =
-      await fetch(url, options);
+      await fetch(
+        url,
+        options
+      );
 
     const data =
-      await response.json().catch(() => ({}));
+      await response
+        .json()
+        .catch(() => ({}));
 
     if (!response.ok) {
 
       throw new Error(
-        data.error || "שגיאה בשרת"
+        data.error ||
+        "שגיאה בשרת"
       );
+
     }
 
     return data;
+
   }
 
+
+  /* =========================================================
+     LOGIN
+  ========================================================= */
 
   document
     .getElementById("loginForm")
@@ -947,14 +1212,32 @@
 
         event.preventDefault();
 
+        const username =
+          document
+            .getElementById(
+              "adminUsername"
+            )
+            .value
+            .trim();
+
         const password =
           document
-            .getElementById("adminPassword")
+            .getElementById(
+              "adminPassword"
+            )
             .value;
 
         const errorBox =
           document
-            .getElementById("loginError");
+            .getElementById(
+              "loginError"
+            );
+
+        errorBox.style.display =
+          "none";
+
+        errorBox.textContent =
+          "";
 
         try {
 
@@ -963,17 +1246,24 @@
               "/api/admin/login",
               {
                 method: "POST",
+
                 headers: {
                   "Content-Type":
                     "application/json"
                 },
+
                 body:
-                  JSON.stringify({ password })
+                  JSON.stringify({
+                    username,
+                    password
+                  })
               }
             );
 
           const data =
-            await response.json();
+            await response
+              .json()
+              .catch(() => ({}));
 
           if (!response.ok) {
 
@@ -981,9 +1271,19 @@
               data.error ||
               "התחברות נכשלה"
             );
+
           }
 
-          adminKey = data.adminKey;
+          adminKey =
+            data.adminKey || "";
+
+          if (!adminKey) {
+
+            throw new Error(
+              "שרת האדמין לא החזיר מפתח התחברות"
+            );
+
+          }
 
           localStorage.setItem(
             "dada_admin_key",
@@ -994,36 +1294,65 @@
 
         } catch (error) {
 
-          errorBox.style.display = "block";
-          errorBox.textContent = error.message;
+          errorBox.style.display =
+            "block";
+
+          errorBox.textContent =
+            error.message ||
+            "שגיאה בהתחברות";
+
         }
+
       }
     );
 
 
+  /* =========================================================
+     SHOW ADMIN
+  ========================================================= */
+
   function showAdmin() {
 
     document
-      .getElementById("loginScreen")
-      .style.display = "none";
+      .getElementById(
+        "loginScreen"
+      )
+      .style.display =
+        "none";
 
     document
-      .getElementById("adminApp")
-      .style.display = "block";
+      .getElementById(
+        "adminApp"
+      )
+      .style.display =
+        "block";
 
     loadAll();
+
   }
 
+
+  /* =========================================================
+     LOGOUT
+  ========================================================= */
 
   function logout() {
 
-    localStorage.removeItem("dada_admin_key");
+    localStorage.removeItem(
+      "dada_admin_key"
+    );
 
-    adminKey = "";
+    adminKey =
+      "";
 
     location.reload();
+
   }
 
+
+  /* =========================================================
+     NAVIGATION
+  ========================================================= */
 
   document
     .querySelectorAll(".nav-btn")
@@ -1034,33 +1363,53 @@
         () => {
 
           document
-            .querySelectorAll(".nav-btn")
+            .querySelectorAll(
+              ".nav-btn"
+            )
             .forEach(btn =>
-              btn.classList.remove("active")
+              btn.classList.remove(
+                "active"
+              )
             );
 
           document
-            .querySelectorAll(".tab")
+            .querySelectorAll(
+              ".tab"
+            )
             .forEach(tab =>
-              tab.classList.remove("active")
+              tab.classList.remove(
+                "active"
+              )
             );
 
-          button.classList.add("active");
+          button.classList.add(
+            "active"
+          );
 
           document
-            .getElementById(button.dataset.tab)
-            .classList.add("active");
+            .getElementById(
+              button.dataset.tab
+            )
+            .classList.add(
+              "active"
+            );
+
         }
       );
 
     });
 
 
+  /* =========================================================
+     LOAD ALL
+  ========================================================= */
+
   async function loadAll() {
 
     try {
 
       await loadProducts();
+
       await loadOrders();
 
     } catch (error) {
@@ -1071,29 +1420,45 @@
       );
 
       if (
-        error.message === "Unauthorized"
+        error.message ===
+        "Unauthorized"
       ) {
+
         logout();
+
       }
+
     }
+
   }
 
+
+  /* =========================================================
+     PRODUCTS
+  ========================================================= */
 
   async function loadProducts() {
 
     products =
-      await api("/api/admin/products");
+      await api(
+        "/api/admin/products"
+      );
 
     renderProducts();
+
     renderCategories();
+
     updateStats();
+
   }
 
 
   function renderProducts() {
 
     const grid =
-      document.getElementById("productsGrid");
+      document.getElementById(
+        "productsGrid"
+      );
 
     if (!products.length) {
 
@@ -1101,175 +1466,251 @@
         '<div class="card empty">אין מוצרים</div>';
 
       return;
+
     }
 
     grid.innerHTML =
-      products.map(product => {
+      products
+        .map(product => {
 
-        let imageHtml = "";
+          let imageHtml =
+            "";
 
-        if (
-          product.image &&
-          (
-            product.image.startsWith("http") ||
-            product.image.startsWith("data:image")
-          )
-        ) {
+          if (
+            product.image &&
+            (
+              product.image.startsWith(
+                "http"
+              ) ||
+              product.image.startsWith(
+                "data:image"
+              )
+            )
+          ) {
 
-          imageHtml =
-            `<img src="${escapeHtml(
-              product.image
-            )}" alt="">`;
+            imageHtml =
+              `<img
+                src="${escapeHtml(
+                  product.image
+                )}"
+                alt="">`;
 
-        } else {
+          } else {
 
-          imageHtml =
-            escapeHtml(
-              product.image || "📦"
-            );
-        }
+            imageHtml =
+              escapeHtml(
+                product.image ||
+                "📦"
+              );
 
-        return `
+          }
 
-          <div class="product-card">
+          return `
 
-            <div class="product-image">
-              ${imageHtml}
-            </div>
+            <div class="product-card">
 
-            <h3>
-              ${escapeHtml(product.name)}
-            </h3>
-
-            <small>
-              ${escapeHtml(
-                product.category || "ללא קטגוריה"
-              )}
-            </small>
-
-            <div class="product-form">
-
-              <div class="field">
-                <label>שם</label>
-
-                <input
-                  id="name-${product.id}"
-                  value="${escapeAttr(product.name)}">
+              <div class="product-image">
+                ${imageHtml}
               </div>
 
-              <div class="field">
-                <label>מחיר ₪</label>
+              <h3>
+                ${escapeHtml(
+                  product.name
+                )}
+              </h3>
 
-                <input
-                  id="price-${product.id}"
-                  type="number"
-                  min="0"
-                  step="0.01"
-                  value="${product.price}">
-              </div>
+              <small>
+                ${escapeHtml(
+                  product.category ||
+                  "ללא קטגוריה"
+                )}
+              </small>
 
-              <div class="field">
-                <label>מלאי</label>
+              <div class="product-form">
 
-                <input
-                  id="stock-${product.id}"
-                  type="number"
-                  min="0"
-                  value="${product.stock}">
-              </div>
+                <div class="field">
 
-              <div class="field">
-                <label>קטגוריה</label>
-
-                <input
-                  id="category-${product.id}"
-                  value="${escapeAttr(
-                    product.category || ""
-                  )}">
-              </div>
-
-              <div class="field">
-                <label>תמונה / אימוג׳י</label>
-
-                <input
-                  id="image-${product.id}"
-                  value="${escapeAttr(
-                    product.image || ""
-                  )}">
-              </div>
-
-              <div class="field">
-
-                <label>
+                  <label>
+                    שם
+                  </label>
 
                   <input
-                    type="checkbox"
-                    id="active-${product.id}"
-                    ${product.active ? "checked" : ""}
-                    style="width:auto;">
+                    id="name-${product.id}"
+                    value="${escapeAttr(
+                      product.name
+                    )}">
 
-                  פעיל באתר
+                </div>
 
-                </label>
 
-              </div>
+                <div class="field">
 
-              <div class="product-actions">
+                  <label>
+                    מחיר ₪
+                  </label>
 
-                <button
-                  class="btn btn-green"
-                  onclick="saveProduct(${product.id})">
-                  שמור
-                </button>
+                  <input
+                    id="price-${product.id}"
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    value="${product.price}">
 
-                <button
-                  class="btn btn-red"
-                  onclick="deleteProduct(${product.id})">
-                  מחק
-                </button>
+                </div>
+
+
+                <div class="field">
+
+                  <label>
+                    מלאי
+                  </label>
+
+                  <input
+                    id="stock-${product.id}"
+                    type="number"
+                    min="0"
+                    value="${product.stock}">
+
+                </div>
+
+
+                <div class="field">
+
+                  <label>
+                    קטגוריה
+                  </label>
+
+                  <input
+                    id="category-${product.id}"
+                    value="${escapeAttr(
+                      product.category ||
+                      ""
+                    )}">
+
+                </div>
+
+
+                <div class="field">
+
+                  <label>
+                    תמונה / אימוג׳י
+                  </label>
+
+                  <input
+                    id="image-${product.id}"
+                    value="${escapeAttr(
+                      product.image ||
+                      ""
+                    )}">
+
+                </div>
+
+
+                <div class="field">
+
+                  <label>
+
+                    <input
+                      type="checkbox"
+                      id="active-${product.id}"
+                      ${
+                        product.active
+                          ? "checked"
+                          : ""
+                      }
+                      style="width:auto;">
+
+                    פעיל באתר
+
+                  </label>
+
+                </div>
+
+
+                <div class="product-actions">
+
+                  <button
+                    class="btn btn-green"
+                    onclick="saveProduct(${product.id})">
+
+                    שמור
+
+                  </button>
+
+                  <button
+                    class="btn btn-red"
+                    onclick="deleteProduct(${product.id})">
+
+                    מחק
+
+                  </button>
+
+                </div>
 
               </div>
 
             </div>
 
-          </div>
+          `;
 
-        `;
+        })
+        .join("");
 
-      }).join("");
   }
 
+
+  /* =========================================================
+     ADD PRODUCT
+  ========================================================= */
 
   function showAddProduct() {
 
     document
-      .getElementById("productFormCard")
-      .style.display = "block";
+      .getElementById(
+        "productFormCard"
+      )
+      .style.display =
+        "block";
 
     document
-      .getElementById("productFormTitle")
-      .textContent = "הוספת מוצר";
+      .getElementById(
+        "productFormTitle"
+      )
+      .textContent =
+        "הוספת מוצר";
 
     document
-      .getElementById("productForm")
+      .getElementById(
+        "productForm"
+      )
       .reset();
 
     document
-      .getElementById("productId")
-      .value = "";
+      .getElementById(
+        "productId"
+      )
+      .value =
+        "";
+
   }
 
 
   function hideProductForm() {
 
     document
-      .getElementById("productFormCard")
-      .style.display = "none";
+      .getElementById(
+        "productFormCard"
+      )
+      .style.display =
+        "none";
+
   }
 
 
   document
-    .getElementById("productForm")
+    .getElementById(
+      "productForm"
+    )
     .addEventListener(
       "submit",
       async function(event) {
@@ -1282,49 +1723,70 @@
 
             name:
               document
-                .getElementById("productName")
+                .getElementById(
+                  "productName"
+                )
                 .value,
 
             description:
               document
-                .getElementById("productDescription")
+                .getElementById(
+                  "productDescription"
+                )
                 .value,
 
             price:
               Number(
                 document
-                  .getElementById("productPrice")
+                  .getElementById(
+                    "productPrice"
+                  )
                   .value
               ),
 
             stock:
               Number(
                 document
-                  .getElementById("productStock")
+                  .getElementById(
+                    "productStock"
+                  )
                   .value
               ),
 
             category:
               document
-                .getElementById("productCategory")
+                .getElementById(
+                  "productCategory"
+                )
                 .value,
 
             image:
               document
-                .getElementById("productImage")
+                .getElementById(
+                  "productImage"
+                )
                 .value,
 
             active:
               document
-                .getElementById("productActive")
+                .getElementById(
+                  "productActive"
+                )
                 .checked
+
           };
 
           await api(
             "/api/admin/products",
             {
-              method: "POST",
-              body: JSON.stringify(data)
+              method:
+                "POST",
+
+              body:
+                JSON.stringify(
+                  data
+                )
+
             }
           );
 
@@ -1332,7 +1794,9 @@
 
           await loadProducts();
 
-          showMessage("המוצר נוסף בהצלחה");
+          showMessage(
+            "המוצר נוסף בהצלחה"
+          );
 
         } catch (error) {
 
@@ -1340,69 +1804,99 @@
             error.message,
             "error"
           );
+
         }
 
       }
     );
 
 
+  /* =========================================================
+     SAVE PRODUCT
+  ========================================================= */
+
   async function saveProduct(id) {
 
     try {
+
+      const product =
+        products.find(
+          p => p.id === id
+        );
 
       const data = {
 
         name:
           document
-            .getElementById(`name-${id}`)
+            .getElementById(
+              `name-${id}`
+            )
             .value,
 
         description:
-          products.find(
-            p => p.id === id
-          )?.description || "",
+          product?.description ||
+          "",
 
         price:
           Number(
             document
-              .getElementById(`price-${id}`)
+              .getElementById(
+                `price-${id}`
+              )
               .value
           ),
 
         stock:
           Number(
             document
-              .getElementById(`stock-${id}`)
+              .getElementById(
+                `stock-${id}`
+              )
               .value
           ),
 
         category:
           document
-            .getElementById(`category-${id}`)
+            .getElementById(
+              `category-${id}`
+            )
             .value,
 
         image:
           document
-            .getElementById(`image-${id}`)
+            .getElementById(
+              `image-${id}`
+            )
             .value,
 
         active:
           document
-            .getElementById(`active-${id}`)
+            .getElementById(
+              `active-${id}`
+            )
             .checked
+
       };
 
       await api(
         `/api/admin/products/${id}`,
         {
-          method: "PATCH",
-          body: JSON.stringify(data)
+          method:
+            "PATCH",
+
+          body:
+            JSON.stringify(
+              data
+            )
+
         }
       );
 
       await loadProducts();
 
-      showMessage("המוצר עודכן בהצלחה");
+      showMessage(
+        "המוצר עודכן בהצלחה"
+      );
 
     } catch (error) {
 
@@ -1410,14 +1904,26 @@
         error.message,
         "error"
       );
+
     }
+
   }
 
 
+  /* =========================================================
+     DELETE PRODUCT
+  ========================================================= */
+
   async function deleteProduct(id) {
 
-    if (!confirm("למחוק את המוצר?")) {
+    if (
+      !confirm(
+        "למחוק את המוצר?"
+      )
+    ) {
+
       return;
+
     }
 
     try {
@@ -1425,13 +1931,16 @@
       await api(
         `/api/admin/products/${id}`,
         {
-          method: "DELETE"
+          method:
+            "DELETE"
         }
       );
 
       await loadProducts();
 
-      showMessage("המוצר נמחק");
+      showMessage(
+        "המוצר נמחק"
+      );
 
     } catch (error) {
 
@@ -1439,20 +1948,30 @@
         error.message,
         "error"
       );
+
     }
+
   }
 
+
+  /* =========================================================
+     CATEGORIES
+  ========================================================= */
 
   function renderCategories() {
 
     const list =
-      document.getElementById("categoriesList");
+      document.getElementById(
+        "categoriesList"
+      );
 
     const categories =
       [
         ...new Set(
           products
-            .map(p => p.category)
+            .map(
+              p => p.category
+            )
             .filter(Boolean)
         )
       ];
@@ -1463,33 +1982,48 @@
         '<div class="empty">אין קטגוריות</div>';
 
       return;
+
     }
 
     list.innerHTML =
       categories
-        .map(category =>
-          `<div class="category">
-            ${escapeHtml(category)}
-          </div>`
+        .map(
+          category =>
+            `<div class="category">
+              ${escapeHtml(
+                category
+              )}
+            </div>`
         )
         .join("");
+
   }
 
+
+  /* =========================================================
+     ORDERS
+  ========================================================= */
 
   async function loadOrders() {
 
     orders =
-      await api("/api/orders");
+      await api(
+        "/api/orders"
+      );
 
     renderOrders();
+
     updateStats();
+
   }
 
 
   function renderOrders() {
 
     const container =
-      document.getElementById("ordersList");
+      document.getElementById(
+        "ordersList"
+      );
 
     if (!orders.length) {
 
@@ -1497,221 +2031,339 @@
         '<div class="card empty">אין הזמנות עדיין</div>';
 
       return;
+
     }
 
     container.innerHTML =
-      orders.map(order => {
+      orders
+        .map(order => {
 
-        let items = [];
+          let items = [];
 
-        try {
+          try {
 
-          items =
-            typeof order.items === "string"
-              ? JSON.parse(order.items)
-              : order.items;
+            items =
+              typeof order.items ===
+              "string"
 
-        } catch {
-          items = [];
-        }
+                ? JSON.parse(
+                    order.items
+                  )
 
-        return `
+                : Array.isArray(
+                    order.items
+                  )
+                    ? order.items
+                    : [];
 
-          <div class="order-card">
+          } catch {
 
-            <div class="order-header">
+            items = [];
 
-              <div>
+          }
 
-                <div class="order-number">
-                  ${escapeHtml(
-                    order.order_number
-                  )}
+          return `
+
+            <div class="order-card">
+
+              <div class="order-header">
+
+                <div>
+
+                  <div class="order-number">
+                    ${escapeHtml(
+                      order.order_number
+                    )}
+                  </div>
+
+                  <small>
+                    ${escapeHtml(
+                      new Date(
+                        order.created_at
+                      )
+                      .toLocaleString(
+                        "he-IL"
+                      )
+                    )}
+                  </small>
+
                 </div>
 
-                <small>
+
+                <select
+                  onchange="
+                    updateOrderStatus(
+                      ${order.id},
+                      this.value
+                    )
+                  "
+                >
+
+                  ${[
+                    "חדשה",
+                    "בטיפול",
+                    "נשלחה",
+                    "הושלמה"
+                  ]
+                  .map(status => `
+                    <option
+                      value="${status}"
+                      ${
+                        order.status ===
+                        status
+                          ? "selected"
+                          : ""
+                      }
+                    >
+                      ${status}
+                    </option>
+                  `)
+                  .join("")}
+
+                </select>
+
+              </div>
+
+
+              <div class="order-info">
+
+                <div class="info-box">
+
+                  <strong>
+                    👤 לקוח
+                  </strong>
+
                   ${escapeHtml(
-                    new Date(
-                      order.created_at
-                    ).toLocaleString("he-IL")
+                    order.customer_name
                   )}
-                </small>
+
+                </div>
+
+
+                <div class="info-box">
+
+                  <strong>
+                    📞 טלפון
+                  </strong>
+
+                  ${escapeHtml(
+                    order.phone
+                  )}
+
+                </div>
+
+
+                <div class="info-box">
+
+                  <strong>
+                    📧 אימייל
+                  </strong>
+
+                  ${escapeHtml(
+                    order.email ||
+                    "לא נמסר"
+                  )}
+
+                </div>
+
+
+                <div class="info-box">
+
+                  <strong>
+                    💳 תשלום
+                  </strong>
+
+                  <span class="payment-badge">
+                    ${escapeHtml(
+                      order.payment_method ||
+                      "לא נבחר"
+                    )}
+                  </span>
+
+                </div>
+
+
+                <div class="info-box">
+
+                  <strong>
+                    🚚 משלוח
+                  </strong>
+
+                  ${escapeHtml(
+                    order.shipping ||
+                    ""
+                  )}
+
+                </div>
+
+
+                <div class="info-box">
+
+                  <strong>
+                    📍 כתובת
+                  </strong>
+
+                  ${escapeHtml(
+                    order.city || ""
+                  )},
+                  ${escapeHtml(
+                    order.street || ""
+                  )}
+                  ${escapeHtml(
+                    order.house_number || ""
+                  )}
+
+                  ${
+                    order.apartment
+                      ? ", דירה " +
+                        escapeHtml(
+                          order.apartment
+                        )
+                      : ""
+                  }
+
+                </div>
+
+
+                <div class="info-box">
+
+                  <strong>
+                    📝 הערות
+                  </strong>
+
+                  ${escapeHtml(
+                    order.notes ||
+                    "אין"
+                  )}
+
+                </div>
 
               </div>
 
-              <select
-                onchange="updateOrderStatus(
-                  ${order.id},
-                  this.value
-                )">
 
-                ${[
-                  "חדשה",
-                  "בטיפול",
-                  "נשלחה",
-                  "הושלמה"
-                ].map(status => `
-                  <option
-                    value="${status}"
-                    ${
-                      order.status === status
-                        ? "selected"
-                        : ""
-                    }>
-                    ${status}
-                  </option>
-                `).join("")}
-
-              </select>
-
-            </div>
+              <strong>
+                פריטים:
+              </strong>
 
 
-            <div class="order-info">
-
-              <div class="info-box">
-
-                <strong>👤 לקוח</strong>
-
-                ${escapeHtml(
-                  order.customer_name
-                )}
-
-              </div>
-
-
-              <div class="info-box">
-
-                <strong>📞 טלפון</strong>
-
-                ${escapeHtml(
-                  order.phone
-                )}
-
-              </div>
-
-
-              <div class="info-box">
-
-                <strong>📧 אימייל</strong>
-
-                ${escapeHtml(
-                  order.email || "לא נמסר"
-                )}
-
-              </div>
-
-
-              <div class="info-box">
-
-                <strong>🚚 משלוח</strong>
-
-                ${escapeHtml(
-                  order.shipping || ""
-                )}
-
-              </div>
-
-
-              <div class="info-box">
-
-                <strong>📍 כתובת</strong>
-
-                ${escapeHtml(order.city)},
-                ${escapeHtml(order.street)}
-                ${escapeHtml(order.house_number)}
+              <div class="items-list">
 
                 ${
-                  order.apartment
-                    ? ", דירה " +
-                      escapeHtml(order.apartment)
-                    : ""
+                  items.length
+
+                    ? items
+                        .map(
+                          item => `
+
+                            <div
+                              class="item-row"
+                            >
+
+                              <span>
+
+                                ${escapeHtml(
+                                  item.name ||
+                                  "מוצר"
+                                )}
+
+                                ×
+
+                                ${
+                                  item.quantity ||
+                                  1
+                                }
+
+                              </span>
+
+                              <span>
+
+                                ${
+                                  Number(
+                                    item.price ||
+                                    0
+                                  ) *
+                                  Number(
+                                    item.quantity ||
+                                    1
+                                  )
+                                }
+
+                                ₪
+
+                              </span>
+
+                            </div>
+
+                          `
+                        )
+                        .join("")
+
+                    : "אין פירוט"
                 }
 
               </div>
 
 
-              <div class="info-box">
+              <div class="order-total">
 
-                <strong>📝 הערות</strong>
+                סה״כ:
 
-                ${escapeHtml(
-                  order.notes || "אין"
-                )}
+                ${Number(
+                  order.total || 0
+                ).toFixed(2)}
+
+                ₪
 
               </div>
 
-            </div>
+              <br>
 
 
-            <strong>פריטים:</strong>
+              <button
+                class="btn btn-red"
+                onclick="
+                  deleteOrder(
+                    ${order.id}
+                  )
+                "
+              >
 
-            <div class="items-list">
+                מחק הזמנה
 
-              ${
-                items.length
-                  ? items.map(item => `
-                    <div class="item-row">
-
-                      <span>
-                        ${escapeHtml(
-                          item.name || "מוצר"
-                        )}
-                        ×
-                        ${item.quantity || 1}
-                      </span>
-
-                      <span>
-                        ${
-                          Number(item.price || 0) *
-                          Number(item.quantity || 1)
-                        } ₪
-                      </span>
-
-                    </div>
-                  `).join("")
-                  : "אין פירוט"
-              }
+              </button>
 
             </div>
 
+          `;
 
-            <div class="order-total">
+        })
+        .join("");
 
-              סה״כ:
-              ${Number(
-                order.total || 0
-              ).toFixed(2)}
-              ₪
-
-            </div>
-
-            <br>
-
-            <button
-              class="btn btn-red"
-              onclick="deleteOrder(${order.id})">
-              מחק הזמנה
-            </button>
-
-          </div>
-
-        `;
-
-      }).join("");
   }
 
 
-  async function updateOrderStatus(id, status) {
+  /* =========================================================
+     UPDATE ORDER STATUS
+  ========================================================= */
+
+  async function updateOrderStatus(
+    id,
+    status
+  ) {
 
     try {
 
       await api(
         `/api/orders/${id}`,
         {
-          method: "PATCH",
+          method:
+            "PATCH",
+
           body:
-            JSON.stringify({ status })
+            JSON.stringify({
+              status
+            })
+
         }
       );
 
@@ -1727,14 +2379,26 @@
         error.message,
         "error"
       );
+
     }
+
   }
 
 
+  /* =========================================================
+     DELETE ORDER
+  ========================================================= */
+
   async function deleteOrder(id) {
 
-    if (!confirm("למחוק את ההזמנה?")) {
+    if (
+      !confirm(
+        "למחוק את ההזמנה?"
+      )
+    ) {
+
       return;
+
     }
 
     try {
@@ -1742,13 +2406,16 @@
       await api(
         `/api/orders/${id}`,
         {
-          method: "DELETE"
+          method:
+            "DELETE"
         }
       );
 
       await loadOrders();
 
-      showMessage("ההזמנה נמחקה");
+      showMessage(
+        "ההזמנה נמחקה"
+      );
 
     } catch (error) {
 
@@ -1756,48 +2423,67 @@
         error.message,
         "error"
       );
+
     }
+
   }
 
+
+  /* =========================================================
+     STATS
+  ========================================================= */
 
   function updateStats() {
 
     document
-      .getElementById("statProducts")
+      .getElementById(
+        "statProducts"
+      )
       .textContent =
-      products.length;
+        products.length;
 
     document
-      .getElementById("statOrders")
+      .getElementById(
+        "statOrders"
+      )
       .textContent =
-      orders.length;
+        orders.length;
 
     const revenue =
       orders.reduce(
         (sum, order) =>
-          sum + Number(order.total || 0),
+          sum +
+          Number(
+            order.total || 0
+          ),
         0
       );
 
     document
-      .getElementById("statRevenue")
+      .getElementById(
+        "statRevenue"
+      )
       .textContent =
-      revenue.toFixed(2) + " ₪";
+        revenue.toFixed(2) +
+        " ₪";
 
     document
-      .getElementById("statNewOrders")
+      .getElementById(
+        "statNewOrders"
+      )
       .textContent =
-      orders.filter(
-        order =>
-          order.status === "חדשה"
-      ).length;
+        orders.filter(
+          order =>
+            order.status ===
+            "חדשה"
+        ).length;
+
   }
 
 
-  /* =========================
+  /* =========================================================
      TEST EMAIL
-     RESEND TEST MODE
-  ========================= */
+  ========================================================= */
 
   async function sendTestEmail() {
 
@@ -1811,11 +2497,14 @@
         "emailResult"
       );
 
-    button.disabled = true;
+    button.disabled =
+      true;
 
-    button.textContent = "⏳ שולח...";
+    button.textContent =
+      "⏳ שולח...";
 
-    resultBox.className = "message";
+    resultBox.className =
+      "message";
 
     try {
 
@@ -1823,7 +2512,8 @@
         await api(
           "/api/admin/test-email",
           {
-            method: "POST"
+            method:
+              "POST"
           }
         );
 
@@ -1844,36 +2534,70 @@
 
     } finally {
 
-      button.disabled = false;
+      button.disabled =
+        false;
 
       button.textContent =
         "📧 שלח מייל בדיקה";
+
     }
+
   }
 
 
+  /* =========================================================
+     ESCAPE HTML
+  ========================================================= */
+
   function escapeHtml(value) {
 
-    return String(value ?? "")
-      .replaceAll("&", "&amp;")
-      .replaceAll("<", "&lt;")
-      .replaceAll(">", "&gt;")
-      .replaceAll('"', "&quot;")
-      .replaceAll("'", "&#039;");
+    return String(
+      value ?? ""
+    )
+      .replaceAll(
+        "&",
+        "&amp;"
+      )
+      .replaceAll(
+        "<",
+        "&lt;"
+      )
+      .replaceAll(
+        ">",
+        "&gt;"
+      )
+      .replaceAll(
+        '"',
+        "&quot;"
+      )
+      .replaceAll(
+        "'",
+        "&#039;"
+      );
+
   }
 
 
   function escapeAttr(value) {
-    return escapeHtml(value);
+
+    return escapeHtml(
+      value
+    );
+
   }
 
 
+  /* =========================================================
+     START FROM SAVED ADMIN KEY
+  ========================================================= */
+
   if (adminKey) {
+
     showAdmin();
+
   }
 
 </script>
 
 </body>
 </html>
-```
