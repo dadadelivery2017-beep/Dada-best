@@ -1,1497 +1,247 @@
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Dada Best</title>
-
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f7f7f7;
-      color: #222;
-    }
-
-    header {
-      background: #111;
-      color: white;
-      padding: 20px;
-      text-align: center;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    header h1 {
-      margin: 0;
-      font-size: 32px;
-    }
-
-    header p {
-      margin: 8px 0 0;
-      color: #ddd;
-    }
-
-    .header-cart {
-      position: absolute;
-      left: 20px;
-      top: 20px;
-      background: white;
-      color: #111;
-      border-radius: 10px;
-      padding: 10px 15px;
-      font-weight: bold;
-      cursor: pointer;
-      border: 0;
-    }
-
-    .cart-count {
-      background: #dc3545;
-      color: white;
-      border-radius: 50%;
-      padding: 3px 7px;
-      margin-right: 5px;
-    }
-
-    .container {
-      max-width: 1100px;
-      margin: 30px auto;
-      padding: 0 20px;
-    }
-
-    .section-title {
-      margin-bottom: 20px;
-    }
-
-    .products {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 20px;
-    }
-
-    .product {
-      background: white;
-      border-radius: 12px;
-      padding: 20px;
-      box-shadow: 0 2px 10px rgba(0,0,0,.08);
-      text-align: center;
-    }
-
-    .product .image {
-      height: 160px;
-      background: #eee;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 55px;
-      margin-bottom: 15px;
-      overflow: hidden;
-    }
-
-    .product .image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .product h3 {
-      margin: 10px 0;
-    }
-
-    .price {
-      font-size: 20px;
-      font-weight: bold;
-      margin: 10px 0;
-    }
-
-    .stock {
-      color: #777;
-      font-size: 14px;
-      margin-bottom: 12px;
-    }
-
-    button {
-      border: 0;
-      border-radius: 8px;
-      padding: 12px 18px;
-      cursor: pointer;
-      font-size: 16px;
-    }
-
-    button:disabled {
-      opacity: .5;
-      cursor: not-allowed;
-    }
-
-    .add {
-      background: #111;
-      color: white;
-      width: 100%;
-    }
-
-    .screen {
-      display: none;
-    }
-
-    .screen.active {
-      display: block;
-    }
-
-    .cart-box,
-    .checkout-box,
-    .success-box {
-      background: white;
-      padding: 25px;
-      border-radius: 12px;
-      box-shadow: 0 2px 10px rgba(0,0,0,.08);
-    }
-
-    .cart-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid #eee;
-      padding: 15px 0;
-      gap: 15px;
-    }
-
-    .cart-item-info {
-      flex: 1;
-    }
-
-    .cart-item-name {
-      font-weight: bold;
-      font-size: 18px;
-    }
-
-    .cart-item-price {
-      color: #555;
-      margin-top: 5px;
-    }
-
-    .quantity-controls {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .quantity-controls button {
-      width: 35px;
-      height: 35px;
-      padding: 0;
-      background: #eee;
-    }
-
-    .quantity {
-      min-width: 30px;
-      text-align: center;
-      font-weight: bold;
-    }
-
-    .remove {
-      background: #e53935;
-      color: white;
-      padding: 7px 10px;
-      font-size: 13px;
-    }
-
-    .cart-total {
-      text-align: left;
-      font-size: 22px;
-      font-weight: bold;
-      margin-top: 25px;
-    }
-
-    .cart-actions {
-      display: flex;
-      gap: 10px;
-      margin-top: 25px;
-    }
-
-    .continue-shopping {
-      background: #eee;
-      color: #111;
-      flex: 1;
-    }
-
-    .checkout-button {
-      background: #198754;
-      color: white;
-      flex: 1;
-    }
-
-    .back-button {
-      background: #eee;
-      margin-bottom: 20px;
-    }
-
-    .checkout-box h2 {
-      margin-top: 0;
-    }
-
-    .form-group {
-      margin-bottom: 10px;
-    }
-
-    label {
-      display: block;
-      font-weight: bold;
-      margin-bottom: 5px;
-    }
-
-    input,
-    textarea,
-    select {
-      width: 100%;
-      padding: 12px;
-      margin: 0 0 10px;
-      border: 1px solid #ccc;
-      border-radius: 7px;
-      font-size: 16px;
-    }
-
-    .delivery-options {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin: 10px 0 20px;
-    }
-
-    .delivery-option {
-      border: 2px solid #ddd;
-      border-radius: 10px;
-      padding: 15px;
-      cursor: pointer;
-      text-align: center;
-      background: white;
-    }
-
-    .delivery-option.selected {
-      border-color: #198754;
-      background: #f0fff7;
-    }
-
-    .delivery-option input {
-      width: auto;
-      margin-left: 8px;
-    }
-
-    .delivery-title {
-      font-size: 18px;
-      font-weight: bold;
-      margin-bottom: 5px;
-    }
-
-    .delivery-description {
-      color: #666;
-      font-size: 14px;
-    }
-
-    .order-summary {
-      background: #f7f7f7;
-      border-radius: 10px;
-      padding: 15px;
-      margin: 20px 0;
-    }
-
-    .summary-row {
-      display: flex;
-      justify-content: space-between;
-      padding: 7px 0;
-    }
-
-    .summary-total {
-      border-top: 1px solid #ddd;
-      margin-top: 10px;
-      padding-top: 12px;
-      font-size: 20px;
-      font-weight: bold;
-    }
-
-    .submit {
-      width: 100%;
-      background: #198754;
-      color: white;
-      font-size: 18px;
-      padding: 15px;
-    }
-
-    .message {
-      margin-top: 15px;
-      padding: 12px;
-      border-radius: 8px;
-      display: none;
-    }
-
-    .success {
-      background: #d1e7dd;
-      color: #0f5132;
-    }
-
-    .error {
-      background: #f8d7da;
-      color: #842029;
-    }
-
-    .empty {
-      color: #777;
-      text-align: center;
-      padding: 40px 20px;
-    }
-
-    .loading {
-      text-align: center;
-      padding: 40px;
-      color: #777;
-    }
-
-    .error-box {
-      background: #f8d7da;
-      color: #842029;
-      padding: 20px;
-      border-radius: 10px;
-      text-align: center;
-    }
-
-    @media (max-width: 600px) {
-      header h1 {
-        font-size: 25px;
-      }
-
-      .header-cart {
-        position: static;
-        margin-top: 15px;
-      }
-
-      .delivery-options {
-        grid-template-columns: 1fr;
-      }
-
-      .cart-item {
-        flex-wrap: wrap;
-      }
-
-      .cart-actions {
-        flex-direction: column;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dada Best | החנות שלך</title>
+<style>
+:root{
+  --blue:#1264ff;--blue2:#063b9f;--cyan:#35c8ff;--dark:#07152f;
+  --bg:#f4f8ff;--card:#fff;--muted:#64748b;--line:#e4ebf5;
+  --success:#13a36f;--danger:#ef4444;
+}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;font-family: "Trebuchet MS", "Segoe UI", Arial, sans-serif;background:linear-gradient(180deg,#f7faff 0%,#eef5ff 100%);color:var(--dark)}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer;border:0}
+.top{background:linear-gradient(110deg,var(--blue2),var(--blue),var(--cyan));color:#fff;text-align:center;padding:9px;font-size:14px}
+header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.94);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav{max-width:1250px;margin:auto;padding:15px 22px;display:flex;align-items:center;gap:24px}
+.logo{font-weight:950;font-size:30px;color:var(--blue);letter-spacing:-1px}
+.logo span{color:var(--dark)}
+.navlinks{display:flex;gap:22px;color:#334155}
+.navlinks a{text-decoration:none;color:inherit;font-weight:700}
+.cart-btn{margin-right:auto;background:var(--dark);color:#fff;border-radius:14px;padding:12px 18px;box-shadow:0 8px 25px #07152f22}
+.badge{display:inline-grid;place-items:center;min-width:23px;height:23px;padding:0 6px;border-radius:50px;background:var(--cyan);margin-right:5px;font-size:12px}
+.hero{max-width:1250px;margin:28px auto 20px;padding:0 22px}
+.hero-box{min-height:350px;border-radius:30px;padding:55px;display:flex;align-items:center;overflow:hidden;position:relative;background:radial-gradient(circle at 75% 30%,#55c8ff 0,#1475ff 30%,#071d55 78%);color:#fff;box-shadow:0 25px 70px #0b5cff25}
+.hero-box:after{content:"";position:absolute;width:430px;height:430px;border-radius:50%;left:-130px;bottom:-220px;background:#ffffff15}
+.hero h1{font-size:clamp(42px,6vw,76px);font-weight:950;line-height:.98;margin:0 0 18px;max-width:650px;letter-spacing:-2px}
+.hero p{font-size:20px;line-height:1.6;max-width:620px;color:#e7f4ff}
+.hero-actions{display:flex;gap:12px;margin-top:25px;flex-wrap:wrap}
+.primary{background:#fff;color:var(--blue);padding:14px 24px;border-radius:12px;font-weight:900}
+.secondary{background:#ffffff18;color:#fff;border:1px solid #ffffff55;padding:14px 24px;border-radius:12px;font-weight:800}
+.wrap{max-width:1250px;margin:auto;padding:25px 22px 80px}
+.section-head{display:flex;align-items:end;justify-content:space-between;margin:25px 0}
+.section-head h2{font-size:34px;font-weight:950;margin:0}.section-head p{color:var(--muted);margin:5px 0 0}
+.products{display:grid;grid-template-columns:repeat(auto-fill,minmax(245px,1fr));gap:22px}
+.product{background:rgba(255,255,255,.97);border:1px solid #e3ebf8;border-radius:26px;padding:12px;box-shadow:0 12px 35px rgba(10,52,120,.07);transition:.28s;position:relative;overflow:hidden}
+.product:hover{transform:translateY(-8px);box-shadow:0 25px 55px rgba(11,92,255,.16)}
+.pic{height:250px;border-radius:21px;background:linear-gradient(145deg,#e8f2ff,#fafdff);display:grid;place-items:center;font-size:80px;overflow:hidden}
+.pic img{width:100%;height:100%;object-fit:cover;transition:.35s}.product:hover .pic img{transform:scale(1.04)}
+.product h3{margin:18px 7px 6px;font-size:21px;font-weight:900;letter-spacing:-.4px}.desc{color:#64748b;min-height:44px;margin:0 7px;line-height:1.55;font-size:14px}
+.price{font-size:28px;font-weight:950;margin:16px 7px 5px;letter-spacing:-.7px}.stock{font-size:12px;color:#718096;margin:0 7px 13px}
+.add{width:100%;background:linear-gradient(100deg,var(--blue2),var(--blue));color:#fff;padding:14px;border-radius:14px;font-weight:900;font-size:15px;box-shadow:0 9px 20px #0b5cff2b}
+.add:disabled{opacity:.45}
+.overlay{position:fixed;inset:0;background:#07152f88;z-index:100;opacity:0;pointer-events:none;transition:.25s}
+.overlay.open{opacity:1;pointer-events:auto}
+.drawer{position:absolute;right:0;top:0;height:100%;width:min(470px,100%);background:#fff;transform:translateX(100%);transition:.3s;display:flex;flex-direction:column}
+.overlay.open .drawer{transform:translateX(0)}
+.drawer-head{padding:20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
+.drawer-head h2{margin:0}.close{background:#eef4ff;border-radius:10px;padding:9px 12px}
+.drawer-body{padding:18px;overflow:auto;flex:1}.empty{text-align:center;color:var(--muted);padding:60px 15px}
+.cart-item{display:grid;grid-template-columns:65px 1fr auto;gap:12px;padding:14px 0;border-bottom:1px solid var(--line);align-items:center}
+.thumb{width:65px;height:65px;border-radius:12px;background:#edf4ff;display:grid;place-items:center;font-size:28px;overflow:hidden}
+.thumb img{width:100%;height:100%;object-fit:cover}
+.cart-name{font-weight:900}.cart-price{color:var(--muted);font-size:13px;margin-top:4px}
+.qty{display:flex;align-items:center;gap:7px;margin-top:8px}.qty button{width:27px;height:27px;border-radius:8px;background:#edf4ff;color:var(--blue);font-weight:900}.remove{background:none;color:var(--danger);font-size:12px;padding:0;margin-top:6px}
+.drawer-foot{padding:18px;border-top:1px solid var(--line);background:#fbfdff}.total{display:flex;justify-content:space-between;font-size:22px;font-weight:900;margin-bottom:14px}.checkout-btn{width:100%;padding:15px;background:var(--success);color:#fff;border-radius:12px;font-weight:900}.continue{width:100%;padding:11px;background:#edf4ff;color:var(--blue);border-radius:12px;margin-top:9px}
+.screen{display:none}.screen.active{display:block}.checkout-card{max-width:760px;margin:35px auto;background:#fff;border:1px solid var(--line);border-radius:24px;padding:28px;box-shadow:0 15px 45px #0b24500b}
+.back{background:#eaf2ff;color:var(--blue);padding:10px 15px;border-radius:10px;margin-bottom:16px}
+.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field label{display:block;font-weight:800;margin:0 0 6px}.field input,.field textarea{width:100%;padding:13px;border:1px solid #ccd7e8;border-radius:10px;outline:none}.field input:focus,.field textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px #0b5cff15}
+.full{grid-column:1/-1}.delivery{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0 20px}.delivery label{border:2px solid var(--line);border-radius:14px;padding:15px;text-align:center;cursor:pointer}.delivery label.sel{border-color:var(--blue);background:#eef5ff}.delivery input{margin-left:7px}.summary{background:#f5f8fd;padding:15px;border-radius:14px;margin:20px 0}.sumrow{display:flex;justify-content:space-between;padding:6px 0}.sumtotal{border-top:1px solid #dbe4f0;margin-top:7px;padding-top:12px;font-size:20px;font-weight:900}
+.submit{width:100%;padding:15px;background:linear-gradient(100deg,var(--blue2),var(--blue));color:#fff;border-radius:12px;font-weight:900}
+.notice{padding:14px;border-radius:10px;margin-top:12px;display:none}.ok{display:block;background:#dff7ed;color:#08734e}.err{display:block;background:#fee2e2;color:#991b1b}
+.success-card{text-align:center;max-width:650px;margin:70px auto;background:#fff;padding:45px;border-radius:25px;box-shadow:0 15px 50px #0b245010}.success-icon{font-size:70px}
+@media(max-width:700px){.navlinks{display:none}.nav{padding:13px 15px}.logo{font-size:24px}.hero-box{padding:32px 24px;min-height:350px;border-radius:24px}.formgrid,.delivery{grid-template-columns:1fr}.wrap{padding-left:15px;padding-right:15px}.hero{padding:0 15px}.section-head{display:block}.cart-btn{padding:10px 12px}}
+</style>
 </head>
-
 <body>
-
+<div class="top">🚚 משלוחים מהירים • שירות אישי • מוצרים איכותיים</div>
 <header>
-  <h1>Dada Best</h1>
-  <p>החנות שלנו</p>
-
-  <button class="header-cart" onclick="showScreen('cartScreen')">
-    🛒 עגלה
-    <span id="cartCount" class="cart-count">0</span>
-  </button>
+  <nav class="nav">
+    <div class="logo">Dada <span>Best</span></div>
+    <div class="navlinks"><a href="#shop">חנות</a><a href="#about">למה אנחנו</a></div>
+    <button class="cart-btn" onclick="openCart()">🛒 העגלה <span class="badge" id="cartCount">0</span></button>
+  </nav>
 </header>
 
-<div class="container">
-
-  <!-- =========================
-       PRODUCTS SCREEN
-  ========================== -->
-
-  <section id="productsScreen" class="screen active">
-
-    <h2 class="section-title">המוצרים שלנו</h2>
-
-    <div id="products" class="products">
-      <div class="loading">
-        טוען מוצרים...
+<main>
+<section class="hero">
+  <div class="hero-box">
+    <div>
+      <h1>הבחירה החכמה<br>מתחילה כאן.</h1>
+      <p>מוצרים איכותיים, מחירים מעולים וחוויית קנייה פשוטה ומהירה — הכל במקום אחד.</p>
+      <div class="hero-actions">
+        <button class="primary" onclick="document.getElementById('shop').scrollIntoView()">לצפייה במוצרים</button>
+        <button class="secondary" onclick="openCart()">🛒 פתיחת העגלה</button>
       </div>
     </div>
+  </div>
+</section>
 
-  </section>
+<section class="wrap" id="shop">
+  <div class="section-head">
+    <div><h2>המוצרים שלנו</h2><p>בחירה מתוך המוצרים הזמינים עכשיו</p></div>
+  </div>
+  <div id="products" class="products"><div class="empty">טוען מוצרים...</div></div>
+</section>
 
+<section class="wrap" id="about">
+  <div class="section-head"><div><h2>למה Dada Best?</h2><p>חוויה נקייה, מהירה ונוחה מכל מכשיר.</p></div></div>
+  <div class="products">
+    <div class="product"><div class="pic">🚚</div><h3>משלוח נוח</h3><p class="desc">ממלאים פרטים ובוחרים משלוח או איסוף עצמי.</p></div>
+    <div class="product"><div class="pic">🔒</div><h3>קנייה בטוחה</h3><p class="desc">ההזמנה נשמרת בצורה מסודרת במערכת.</p></div>
+    <div class="product"><div class="pic">⭐</div><h3>שירות איכותי</h3><p class="desc">אנחנו כאן כדי להפוך את הקנייה לפשוטה.</p></div>
+  </div>
+</section>
 
-  <!-- =========================
-       CART SCREEN
-  ========================== -->
-
-  <section id="cartScreen" class="screen">
-
-    <button
-      class="back-button"
-      onclick="showScreen('productsScreen')">
-      ← חזרה למוצרים
-    </button>
-
-    <div class="cart-box">
-
-      <h2>🛒 עגלת הקניות</h2>
-
-      <div id="cartItems">
-        <div class="empty">
-          העגלה ריקה
-        </div>
+<section id="checkoutScreen" class="screen">
+  <div class="checkout-card">
+    <button class="back" onclick="closeCheckout()">← חזרה לעגלה</button>
+    <h2>פרטי רכישה</h2>
+    <p style="color:#64748b">השלימו את הפרטים ובחרו כיצד לקבל את ההזמנה.</p>
+    <form id="orderForm">
+      <div class="formgrid">
+        <div class="field"><label>שם מלא *</label><input id="name" required></div>
+        <div class="field"><label>טלפון *</label><input id="phone" required></div>
+        <div class="field"><label>אימייל</label><input id="email" type="email"></div>
       </div>
-
-      <div class="cart-total">
-        סה״כ:
-        <span id="cartTotal">0</span> ₪
+      <h3>איך תרצו לקבל?</h3>
+      <div class="delivery">
+        <label id="deliveryOption" class="sel"><input type="radio" name="shipping" value="משלוח רגיל" checked onchange="changeShipping()">🚚 משלוח</label>
+        <label id="pickupOption"><input type="radio" name="shipping" value="איסוף עצמי" onchange="changeShipping()">🏪 איסוף עצמי</label>
       </div>
-
-      <div class="cart-actions">
-
-        <button
-          class="continue-shopping"
-          onclick="showScreen('productsScreen')">
-          המשך בקניות
-        </button>
-
-        <button
-          id="goCheckoutButton"
-          class="checkout-button"
-          onclick="goToCheckout()">
-          המשך לרכישה
-        </button>
-
+      <div id="addressFields" class="formgrid">
+        <div class="field"><label>עיר *</label><input id="city" required></div>
+        <div class="field"><label>רחוב *</label><input id="street" required></div>
+        <div class="field"><label>מספר בית *</label><input id="house" required></div>
+        <div class="field"><label>דירה</label><input id="apartment"></div>
+        <div class="field"><label>מיקוד</label><input id="zip"></div>
       </div>
+      <div class="field full"><label>הערות</label><textarea id="notes" rows="4"></textarea></div>
+      <div class="summary"><div id="checkoutSummary"></div><div class="sumrow sumtotal"><span>סה״כ</span><span><span id="checkoutTotal">0</span> ₪</span></div></div>
+      <button class="submit">אישור ושליחת הזמנה</button>
+      <div id="message" class="notice"></div>
+    </form>
+  </div>
+</section>
 
+<section id="successScreen" class="screen">
+  <div class="success-card">
+    <div class="success-icon">🎉</div><h2>ההזמנה התקבלה!</h2>
+    <p>תודה רבה. מספר ההזמנה שלך הוא:</p><h2 id="orderNumber"></h2>
+    <button class="submit" onclick="closeSuccess()">חזרה לחנות</button>
+  </div>
+</section>
+</main>
+
+<div class="overlay" id="cartOverlay" onclick="if(event.target===this)closeCart()">
+  <aside class="drawer">
+    <div class="drawer-head"><h2>🛒 העגלה שלך</h2><button class="close" onclick="closeCart()">✕</button></div>
+    <div class="drawer-body" id="cartItems"><div class="empty">העגלה ריקה</div></div>
+    <div class="drawer-foot">
+      <div class="total"><span>סה״כ</span><span><span id="cartTotal">0</span> ₪</span></div>
+      <button class="checkout-btn" onclick="goCheckout()">המשך לרכישה</button>
+      <button class="continue" onclick="closeCart()">המשך בקניות</button>
     </div>
-
-  </section>
-
-
-  <!-- =========================
-       CHECKOUT SCREEN
-  ========================== -->
-
-  <section id="checkoutScreen" class="screen">
-
-    <button
-      class="back-button"
-      onclick="showScreen('cartScreen')">
-      ← חזרה לעגלה
-    </button>
-
-    <div class="checkout-box">
-
-      <h2>🧾 פרטי רכישה</h2>
-
-      <p>
-        מלאו את הפרטים ובחרו כיצד לקבל את ההזמנה.
-      </p>
-
-      <form id="orderForm">
-
-        <div class="form-group">
-          <label>שם מלא *</label>
-
-          <input
-            type="text"
-            id="name"
-            required
-            placeholder="השם שלך">
-        </div>
-
-
-        <div class="form-group">
-          <label>טלפון *</label>
-
-          <input
-            type="tel"
-            id="phone"
-            required
-            placeholder="050-0000000">
-        </div>
-
-
-        <div class="form-group">
-          <label>אימייל</label>
-
-          <input
-            type="email"
-            id="email"
-            placeholder="example@email.com">
-        </div>
-
-
-        <h3>📦 איך תרצה לקבל את ההזמנה?</h3>
-
-        <div class="delivery-options">
-
-          <label
-            class="delivery-option selected"
-            id="deliveryOption">
-
-            <div>
-              <input
-                type="radio"
-                name="shipping"
-                value="משלוח רגיל"
-                checked
-                onchange="changeShipping()">
-
-              🚚 משלוח
-            </div>
-
-            <div class="delivery-description">
-              ההזמנה תישלח אליך
-            </div>
-
-          </label>
-
-
-          <label
-            class="delivery-option"
-            id="pickupOption">
-
-            <div>
-              <input
-                type="radio"
-                name="shipping"
-                value="איסוף עצמי"
-                onchange="changeShipping()">
-
-              🏪 איסוף עצמי
-            </div>
-
-            <div class="delivery-description">
-              איסוף מהחנות
-            </div>
-
-          </label>
-
-        </div>
-
-
-        <!-- כתובת משלוח -->
-
-        <div id="addressFields">
-
-          <h3>📍 כתובת למשלוח</h3>
-
-          <div class="form-group">
-            <label>עיר *</label>
-
-            <input
-              type="text"
-              id="city"
-              placeholder="עיר">
-          </div>
-
-
-          <div class="form-group">
-            <label>רחוב *</label>
-
-            <input
-              type="text"
-              id="street"
-              placeholder="רחוב">
-          </div>
-
-
-          <div class="form-group">
-            <label>מספר בית *</label>
-
-            <input
-              type="text"
-              id="house"
-              placeholder="מספר">
-          </div>
-
-
-          <div class="form-group">
-            <label>דירה</label>
-
-            <input
-              type="text"
-              id="apartment"
-              placeholder="דירה">
-          </div>
-
-
-          <div class="form-group">
-            <label>מיקוד</label>
-
-            <input
-              type="text"
-              id="zip"
-              placeholder="מיקוד">
-          </div>
-
-        </div>
-
-
-        <div class="form-group">
-
-          <label>הערות להזמנה</label>
-
-          <textarea
-            id="notes"
-            rows="4"
-            placeholder="הערות להזמנה">
-          </textarea>
-
-        </div>
-
-
-        <!-- סיכום -->
-
-        <div class="order-summary">
-
-          <h3>סיכום הזמנה</h3>
-
-          <div id="checkoutSummary"></div>
-
-          <div class="summary-row summary-total">
-
-            <span>סה״כ לתשלום</span>
-
-            <span>
-              <span id="checkoutTotal">0</span> ₪
-            </span>
-
-          </div>
-
-        </div>
-
-
-        <button
-          type="submit"
-          class="submit">
-          ✅ אישור ושליחת הזמנה
-        </button>
-
-      </form>
-
-
-      <div
-        id="message"
-        class="message">
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- =========================
-       SUCCESS SCREEN
-  ========================== -->
-
-  <section id="successScreen" class="screen">
-
-    <div class="success-box">
-
-      <h2>🎉 ההזמנה התקבלה בהצלחה!</h2>
-
-      <p>
-        תודה רבה על ההזמנה.
-      </p>
-
-      <p>
-        מספר הזמנה:
-        <strong id="orderNumber"></strong>
-      </p>
-
-      <button
-        class="checkout-button"
-        onclick="showScreen('productsScreen')">
-        חזרה לחנות
-      </button>
-
-    </div>
-
-  </section>
-
+  </aside>
 </div>
 
-
 <script>
-
-  /* =========================
-     CART
-  ========================== */
-
-  let cart = [];
-
-  let products = [];
-
-
-  /* =========================
-     LOAD PRODUCTS FROM SERVER
-  ========================== */
-
-  async function loadProducts() {
-
-    const container =
-      document.getElementById("products");
-
-    try {
-
-      const response =
-        await fetch("/api/products");
-
-      if (!response.ok) {
-        throw new Error("לא ניתן לטעון את המוצרים");
-      }
-
-      products =
-        await response.json();
-
-      renderProducts();
-
-    } catch (error) {
-
-      console.error(error);
-
-      container.innerHTML = `
-        <div class="error-box">
-          לא הצלחנו לטעון את המוצרים.
-          <br><br>
-          נסה לרענן את הדף.
-        </div>
-      `;
-
-    }
-
-  }
-
-
-  /* =========================
-     RENDER PRODUCTS
-  ========================== */
-
-  function renderProducts() {
-
-    const container =
-      document.getElementById("products");
-
-    if (!products.length) {
-
-      container.innerHTML = `
-        <div class="empty">
-          כרגע אין מוצרים זמינים.
-        </div>
-      `;
-
-      return;
-    }
-
-    container.innerHTML = "";
-
-    products.forEach(product => {
-
-      const div =
-        document.createElement("div");
-
-      div.className = "product";
-
-      const image =
-        product.image || "🛍️";
-
-      const imageHtml =
-        String(image).startsWith("http")
-          ? `<img src="${escapeHtml(image)}" alt="${escapeHtml(product.name)}">`
-          : escapeHtml(image);
-
-      const stock =
-        Number(product.stock || 0);
-
-      div.innerHTML = `
-
-        <div class="image">
-          ${imageHtml}
-        </div>
-
-        <h3>
-          ${escapeHtml(product.name)}
-        </h3>
-
-        <p>
-          ${escapeHtml(product.description || "")}
-        </p>
-
-        <div class="price">
-          ${Number(product.price).toFixed(2)} ₪
-        </div>
-
-        <div class="stock">
-          ${
-            stock > 0
-              ? `נשארו ${stock} יחידות`
-              : "אזל מהמלאי"
-          }
-        </div>
-
-        <button
-          class="add"
-          ${stock <= 0 ? "disabled" : ""}
-          onclick="addToCart(
-            ${Number(product.id)},
-            '${escapeJs(product.name)}',
-            ${Number(product.price)},
-            ${Number(product.stock || 0)}
-          )">
-
-          ${
-            stock > 0
-              ? "הוסף לעגלה 🛒"
-              : "אזל מהמלאי"
-          }
-
-        </button>
-      `;
-
-      container.appendChild(div);
-
-    });
-
-  }
-
-
-  /* =========================
-     ADD TO CART
-  ========================== */
-
-  function addToCart(
-    id,
-    name,
-    price,
-    stock
-  ) {
-
-    const existing =
-      cart.find(item => item.id === id);
-
-    if (existing) {
-
-      if (existing.quantity >= stock) {
-
-        alert("אין יותר מלאי מהמוצר הזה.");
-
-        return;
-      }
-
-      existing.quantity++;
-
-    } else {
-
-      cart.push({
-        id: id,
-        name: name,
-        price: price,
-        quantity: 1,
-        stock: stock
-      });
-
-    }
-
-    renderCart();
-
-    updateCartCount();
-
-    showScreen("cartScreen");
-
-  }
-
-
-  /* =========================
-     CHANGE QUANTITY
-  ========================== */
-
-  function changeQuantity(index, amount) {
-
-    const item = cart[index];
-
-    if (!item) return;
-
-    const newQuantity =
-      item.quantity + amount;
-
-    if (newQuantity <= 0) {
-
-      cart.splice(index, 1);
-
-    } else if (newQuantity > item.stock) {
-
-      alert("אין מספיק מלאי מהמוצר הזה.");
-
-      return;
-
-    } else {
-
-      item.quantity = newQuantity;
-
-    }
-
-    renderCart();
-
-    updateCartCount();
-
-  }
-
-
-  /* =========================
-     REMOVE
-  ========================== */
-
-  function removeFromCart(index) {
-
-    cart.splice(index, 1);
-
-    renderCart();
-
-    updateCartCount();
-
-  }
-
-
-  /* =========================
-     RENDER CART
-  ========================== */
-
-  function renderCart() {
-
-    const container =
-      document.getElementById("cartItems");
-
-    const totalElement =
-      document.getElementById("cartTotal");
-
-    if (cart.length === 0) {
-
-      container.innerHTML = `
-        <div class="empty">
-          🛒 העגלה ריקה
-          <br><br>
-          <button
-            class="add"
-            onclick="showScreen('productsScreen')">
-            להתחיל לקנות
-          </button>
-        </div>
-      `;
-
-      totalElement.textContent = "0";
-
-      return;
-    }
-
-    let total = 0;
-
-    container.innerHTML = "";
-
-    cart.forEach((item, index) => {
-
-      const itemTotal =
-        item.price * item.quantity;
-
-      total += itemTotal;
-
-      const div =
-        document.createElement("div");
-
-      div.className = "cart-item";
-
-      div.innerHTML = `
-
-        <div class="cart-item-info">
-
-          <div class="cart-item-name">
-            ${escapeHtml(item.name)}
-          </div>
-
-          <div class="cart-item-price">
-            ${item.price.toFixed(2)} ₪ ליחידה
-          </div>
-
-        </div>
-
-
-        <div class="quantity-controls">
-
-          <button
-            onclick="changeQuantity(${index}, -1)">
-            −
-          </button>
-
-          <span class="quantity">
-            ${item.quantity}
-          </span>
-
-          <button
-            onclick="changeQuantity(${index}, 1)">
-            +
-          </button>
-
-        </div>
-
-
-        <strong>
-          ${itemTotal.toFixed(2)} ₪
-        </strong>
-
-
-        <button
-          class="remove"
-          onclick="removeFromCart(${index})">
-          הסר
-        </button>
-
-      `;
-
-      container.appendChild(div);
-
-    });
-
-    totalElement.textContent =
-      total.toFixed(2);
-
-  }
-
-
-  /* =========================
-     CART COUNT
-  ========================== */
-
-  function updateCartCount() {
-
-    const count =
-      cart.reduce(
-        (sum, item) =>
-          sum + item.quantity,
-        0
-      );
-
-    document.getElementById(
-      "cartCount"
-    ).textContent = count;
-
-  }
-
-
-  /* =========================
-     SCREEN NAVIGATION
-  ========================== */
-
-  function showScreen(screenId) {
-
-    document
-      .querySelectorAll(".screen")
-      .forEach(screen => {
-        screen.classList.remove("active");
-      });
-
-    document
-      .getElementById(screenId)
-      .classList.add("active");
-
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
-
-  }
-
-
-  /* =========================
-     GO TO CHECKOUT
-  ========================== */
-
-  function goToCheckout() {
-
-    if (cart.length === 0) {
-
-      alert("העגלה ריקה.");
-
-      return;
-    }
-
-    renderCheckoutSummary();
-
-    showScreen("checkoutScreen");
-
-  }
-
-
-  /* =========================
-     CHECKOUT SUMMARY
-  ========================== */
-
-  function renderCheckoutSummary() {
-
-    const container =
-      document.getElementById(
-        "checkoutSummary"
-      );
-
-    let total = 0;
-
-    container.innerHTML = "";
-
-    cart.forEach(item => {
-
-      const itemTotal =
-        item.price * item.quantity;
-
-      total += itemTotal;
-
-      const row =
-        document.createElement("div");
-
-      row.className = "summary-row";
-
-      row.innerHTML = `
-        <span>
-          ${escapeHtml(item.name)}
-          × ${item.quantity}
-        </span>
-
-        <span>
-          ${itemTotal.toFixed(2)} ₪
-        </span>
-      `;
-
-      container.appendChild(row);
-
-    });
-
-    document.getElementById(
-      "checkoutTotal"
-    ).textContent =
-      total.toFixed(2);
-
-  }
-
-
-  /* =========================
-     SHIPPING / PICKUP
-  ========================== */
-
-  function changeShipping() {
-
-    const shipping =
-      document.querySelector(
-        'input[name="shipping"]:checked'
-      ).value;
-
-    const addressFields =
-      document.getElementById(
-        "addressFields"
-      );
-
-    const deliveryOption =
-      document.getElementById(
-        "deliveryOption"
-      );
-
-    const pickupOption =
-      document.getElementById(
-        "pickupOption"
-      );
-
-    if (shipping === "איסוף עצמי") {
-
-      addressFields.style.display =
-        "none";
-
-      document
-        .getElementById("city")
-        .required = false;
-
-      document
-        .getElementById("street")
-        .required = false;
-
-      document
-        .getElementById("house")
-        .required = false;
-
-      deliveryOption
-        .classList.remove("selected");
-
-      pickupOption
-        .classList.add("selected");
-
-    } else {
-
-      addressFields.style.display =
-        "block";
-
-      document
-        .getElementById("city")
-        .required = true;
-
-      document
-        .getElementById("street")
-        .required = true;
-
-      document
-        .getElementById("house")
-        .required = true;
-
-      pickupOption
-        .classList.remove("selected");
-
-      deliveryOption
-        .classList.add("selected");
-
-    }
-
-  }
-
-
-  /* =========================
-     SUBMIT ORDER
-  ========================== */
-
-  document
-    .getElementById("orderForm")
-    .addEventListener(
-      "submit",
-      async function(event) {
-
-        event.preventDefault();
-
-        const message =
-          document.getElementById(
-            "message"
-          );
-
-        if (cart.length === 0) {
-
-          showMessage(
-            "אי אפשר לשלוח הזמנה כשהעגלה ריקה.",
-            "error"
-          );
-
-          return;
-        }
-
-
-        const shipping =
-          document.querySelector(
-            'input[name="shipping"]:checked'
-          ).value;
-
-
-        const total =
-          cart.reduce(
-            (sum, item) =>
-              sum +
-              item.price *
-              item.quantity,
-            0
-          );
-
-
-        const customer = {
-
-          name:
-            document.getElementById(
-              "name"
-            ).value.trim(),
-
-          phone:
-            document.getElementById(
-              "phone"
-            ).value.trim(),
-
-          email:
-            document.getElementById(
-              "email"
-            ).value.trim(),
-
-          city:
-            document.getElementById(
-              "city"
-            ).value.trim(),
-
-          street:
-            document.getElementById(
-              "street"
-            ).value.trim(),
-
-          house:
-            document.getElementById(
-              "house"
-            ).value.trim(),
-
-          apartment:
-            document.getElementById(
-              "apartment"
-            ).value.trim(),
-
-          zip:
-            document.getElementById(
-              "zip"
-            ).value.trim(),
-
-          shipping:
-            shipping,
-
-          notes:
-            document.getElementById(
-              "notes"
-            ).value.trim()
-
-        };
-
-
-        try {
-
-          const response =
-            await fetch(
-              "/api/orders",
-              {
-                method: "POST",
-
-                headers: {
-                  "Content-Type":
-                    "application/json"
-                },
-
-                body:
-                  JSON.stringify({
-                    customer:
-                      customer,
-
-                    items:
-                      cart,
-
-                    total:
-                      total
-                  })
-              }
-            );
-
-
-          const data =
-            await response.json();
-
-
-          if (!response.ok) {
-
-            throw new Error(
-              data.error ||
-              "שגיאה בשליחת ההזמנה"
-            );
-
-          }
-
-
-          document.getElementById(
-            "orderNumber"
-          ).textContent =
-            data.order_number;
-
-
-          cart = [];
-
-          renderCart();
-
-          updateCartCount();
-
-          document
-            .getElementById(
-              "orderForm"
-            )
-            .reset();
-
-
-          changeShipping();
-
-
-          showScreen(
-            "successScreen"
-          );
-
-
-        } catch (error) {
-
-          console.error(error);
-
-          showMessage(
-            "אירעה שגיאה בשליחת ההזמנה: " +
-            error.message,
-            "error"
-          );
-
-        }
-
-      }
-    );
-
-
-  /* =========================
-     MESSAGE
-  ========================== */
-
-  function showMessage(
-    text,
-    type
-  ) {
-
-    const message =
-      document.getElementById(
-        "message"
-      );
-
-    message.className =
-      "message " + type;
-
-    message.style.display =
-      "block";
-
-    message.textContent =
-      text;
-
-  }
-
-
-  /* =========================
-     SECURITY / HTML HELPERS
-  ========================== */
-
-  function escapeHtml(value) {
-
-    return String(value)
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
-
-  }
-
-
-  function escapeJs(value) {
-
-    return String(value)
-      .replace(/\\/g, "\\\\")
-      .replace(/'/g, "\\'");
-
-  }
-
-
-  /* =========================
-     START
-  ========================== */
-
-  loadProducts();
-
+let products=[],cart=[];
+
+const $=id=>document.getElementById(id);
+function esc(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));}
+
+async function loadProducts(){
+  try{
+    const r=await fetch('/api/products');
+    if(!r.ok)throw Error('products');
+    products=await r.json();
+    renderProducts();
+  }catch(e){$('products').innerHTML='<div class="empty">לא הצלחנו לטעון את המוצרים. נסה לרענן את הדף.</div>'}
+}
+function renderProducts(){
+  if(!products.length){$('products').innerHTML='<div class="empty">כרגע אין מוצרים זמינים.</div>';return}
+  $('products').innerHTML=products.map(p=>{
+    const stock=Number(p.stock||0), img=p.image||'🛍️';
+    const visual=String(img).startsWith('http')?`<img src="${esc(img)}" alt="${esc(p.name)}">`:esc(img);
+    return `<article class="product">
+      <div class="pic">${visual}</div><h3>${esc(p.name)}</h3>
+      <p class="desc">${esc(p.description||'מוצר איכותי מבית Dada Best')}</p>
+      <div class="price">${Number(p.price).toFixed(2)} ₪</div>
+      <div class="stock">${stock>0?'במלאי • '+stock+' יחידות':'אזל מהמלאי'}</div>
+      <button class="add" ${stock<=0?'disabled':''} onclick="add(${p.id})">${stock>0?'הוסף לעגלה 🛒':'אזל מהמלאי'}</button>
+    </article>`
+  }).join('');
+}
+function add(id){
+  const p=products.find(x=>Number(x.id)===Number(id));if(!p)return;
+  const item=cart.find(x=>x.id===p.id);
+  if(item){if(item.quantity>=Number(p.stock)){alert('אין יותר מלאי מהמוצר הזה.');return}item.quantity++}
+  else cart.push({id:p.id,name:p.name,price:Number(p.price),quantity:1,stock:Number(p.stock),image:p.image||''});
+  renderCart();openCart();
+}
+function qty(i,d){
+  const x=cart[i];if(!x)return;
+  x.quantity+=d;
+  if(x.quantity<=0)cart.splice(i,1);
+  else if(x.quantity>x.stock){x.quantity=x.stock;alert('אין מספיק מלאי.')}
   renderCart();
-
-  updateCartCount();
-
-  changeShipping();
-
+}
+function removeItem(i){cart.splice(i,1);renderCart()}
+function renderCart(){
+  let total=0,count=0;
+  $('cartItems').innerHTML=cart.length?cart.map((x,i)=>{
+    total+=x.price*x.quantity;count+=x.quantity;
+    const visual=String(x.image).startsWith('http')?`<img src="${esc(x.image)}">`:esc(x.image||'🛍️');
+    return `<div class="cart-item"><div class="thumb">${visual}</div><div><div class="cart-name">${esc(x.name)}</div><div class="cart-price">${x.price.toFixed(2)} ₪ ליחידה</div><div class="qty"><button onclick="qty(${i},-1)">−</button><b>${x.quantity}</b><button onclick="qty(${i},1)">+</button></div><button class="remove" onclick="removeItem(${i})">הסר</button></div><b>${(x.price*x.quantity).toFixed(2)} ₪</b></div>`
+  }).join(''):'<div class="empty">🛒<br><br>העגלה עדיין ריקה.<br>הוסיפו מוצרים כדי להתחיל.</div>';
+  $('cartTotal').textContent=total.toFixed(2);$('cartCount').textContent=count;
+}
+function openCart(){$('cartOverlay').classList.add('open')}
+function closeCart(){$('cartOverlay').classList.remove('open')}
+function goCheckout(){
+  if(!cart.length){alert('העגלה ריקה.');return}
+  closeCart();renderSummary();$('checkoutScreen').classList.add('active');window.scrollTo(0,0)
+}
+function closeCheckout(){$('checkoutScreen').classList.remove('active');window.scrollTo(0,0)}
+function renderSummary(){
+  let total=0;
+  $('checkoutSummary').innerHTML=cart.map(x=>{let t=x.price*x.quantity;total+=t;return `<div class="sumrow"><span>${esc(x.name)} × ${x.quantity}</span><span>${t.toFixed(2)} ₪</span></div>`}).join('');
+  $('checkoutTotal').textContent=total.toFixed(2)
+}
+function changeShipping(){
+  const v=document.querySelector('input[name="shipping"]:checked').value;
+  const delivery=v==='משלוח רגיל';
+  $('addressFields').style.display=delivery?'grid':'none';
+  ['city','street','house'].forEach(id=>$(id).required=delivery);
+  $('deliveryOption').classList.toggle('sel',delivery);$('pickupOption').classList.toggle('sel',!delivery)
+}
+$('orderForm').addEventListener('submit',async e=>{
+  e.preventDefault();if(!cart.length)return;
+  const shipping=document.querySelector('input[name="shipping"]:checked').value;
+  const total=cart.reduce((s,x)=>s+x.price*x.quantity,0);
+  const customer={name:$('name').value.trim(),phone:$('phone').value.trim(),email:$('email').value.trim(),city:$('city').value.trim(),street:$('street').value.trim(),house:$('house').value.trim(),apartment:$('apartment').value.trim(),zip:$('zip').value.trim(),shipping,notes:$('notes').value.trim()};
+  try{
+    const r=await fetch('/api/orders',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({customer,items:cart,total})});
+    const data=await r.json();if(!r.ok)throw Error(data.error||'שגיאה בשליחת ההזמנה');
+    $('orderNumber').textContent=data.order_number;cart=[];renderCart();$('orderForm').reset();changeShipping();$('checkoutScreen').classList.remove('active');$('successScreen').classList.add('active');window.scrollTo(0,0)
+  }catch(err){$('message').className='notice err';$('message').style.display='block';$('message').textContent=err.message}
+});
+function closeSuccess(){$('successScreen').classList.remove('active');window.scrollTo(0,0)}
+loadProducts();renderCart();changeShipping();
 </script>
-
 </body>
 </html>
