@@ -16,37 +16,31 @@ const PORT = process.env.PORT || 8080;
 // ENVIRONMENT
 // =========================================================
 
-// Resend
 const RESEND_API_KEY =
   process.env.RESEND_API_KEY || '';
 
-// Admin username
 const ADMIN_USERNAME =
   process.env.ADMIN_USERNAME || 'admin key';
 
-// Admin password/key
-// Backward compatibility:
-// if ADMIN_KEY is not set, use the old RESEND_API_KEY.
+// ADMIN_KEY is the admin password.
+// Backward compatibility: if ADMIN_KEY does not exist,
+// the old RESEND_API_KEY can still be used.
 const ADMIN_KEY =
   process.env.ADMIN_KEY ||
   RESEND_API_KEY ||
   '12345678';
 
-// Database
 const DATABASE_URL =
   process.env.DATABASE_URL || '';
 
-// Admin email
 const ADMIN_EMAIL =
   process.env.ADMIN_EMAIL ||
   'dadadelivery2017@gmail.com';
 
-// Test email
 const TEST_EMAIL =
   process.env.TEST_EMAIL ||
   ADMIN_EMAIL;
 
-// Resend sender
 const FROM_EMAIL =
   process.env.FROM_EMAIL ||
   'onboarding@resend.dev';
@@ -112,7 +106,6 @@ async function initDatabase() {
     )
   `);
 
-  // Add payment_method to old orders tables
   await pool.query(`
     ALTER TABLE orders
     ADD COLUMN IF NOT EXISTS payment_method TEXT DEFAULT ''
@@ -151,13 +144,10 @@ function adminAuth(req, res, next) {
 // =========================================================
 //
 // New login:
-// username = ADMIN_USERNAME
-// password = ADMIN_KEY
+// username + password
 //
 // Backward compatibility:
-// if username is missing, password-only login is accepted
-// when the password equals ADMIN_KEY.
-// This keeps the old admin.html working until it is updated.
+// password only is still accepted.
 // =========================================================
 
 app.post(
@@ -176,12 +166,10 @@ app.post(
           req.body?.password || ''
         );
 
-      // New login: username + password
       const newLoginValid =
         username === ADMIN_USERNAME &&
         password === ADMIN_KEY;
 
-      // Old login: password only
       const oldLoginValid =
         !username &&
         password === ADMIN_KEY;
@@ -199,12 +187,8 @@ app.post(
       }
 
       return res.json({
-
         success: true,
-
-        adminKey:
-          ADMIN_KEY
-
+        adminKey: ADMIN_KEY
       });
 
     } catch (error) {
@@ -215,10 +199,8 @@ app.post(
       );
 
       return res.status(500).json({
-
         error:
           'שגיאה בהתחברות'
-
       });
 
     }
@@ -256,10 +238,8 @@ app.get(
       );
 
       return res.status(500).json({
-
         error:
           'שגיאה בטעינת המוצרים'
-
       });
 
     }
@@ -297,10 +277,8 @@ app.get(
       );
 
       return res.status(500).json({
-
         error:
           'שגיאה בטעינת המוצרים'
-
       });
 
     }
@@ -358,10 +336,8 @@ app.post(
       if (!name) {
 
         return res.status(400).json({
-
           error:
             'חסר שם מוצר'
-
         });
 
       }
@@ -414,10 +390,8 @@ app.post(
       );
 
       return res.status(500).json({
-
         error:
           'שגיאה בהוספת מוצר'
-
       });
 
     }
@@ -482,10 +456,8 @@ app.patch(
       ) {
 
         return res.status(400).json({
-
           error:
             'מזהה מוצר לא תקין'
-
         });
 
       }
@@ -493,10 +465,8 @@ app.patch(
       if (!name) {
 
         return res.status(400).json({
-
           error:
             'חסר שם מוצר'
-
         });
 
       }
@@ -531,10 +501,8 @@ app.patch(
       if (!result.rows.length) {
 
         return res.status(404).json({
-
           error:
             'המוצר לא נמצא'
-
         });
 
       }
@@ -551,10 +519,8 @@ app.patch(
       );
 
       return res.status(500).json({
-
         error:
           'שגיאה בעדכון מוצר'
-
       });
 
     }
@@ -583,10 +549,8 @@ app.delete(
       ) {
 
         return res.status(400).json({
-
           error:
             'מזהה מוצר לא תקין'
-
         });
 
       }
@@ -604,18 +568,14 @@ app.delete(
       if (!result.rows.length) {
 
         return res.status(404).json({
-
           error:
             'המוצר לא נמצא'
-
         });
 
       }
 
       return res.json({
-
         success: true
-
       });
 
     } catch (error) {
@@ -626,10 +586,8 @@ app.delete(
       );
 
       return res.status(500).json({
-
         error:
           'שגיאה במחיקת מוצר'
-
       });
 
     }
@@ -667,10 +625,8 @@ app.get(
       );
 
       return res.status(500).json({
-
         error:
           'שגיאה בטעינת ההזמנות'
-
       });
 
     }
@@ -680,25 +636,6 @@ app.get(
 
 // =========================================================
 // EXTRACT CUSTOMER DATA
-// =========================================================
-//
-// Supports both:
-//
-// {
-//   customer: {
-//     name,
-//     phone,
-//     email,
-//     city,
-//     street,
-//     house,
-//     apartment,
-//     shipping,
-//     notes
-//   }
-// }
-//
-// and old direct fields.
 // =========================================================
 
 function getCustomerData(body) {
@@ -954,61 +891,48 @@ async function sendNewOrderEmails(order) {
 
         <h2>
           הזמנה
-          ${escapeHtml(
-            order.order_number
-          )}
+          ${escapeHtml(order.order_number)}
         </h2>
 
         <p>
           <strong>לקוח:</strong>
-          ${escapeHtml(
-            order.customer_name
-          )}
+          ${escapeHtml(order.customer_name)}
         </p>
 
         <p>
           <strong>טלפון:</strong>
-          ${escapeHtml(
-            order.phone
-          )}
+          ${escapeHtml(order.phone)}
         </p>
 
         <p>
           <strong>אימייל:</strong>
           ${escapeHtml(
-            order.email ||
-            'לא נמסר'
+            order.email || 'לא נמסר'
           )}
         </p>
 
         <p>
           <strong>אופן קבלה:</strong>
           ${escapeHtml(
-            order.shipping ||
-            'לא נבחר'
+            order.shipping || 'לא נבחר'
           )}
         </p>
 
         <p>
           <strong>אמצעי תשלום:</strong>
-          ${escapeHtml(
-            paymentText
-          )}
+          ${escapeHtml(paymentText)}
         </p>
 
         <p>
           <strong>כתובת:</strong>
-          ${escapeHtml(
-            address
-          )}
+          ${escapeHtml(address)}
           ${apartmentText}
         </p>
 
         <p>
           <strong>הערות:</strong>
           ${escapeHtml(
-            order.notes ||
-            'אין'
+            order.notes || 'אין'
           )}
         </p>
 
@@ -1162,11 +1086,7 @@ async function sendNewOrderEmails(order) {
       "
     >
 
-      <h1
-        style="
-          color:#0757c9;
-        "
-      >
+      <h1 style="color:#0757c9;">
         Dada Best
       </h1>
 
@@ -1177,8 +1097,7 @@ async function sendNewOrderEmails(order) {
       <p>
         שלום
         ${escapeHtml(
-          order.customer_name ||
-          ''
+          order.customer_name || ''
         )},
       </p>
 
@@ -1201,9 +1120,7 @@ async function sendNewOrderEmails(order) {
           אמצעי תשלום:
         </strong>
 
-        ${escapeHtml(
-          paymentText
-        )}
+        ${escapeHtml(paymentText)}
       </p>
 
       <p>
@@ -1212,8 +1129,7 @@ async function sendNewOrderEmails(order) {
         </strong>
 
         ${escapeHtml(
-          order.shipping ||
-          'לא נבחר'
+          order.shipping || 'לא נבחר'
         )}
       </p>
 
@@ -1230,7 +1146,6 @@ async function sendNewOrderEmails(order) {
       >
 
         <thead>
-
           <tr>
 
             <th style="padding:10px;">
@@ -1246,7 +1161,6 @@ async function sendNewOrderEmails(order) {
             </th>
 
           </tr>
-
         </thead>
 
         <tbody>
@@ -1264,8 +1178,7 @@ async function sendNewOrderEmails(order) {
       </h2>
 
       <p>
-        ניצור איתך קשר לגבי
-        המשך הטיפול בהזמנה.
+        ניצור איתך קשר לגבי המשך הטיפול בהזמנה.
       </p>
 
       <p>
@@ -1354,9 +1267,7 @@ app.post(
         getCustomerData(body);
 
       const items =
-        Array.isArray(
-          body.items
-        )
+        Array.isArray(body.items)
           ? body.items
           : [];
 
@@ -1370,10 +1281,6 @@ app.post(
           body.payment_method ||
           ''
         ).trim();
-
-      // =====================================================
-      // VALIDATION
-      // =====================================================
 
       if (!customer.name) {
 
@@ -1418,17 +1325,9 @@ app.post(
 
       }
 
-      // =====================================================
-      // ORDER NUMBER
-      // =====================================================
-
       const orderNumber =
         'DB-' +
         Date.now();
-
-      // =====================================================
-      // SAVE ORDER
-      // =====================================================
 
       const result =
         await pool.query(
@@ -1502,8 +1401,7 @@ app.post(
 
       console.log(
         'CUSTOMER EMAIL:',
-        order.email ||
-        'NONE'
+        order.email || 'NONE'
       );
 
       console.log(
@@ -1511,17 +1409,9 @@ app.post(
         order.payment_method
       );
 
-      // =====================================================
-      // SEND ORDER EMAILS
-      // =====================================================
-
       await sendNewOrderEmails(
         order
       );
-
-      // =====================================================
-      // RETURN SUCCESS
-      // =====================================================
 
       return res.json({
 
@@ -1544,10 +1434,8 @@ app.post(
       );
 
       return res.status(500).json({
-
         error:
           'שגיאה ביצירת הזמנה'
-
       });
 
     }
@@ -1582,10 +1470,8 @@ app.patch(
       ) {
 
         return res.status(400).json({
-
           error:
             'מזהה הזמנה לא תקין'
-
         });
 
       }
@@ -1607,10 +1493,8 @@ app.patch(
       if (!result.rows.length) {
 
         return res.status(404).json({
-
           error:
             'ההזמנה לא נמצאה'
-
         });
 
       }
@@ -1627,10 +1511,8 @@ app.patch(
       );
 
       return res.status(500).json({
-
         error:
           'שגיאה בעדכון הזמנה'
-
       });
 
     }
@@ -1659,10 +1541,8 @@ app.delete(
       ) {
 
         return res.status(400).json({
-
           error:
             'מזהה הזמנה לא תקין'
-
         });
 
       }
@@ -1680,19 +1560,14 @@ app.delete(
       if (!result.rows.length) {
 
         return res.status(404).json({
-
           error:
             'ההזמנה לא נמצאה'
-
         });
 
       }
 
       return res.json({
-
-        success:
-          true
-
+        success: true
       });
 
     } catch (error) {
@@ -1703,10 +1578,8 @@ app.delete(
       );
 
       return res.status(500).json({
-
         error:
           'שגיאה במחיקת הזמנה'
-
       });
 
     }
@@ -1716,6 +1589,11 @@ app.delete(
 
 // =========================================================
 // RESEND TEST EMAIL
+// =========================================================
+//
+// This test email is only a sample.
+// It does not create an order.
+// It simulates the email a customer receives.
 // =========================================================
 
 app.post(
@@ -1734,10 +1612,8 @@ app.post(
       );
 
       return res.status(500).json({
-
         error:
           'RESEND_API_KEY לא מוגדר ב-Railway'
-
       });
 
     }
@@ -1745,7 +1621,7 @@ app.post(
     try {
 
       console.log(
-        'Sending test email to:',
+        'Sending test customer email to:',
         TEST_EMAIL
       );
 
@@ -1759,27 +1635,303 @@ app.post(
             TEST_EMAIL,
 
           subject:
-            'Dada Best - בדיקת מייל',
+            'Dada Best - אישור הזמנה לדוגמה',
 
           html: `
             <div
               dir="rtl"
               style="
                 font-family:Arial,sans-serif;
+                max-width:700px;
+                margin:auto;
+                background:#f6f9fd;
+                padding:25px;
+                color:#172033;
               "
             >
 
-              <h1>
-                Dada Best
-              </h1>
+              <div
+                style="
+                  background:#0757c9;
+                  color:white;
+                  padding:25px;
+                  border-radius:14px 14px 0 0;
+                "
+              >
 
-              <p>
-                זהו מייל בדיקה.
-              </p>
+                <h1 style="margin:0;">
+                  Dada Best
+                </h1>
 
-              <p>
-                מערכת המייל מחוברת בהצלחה ל-Resend.
-              </p>
+                <p style="margin:8px 0 0;">
+                  אישור הזמנה
+                </p>
+
+              </div>
+
+
+              <div
+                style="
+                  background:white;
+                  padding:25px;
+                  border:1px solid #e2e8f0;
+                  border-top:0;
+                "
+              >
+
+                <h2>
+                  🎉 תודה על ההזמנה, דניאל מהרי!
+                </h2>
+
+                <p>
+                  קיבלנו את ההזמנה שלך בהצלחה.
+                </p>
+
+
+                <div
+                  style="
+                    background:#f8fafc;
+                    padding:15px;
+                    border-radius:10px;
+                    margin:20px 0;
+                  "
+                >
+
+                  <p>
+                    <strong>
+                      מספר הזמנה:
+                    </strong>
+
+                    DB-TEST-10001
+                  </p>
+
+                  <p>
+                    <strong>
+                      אמצעי תשלום:
+                    </strong>
+
+                    מזומן
+                  </p>
+
+                  <p>
+                    <strong>
+                      אופן קבלה:
+                    </strong>
+
+                    משלוח רגיל
+                  </p>
+
+                </div>
+
+
+                <h3>
+                  🧾 סיכום ההזמנה
+                </h3>
+
+
+                <table
+                  style="
+                    width:100%;
+                    border-collapse:collapse;
+                    text-align:right;
+                  "
+                >
+
+                  <thead>
+
+                    <tr
+                      style="
+                        background:#f1f5f9;
+                      "
+                    >
+
+                      <th style="padding:10px;">
+                        מוצר
+                      </th>
+
+                      <th style="padding:10px;">
+                        כמות
+                      </th>
+
+                      <th style="padding:10px;">
+                        מחיר
+                      </th>
+
+                    </tr>
+
+                  </thead>
+
+
+                  <tbody>
+
+                    <tr>
+
+                      <td
+                        style="
+                          padding:12px;
+                          border-bottom:1px solid #eee;
+                        "
+                      >
+                        מצלמת אבטחה IP
+                      </td>
+
+                      <td
+                        style="
+                          padding:12px;
+                          border-bottom:1px solid #eee;
+                          text-align:center;
+                        "
+                      >
+                        2
+                      </td>
+
+                      <td
+                        style="
+                          padding:12px;
+                          border-bottom:1px solid #eee;
+                        "
+                      >
+                        500 ₪
+                      </td>
+
+                    </tr>
+
+
+                    <tr>
+
+                      <td
+                        style="
+                          padding:12px;
+                          border-bottom:1px solid #eee;
+                        "
+                      >
+                        כבל רשת
+                      </td>
+
+                      <td
+                        style="
+                          padding:12px;
+                          border-bottom:1px solid #eee;
+                          text-align:center;
+                        "
+                      >
+                        1
+                      </td>
+
+                      <td
+                        style="
+                          padding:12px;
+                          border-bottom:1px solid #eee;
+                        "
+                      >
+                        50 ₪
+                      </td>
+
+                    </tr>
+
+                  </tbody>
+
+                </table>
+
+
+                <div
+                  style="
+                    margin-top:20px;
+                    padding:16px;
+                    background:#eff6ff;
+                    border-radius:10px;
+                    text-align:center;
+                    font-size:22px;
+                    font-weight:bold;
+                  "
+                >
+
+                  סה״כ:
+                  550 ₪
+
+                </div>
+
+
+                <div
+                  style="
+                    margin-top:20px;
+                    padding:15px;
+                    background:#f8fafc;
+                    border-radius:10px;
+                  "
+                >
+
+                  <strong>
+                    📍 כתובת למשלוח
+                  </strong>
+
+                  <p style="margin:7px 0 0;">
+                    תל אביב, הרצל 10, דירה 5
+                  </p>
+
+                </div>
+
+
+                <div
+                  style="
+                    margin-top:15px;
+                    padding:15px;
+                    background:#f8fafc;
+                    border-radius:10px;
+                  "
+                >
+
+                  <strong>
+                    📧 אימייל לקוח
+                  </strong>
+
+                  <p style="margin:7px 0 0;">
+                    daniel20084@gmail.com
+                  </p>
+
+                </div>
+
+
+                <p
+                  style="
+                    margin-top:25px;
+                    color:#64748b;
+                    line-height:1.7;
+                  "
+                >
+
+                  ניצור איתך קשר לגבי
+                  המשך הטיפול בהזמנה.
+
+                </p>
+
+
+                <p style="line-height:1.7;">
+
+                  תודה,
+                  <br>
+
+                  <strong>
+                    Dada Best
+                  </strong>
+
+                </p>
+
+              </div>
+
+
+              <div
+                style="
+                  text-align:center;
+                  color:#94a3b8;
+                  font-size:12px;
+                  padding-top:15px;
+                "
+              >
+
+                מייל זה נשלח ממערכת הבדיקה של Dada Best
+
+              </div>
 
             </div>
           `
@@ -1787,7 +1939,7 @@ app.post(
         });
 
       console.log(
-        'RESEND RESULT:',
+        'RESEND TEST RESULT:',
         result
       );
 
@@ -1797,16 +1949,14 @@ app.post(
       ) {
 
         console.error(
-          'RESEND ERROR:',
+          'RESEND TEST ERROR:',
           result.error
         );
 
         return res.status(400).json({
-
           error:
             result.error.message ||
-            'Resend לא הצליח לשלוח את המייל'
-
+            'Resend לא הצליח לשלוח את מייל הבדיקה'
         });
 
       }
@@ -1817,7 +1967,7 @@ app.post(
           true,
 
         message:
-          'המייל נשלח בהצלחה',
+          'מייל דוגמה של לקוח נשלח בהצלחה',
 
         id:
           result?.data?.id ||
@@ -1836,7 +1986,7 @@ app.post(
 
         error:
           error.message ||
-          'שגיאה בשליחת המייל'
+          'שגיאה בשליחת מייל הבדיקה'
 
       });
 
