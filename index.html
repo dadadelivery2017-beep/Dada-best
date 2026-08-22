@@ -4,21 +4,20 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Dada Best | ציוד אבטחה ופתרונות לבית ולעסק</title>
+  <title>Dada Best | חנות האבטחה שלך</title>
 
   <style>
     :root {
-      --blue-dark: #061b41;
-      --blue: #0866d8;
-      --blue-light: #eaf4ff;
-      --text: #14213d;
+      --blue: #0757c9;
+      --blue-dark: #063b88;
+      --blue-light: #eef6ff;
+      --text: #10233f;
       --muted: #718096;
       --white: #ffffff;
-      --bg: #f5f8fc;
-      --green: #16a34a;
-      --red: #ef4444;
-      --border: #e5eaf1;
-      --shadow: 0 8px 30px rgba(6, 27, 65, .08);
+      --border: #e5edf7;
+      --green: #12a05c;
+      --red: #e53935;
+      --shadow: 0 10px 35px rgba(20, 65, 120, .10);
     }
 
     * {
@@ -34,15 +33,19 @@
       font-family:
         Arial,
         "Segoe UI",
-        Tahoma,
         sans-serif;
-      background: var(--bg);
+      background: #f6f9fd;
       color: var(--text);
+    }
+
+    body.no-scroll {
+      overflow: hidden;
     }
 
     button,
     input,
-    select {
+    select,
+    textarea {
       font-family: inherit;
     }
 
@@ -57,21 +60,9 @@
     .topbar {
       background: var(--blue-dark);
       color: white;
+      text-align: center;
+      padding: 9px 15px;
       font-size: 14px;
-      padding: 9px 20px;
-    }
-
-    .topbar-inner {
-      max-width: 1400px;
-      margin: auto;
-      display: flex;
-      justify-content: space-between;
-      gap: 20px;
-      align-items: center;
-    }
-
-    .topbar span {
-      opacity: .92;
     }
 
     /* =========================
@@ -79,93 +70,82 @@
     ========================= */
 
     header {
-      background: white;
       position: sticky;
       top: 0;
-      z-index: 100;
-      box-shadow: 0 3px 18px rgba(0, 0, 0, .08);
+      z-index: 50;
+      background: rgba(255,255,255,.96);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
     }
 
-    .header-main {
-      max-width: 1400px;
+    .header-inner {
+      max-width: 1250px;
       margin: auto;
-      min-height: 88px;
-      padding: 12px 20px;
-      display: grid;
-      grid-template-columns: 220px 1fr auto;
-      gap: 30px;
+      min-height: 78px;
+      padding: 0 22px;
+
+      display: flex;
       align-items: center;
+      gap: 25px;
     }
 
     .logo {
+      min-width: 190px;
       text-decoration: none;
       color: var(--blue-dark);
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 11px;
     }
 
     .logo-icon {
-      width: 48px;
-      height: 48px;
+      width: 46px;
+      height: 46px;
       border-radius: 14px;
-      background: linear-gradient(
-        135deg,
-        #0866d8,
-        #00a8ff
-      );
+      background: linear-gradient(135deg, #0878ed, #063a91);
+      color: white;
+
       display: flex;
       align-items: center;
       justify-content: center;
-      color: white;
-      font-size: 25px;
-      box-shadow: 0 8px 20px rgba(8, 102, 216, .25);
+
+      font-size: 24px;
+      box-shadow: 0 8px 20px rgba(7,87,201,.25);
     }
 
-    .logo-text strong {
+    .logo strong {
       display: block;
-      font-size: 25px;
+      font-size: 23px;
       letter-spacing: -.5px;
     }
 
-    .logo-text small {
+    .logo span {
+      display: block;
       color: var(--muted);
-      font-size: 11px;
+      font-size: 12px;
+      margin-top: 2px;
     }
 
-    /* SEARCH */
-
-    .search-box {
-      position: relative;
+    .nav {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      gap: 7px;
     }
 
-    .search-box input {
-      width: 100%;
-      height: 50px;
-      border: 1px solid var(--border);
-      border-radius: 28px;
-      padding: 0 55px 0 20px;
-      font-size: 16px;
-      outline: none;
-      background: #f8fafc;
-      transition: .2s;
+    .nav button {
+      border: 0;
+      background: transparent;
+      color: #263b58;
+      padding: 12px 14px;
+      border-radius: 10px;
+      font-size: 15px;
     }
 
-    .search-box input:focus {
-      border-color: var(--blue);
-      background: white;
-      box-shadow: 0 0 0 4px rgba(8, 102, 216, .08);
+    .nav button:hover {
+      background: var(--blue-light);
+      color: var(--blue);
     }
-
-    .search-icon {
-      position: absolute;
-      right: 18px;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 20px;
-    }
-
-    /* HEADER ACTIONS */
 
     .header-actions {
       display: flex;
@@ -173,74 +153,48 @@
       gap: 10px;
     }
 
-    .icon-button {
-      width: 48px;
-      height: 48px;
+    .search-button {
+      width: 44px;
+      height: 44px;
       border: 1px solid var(--border);
       background: white;
-      border-radius: 50%;
-      position: relative;
-      font-size: 20px;
-      transition: .2s;
+      border-radius: 12px;
+      font-size: 19px;
     }
 
-    .icon-button:hover {
-      border-color: var(--blue);
-      color: var(--blue);
-      transform: translateY(-2px);
+    .cart-button {
+      position: relative;
+      border: 0;
+      color: white;
+      background: var(--blue);
+      border-radius: 13px;
+      padding: 12px 18px;
+
+      display: flex;
+      align-items: center;
+      gap: 9px;
+
+      font-size: 15px;
+      font-weight: bold;
+
+      box-shadow: 0 8px 20px rgba(7,87,201,.25);
+    }
+
+    .cart-button:hover {
+      background: var(--blue-dark);
     }
 
     .cart-count {
-      position: absolute;
-      top: -3px;
-      right: -3px;
-      background: var(--red);
-      color: white;
-      min-width: 20px;
-      height: 20px;
-      padding: 0 5px;
-      border-radius: 20px;
-      font-size: 11px;
-      display: flex;
+      min-width: 22px;
+      height: 22px;
+      padding: 0 6px;
+      border-radius: 50px;
+      background: white;
+      color: var(--blue);
+      display: inline-flex;
       align-items: center;
       justify-content: center;
-      font-weight: bold;
-    }
-
-    /* =========================
-       NAVIGATION
-    ========================= */
-
-    .nav {
-      border-top: 1px solid #f0f2f5;
-    }
-
-    .nav-inner {
-      max-width: 1400px;
-      margin: auto;
-      padding: 0 20px;
-      min-height: 48px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      overflow-x: auto;
-    }
-
-    .nav button {
-      white-space: nowrap;
-      border: 0;
-      background: transparent;
-      padding: 10px 18px;
-      border-radius: 22px;
-      color: #344054;
-      font-weight: 600;
-      font-size: 14px;
-    }
-
-    .nav button:hover,
-    .nav button.active {
-      background: var(--blue);
-      color: white;
+      font-size: 12px;
     }
 
     /* =========================
@@ -248,199 +202,234 @@
     ========================= */
 
     .hero {
-      max-width: 1400px;
-      margin: 24px auto 0;
-      padding: 0 20px;
+      max-width: 1250px;
+      margin: 25px auto;
+      padding: 0 22px;
     }
 
     .hero-box {
-      min-height: 330px;
+      min-height: 350px;
       border-radius: 25px;
       overflow: hidden;
+
       background:
         radial-gradient(
-          circle at 80% 20%,
-          rgba(0, 180, 255, .45),
-          transparent 35%
+          circle at 85% 20%,
+          rgba(255,255,255,.22),
+          transparent 30%
         ),
         linear-gradient(
-          135deg,
-          #061b41,
-          #0866d8
+          120deg,
+          #063b88,
+          #0874e8 55%,
+          #00a4e8
         );
+
+      color: white;
+
+      padding: 50px;
       position: relative;
+
       display: flex;
       align-items: center;
-      padding: 45px;
-      color: white;
     }
 
     .hero-content {
-      max-width: 650px;
+      max-width: 600px;
       position: relative;
       z-index: 2;
     }
 
     .hero-badge {
       display: inline-block;
-      background: rgba(255,255,255,.15);
+      background: rgba(255,255,255,.16);
       border: 1px solid rgba(255,255,255,.25);
-      padding: 8px 15px;
-      border-radius: 30px;
-      margin-bottom: 15px;
-      font-size: 14px;
+      padding: 8px 14px;
+      border-radius: 50px;
+      font-size: 13px;
+      margin-bottom: 17px;
     }
 
     .hero h1 {
-      font-size: clamp(34px, 5vw, 58px);
-      margin: 0 0 15px;
+      margin: 0;
+      font-size: clamp(35px, 5vw, 58px);
       line-height: 1.05;
+      letter-spacing: -1.5px;
     }
 
     .hero p {
+      color: rgba(255,255,255,.9);
       font-size: 18px;
       line-height: 1.7;
-      color: #e8f2ff;
-      margin: 0 0 25px;
+      margin: 18px 0 25px;
     }
 
-    .hero-button {
+    .hero-btn {
+      border: 0;
       background: white;
       color: var(--blue-dark);
-      border: 0;
-      padding: 14px 28px;
+      padding: 14px 24px;
       border-radius: 12px;
-      font-size: 16px;
       font-weight: bold;
-      box-shadow: 0 8px 25px rgba(0,0,0,.15);
+      font-size: 16px;
     }
 
-    .hero-button:hover {
+    .hero-btn:hover {
       transform: translateY(-2px);
     }
 
     .hero-camera {
       position: absolute;
-      left: 5%;
-      bottom: -35px;
-      font-size: 180px;
-      opacity: .13;
+      left: 7%;
+      bottom: 15px;
+      font-size: 150px;
+      opacity: .18;
       transform: rotate(-10deg);
     }
 
     /* =========================
-       FEATURES
+       BENEFITS
     ========================= */
 
-    .features {
-      max-width: 1400px;
-      margin: 20px auto;
-      padding: 0 20px;
+    .benefits {
+      max-width: 1250px;
+      margin: 0 auto 35px;
+      padding: 0 22px;
+
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 15px;
     }
 
-    .feature {
+    .benefit {
       background: white;
+      border: 1px solid var(--border);
       border-radius: 16px;
-      padding: 18px;
+      padding: 20px;
+
       display: flex;
       align-items: center;
-      gap: 13px;
+      gap: 14px;
+
       box-shadow: var(--shadow);
     }
 
-    .feature-icon {
+    .benefit-icon {
       width: 46px;
       height: 46px;
-      border-radius: 12px;
+      flex-shrink: 0;
+      border-radius: 13px;
       background: var(--blue-light);
+      color: var(--blue);
+
       display: flex;
       align-items: center;
       justify-content: center;
+
       font-size: 22px;
     }
 
-    .feature strong {
+    .benefit strong {
       display: block;
-      margin-bottom: 4px;
+      font-size: 15px;
     }
 
-    .feature small {
+    .benefit span {
+      display: block;
       color: var(--muted);
+      font-size: 12px;
+      margin-top: 4px;
     }
 
     /* =========================
-       PRODUCTS SECTION
+       SHOP
     ========================= */
 
-    .products-section {
-      max-width: 1400px;
-      margin: 40px auto;
-      padding: 0 20px;
+    .shop {
+      max-width: 1250px;
+      margin: auto;
+      padding: 0 22px 80px;
     }
 
-    .section-head {
+    .section-heading {
       display: flex;
-      justify-content: space-between;
       align-items: end;
-      gap: 20px;
-      margin-bottom: 22px;
+      justify-content: space-between;
+      margin: 35px 0 22px;
     }
 
-    .section-head h2 {
+    .section-heading h2 {
       margin: 0;
       font-size: 30px;
     }
 
-    .section-head p {
-      margin: 7px 0 0;
+    .section-heading p {
+      margin: 6px 0 0;
       color: var(--muted);
     }
 
-    .products-count {
-      color: var(--muted);
-      font-size: 14px;
+    .search-box {
+      display: none;
+      margin-bottom: 20px;
+    }
+
+    .search-box.active {
+      display: block;
+    }
+
+    .search-box input {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+      background: white;
+      outline: none;
+      font-size: 16px;
+    }
+
+    .search-box input:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 4px rgba(7,87,201,.08);
     }
 
     .products {
       display: grid;
       grid-template-columns:
         repeat(4, minmax(0, 1fr));
-      gap: 18px;
+      gap: 20px;
     }
-
-    /* =========================
-       PRODUCT CARD
-    ========================= */
 
     .product {
       background: white;
-      border: 1px solid #edf0f5;
+      border: 1px solid var(--border);
       border-radius: 18px;
       overflow: hidden;
-      position: relative;
-      transition: .25s;
-      box-shadow: 0 5px 20px rgba(6,27,65,.05);
+
+      box-shadow: 0 5px 25px rgba(20,65,120,.07);
+
+      transition:
+        transform .2s,
+        box-shadow .2s;
     }
 
     .product:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 18px 40px rgba(6,27,65,.13);
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(20,65,120,.14);
     }
 
     .product-image {
-      height: 230px;
+      height: 220px;
       background:
         linear-gradient(
-          135deg,
-          #f4f8fc,
-          #eaf2fb
+          145deg,
+          #f1f7ff,
+          #e9f2ff
         );
+
       display: flex;
       align-items: center;
       justify-content: center;
+
       position: relative;
       overflow: hidden;
     }
@@ -449,184 +438,126 @@
       width: 100%;
       height: 100%;
       object-fit: contain;
-      padding: 15px;
+      padding: 18px;
     }
 
     .product-emoji {
-      font-size: 105px;
+      font-size: 85px;
     }
 
-    .product-badge {
+    .stock-badge {
       position: absolute;
       top: 12px;
       right: 12px;
-      background: var(--blue-dark);
-      color: white;
-      border-radius: 6px;
-      padding: 6px 9px;
+
+      background: #dff8eb;
+      color: #087a43;
+
+      padding: 7px 10px;
+      border-radius: 50px;
       font-size: 11px;
       font-weight: bold;
     }
 
-    .heart {
-      position: absolute;
-      left: 12px;
-      top: 12px;
-      width: 37px;
-      height: 37px;
-      border-radius: 50%;
-      background: white;
-      border: 1px solid #e3e8ef;
-      font-size: 17px;
+    .out-stock {
+      background: #ffe5e5;
+      color: #b42323;
     }
 
-    .heart.active {
-      color: var(--red);
+    .product-body {
+      padding: 19px;
     }
 
-    .product-info {
-      padding: 18px;
-    }
-
-    .category {
-      color: var(--blue);
-      font-size: 12px;
-      font-weight: bold;
-      margin-bottom: 7px;
-    }
-
-    .product h3 {
+    .product-body h3 {
       margin: 0;
-      min-height: 46px;
-      font-size: 17px;
+      font-size: 18px;
       line-height: 1.4;
     }
 
-    .description {
+    .product-description {
       color: var(--muted);
-      font-size: 13px;
+      min-height: 43px;
       line-height: 1.5;
-      min-height: 39px;
-      margin: 7px 0;
+      font-size: 13px;
+      margin: 8px 0;
     }
 
-    .price-row {
+    .product-bottom {
       display: flex;
       align-items: center;
+      justify-content: space-between;
       gap: 10px;
-      margin: 12px 0;
+      margin-top: 15px;
     }
 
     .price {
       font-size: 22px;
       font-weight: 800;
       color: var(--blue-dark);
-    }
-
-    .old-price {
-      color: #9ca3af;
-      text-decoration: line-through;
-      font-size: 13px;
-    }
-
-    .stock {
-      color: var(--green);
-      font-size: 12px;
-      font-weight: bold;
-      margin-bottom: 12px;
-    }
-
-    .stock.out {
-      color: var(--red);
+      white-space: nowrap;
     }
 
     .add-button {
-      width: 100%;
       border: 0;
-      background: var(--blue-dark);
+      background: var(--blue);
       color: white;
-      padding: 13px;
+      padding: 11px 15px;
       border-radius: 10px;
-      font-size: 15px;
       font-weight: bold;
-      transition: .2s;
     }
 
     .add-button:hover {
-      background: var(--blue);
+      background: var(--blue-dark);
     }
 
     .add-button:disabled {
-      background: #b8c0cc;
+      background: #cbd5e1;
       cursor: not-allowed;
     }
 
-    /* =========================
-       LOADING / EMPTY
-    ========================= */
-
     .loading,
     .empty-products {
-      background: white;
-      padding: 60px;
-      text-align: center;
-      border-radius: 18px;
-      color: var(--muted);
       grid-column: 1 / -1;
-    }
-
-    .loader {
-      width: 40px;
-      height: 40px;
-      border: 4px solid #e4ebf4;
-      border-top-color: var(--blue);
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-      margin: 0 auto 15px;
-    }
-
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    /* =========================
-       CART OVERLAY
-    ========================= */
-
-    .cart-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,.45);
-      z-index: 500;
-      opacity: 0;
-      pointer-events: none;
-      transition: .25s;
-    }
-
-    .cart-overlay.open {
-      opacity: 1;
-      pointer-events: auto;
+      text-align: center;
+      padding: 70px 20px;
+      color: var(--muted);
+      background: white;
+      border-radius: 18px;
     }
 
     /* =========================
        CART DRAWER
     ========================= */
 
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(5,25,55,.48);
+      z-index: 100;
+      display: none;
+    }
+
+    .overlay.show {
+      display: block;
+    }
+
     .cart-drawer {
       position: fixed;
       top: 0;
-      left: 0;
-      width: min(430px, 94vw);
+      right: 0;
+      width: min(450px, 100%);
       height: 100vh;
+
       background: white;
-      z-index: 600;
-      transform: translateX(-105%);
-      transition: .3s ease;
+      z-index: 110;
+
+      transform: translateX(105%);
+      transition: transform .3s ease;
+
       display: flex;
       flex-direction: column;
-      box-shadow: 10px 0 40px rgba(0,0,0,.2);
+
+      box-shadow: -15px 0 50px rgba(0,0,0,.18);
     }
 
     .cart-drawer.open {
@@ -634,24 +565,26 @@
     }
 
     .cart-header {
-      padding: 22px;
+      padding: 20px;
       border-bottom: 1px solid var(--border);
+
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
     }
 
     .cart-header h2 {
       margin: 0;
+      font-size: 22px;
     }
 
     .close-cart {
       border: 0;
-      background: #f1f4f8;
+      background: #f1f5f9;
       width: 38px;
       height: 38px;
-      border-radius: 50%;
-      font-size: 18px;
+      border-radius: 10px;
+      font-size: 20px;
     }
 
     .cart-items {
@@ -661,34 +594,40 @@
     }
 
     .cart-empty {
-      text-align: center;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
       color: var(--muted);
-      padding: 70px 20px;
+      text-align: center;
     }
 
     .cart-empty-icon {
-      font-size: 60px;
+      font-size: 65px;
       margin-bottom: 15px;
     }
 
     .cart-item {
-      display: grid;
-      grid-template-columns: 65px 1fr;
+      border-bottom: 1px solid var(--border);
+      padding: 15px 0;
+
+      display: flex;
       gap: 12px;
-      padding: 14px 0;
-      border-bottom: 1px solid #edf0f5;
     }
 
     .cart-item-image {
       width: 65px;
       height: 65px;
-      border-radius: 10px;
-      background: #f2f6fb;
+      border-radius: 12px;
+      background: var(--blue-light);
+
       display: flex;
       align-items: center;
       justify-content: center;
+
+      flex-shrink: 0;
       overflow: hidden;
-      font-size: 30px;
     }
 
     .cart-item-image img {
@@ -697,9 +636,18 @@
       object-fit: contain;
     }
 
-    .cart-item-name {
-      font-weight: bold;
-      margin-bottom: 5px;
+    .cart-item-image span {
+      font-size: 30px;
+    }
+
+    .cart-item-info {
+      flex: 1;
+    }
+
+    .cart-item-info strong {
+      display: block;
+      margin-bottom: 6px;
+      line-height: 1.4;
     }
 
     .cart-item-price {
@@ -711,36 +659,36 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      margin-top: 8px;
+      margin-top: 9px;
     }
 
     .quantity button {
-      width: 28px;
-      height: 28px;
       border: 1px solid var(--border);
       background: white;
-      border-radius: 6px;
+      width: 27px;
+      height: 27px;
+      border-radius: 7px;
+      font-weight: bold;
     }
 
-    .remove-cart {
+    .remove-item {
       border: 0;
       background: transparent;
       color: var(--red);
       font-size: 12px;
-      padding: 0;
-      margin-right: auto;
+      margin-top: 6px;
     }
 
     .cart-footer {
       border-top: 1px solid var(--border);
       padding: 20px;
-      background: #fafcff;
+      background: #fbfdff;
     }
 
-    .total-row {
+    .cart-total {
       display: flex;
       justify-content: space-between;
-      font-size: 20px;
+      font-size: 21px;
       font-weight: bold;
       margin-bottom: 15px;
     }
@@ -751,61 +699,85 @@
       background: var(--blue);
       color: white;
       padding: 15px;
-      border-radius: 11px;
+      border-radius: 12px;
       font-size: 17px;
       font-weight: bold;
     }
 
+    .checkout-button:disabled {
+      background: #cbd5e1;
+      cursor: not-allowed;
+    }
+
     /* =========================
-       CHECKOUT MODAL
+       CHECKOUT
     ========================= */
 
-    .modal {
+    .checkout-modal {
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,.55);
-      z-index: 1000;
+      background: #f5f8fc;
+      z-index: 200;
+
       display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-
-    .modal.open {
-      display: flex;
-    }
-
-    .checkout-box {
-      width: min(900px, 100%);
-      max-height: 92vh;
       overflow-y: auto;
+    }
+
+    .checkout-modal.show {
+      display: block;
+    }
+
+    .checkout-container {
+      max-width: 1100px;
+      margin: auto;
+      padding: 25px 20px 60px;
+    }
+
+    .checkout-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 25px;
+    }
+
+    .back-button {
+      border: 1px solid var(--border);
       background: white;
-      border-radius: 22px;
-      padding: 28px;
-      position: relative;
+      padding: 11px 16px;
+      border-radius: 10px;
     }
 
-    .modal-close {
-      position: absolute;
-      top: 18px;
-      left: 18px;
-      border: 0;
-      background: #f1f4f8;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      font-size: 18px;
-    }
-
-    .checkout-box h2 {
-      margin-top: 0;
-      color: var(--blue-dark);
+    .checkout-title h1 {
+      margin: 0;
+      font-size: 30px;
     }
 
     .checkout-grid {
       display: grid;
+      grid-template-columns: 1.5fr 1fr;
+      gap: 25px;
+    }
+
+    .checkout-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 25px;
+      box-shadow: var(--shadow);
+    }
+
+    .checkout-card h2 {
+      margin-top: 0;
+    }
+
+    .form-grid {
+      display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 15px;
+      gap: 5px 15px;
+    }
+
+    .field {
+      margin-bottom: 10px;
     }
 
     .field.full {
@@ -814,76 +786,102 @@
 
     .field label {
       display: block;
+      font-size: 13px;
       font-weight: bold;
       margin-bottom: 6px;
-      font-size: 14px;
     }
 
     .field input,
-    .field select,
-    .field textarea {
+    .field textarea,
+    .field select {
       width: 100%;
       padding: 13px;
-      border: 1px solid #dce3eb;
-      border-radius: 9px;
+      border: 1px solid #d9e3ef;
+      border-radius: 10px;
       outline: none;
+      background: white;
       font-size: 15px;
     }
 
     .field input:focus,
-    .field select:focus,
-    .field textarea:focus {
+    .field textarea:focus,
+    .field select:focus {
       border-color: var(--blue);
-      box-shadow: 0 0 0 3px rgba(8,102,216,.08);
+      box-shadow: 0 0 0 3px rgba(7,87,201,.08);
     }
 
-    .checkout-summary {
-      background: #f5f8fc;
-      padding: 18px;
+    .shipping-options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 10px 0 20px;
+    }
+
+    .shipping-option {
+      border: 2px solid var(--border);
       border-radius: 12px;
-      margin-top: 20px;
+      padding: 15px;
+      cursor: pointer;
     }
 
-    .checkout-summary-row {
+    .shipping-option.selected {
+      border-color: var(--blue);
+      background: var(--blue-light);
+    }
+
+    .shipping-option input {
+      margin-left: 7px;
+    }
+
+    .order-summary-item {
       display: flex;
       justify-content: space-between;
-      padding: 7px 0;
+      gap: 10px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
     }
 
-    .checkout-total {
-      border-top: 1px solid #dce3eb;
-      margin-top: 8px;
-      padding-top: 12px;
-      font-size: 21px;
+    .summary-total {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+      font-size: 23px;
       font-weight: bold;
     }
 
-    .submit-order {
+    .place-order {
       width: 100%;
-      margin-top: 18px;
+      margin-top: 20px;
       border: 0;
       background: var(--green);
       color: white;
       padding: 16px;
-      border-radius: 11px;
+      border-radius: 12px;
       font-size: 18px;
       font-weight: bold;
     }
 
-    .message {
-      display: none;
-      padding: 14px;
-      border-radius: 10px;
-      margin-top: 15px;
+    .place-order:disabled {
+      opacity: .6;
+      cursor: not-allowed;
     }
 
-    .message.success {
+    .order-message {
+      margin-top: 15px;
+      padding: 14px;
+      border-radius: 10px;
+      display: none;
+      line-height: 1.6;
+    }
+
+    .order-success {
       display: block;
       background: #dcfce7;
       color: #166534;
     }
 
-    .message.error {
+    .order-error {
       display: block;
       background: #fee2e2;
       color: #991b1b;
@@ -894,42 +892,35 @@
     ========================= */
 
     footer {
-      background: var(--blue-dark);
+      background: #071b3a;
       color: white;
-      margin-top: 70px;
       padding: 45px 20px;
     }
 
     .footer-inner {
-      max-width: 1400px;
+      max-width: 1250px;
       margin: auto;
+
       display: grid;
-      grid-template-columns: 2fr 1fr 1fr 1fr;
-      gap: 35px;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 40px;
     }
 
     footer h3 {
       margin-top: 0;
     }
 
-    footer p,
-    footer li {
-      color: #b9c7dc;
-      line-height: 1.8;
-    }
-
-    footer ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
+    footer p {
+      color: #b8c7dc;
+      line-height: 1.7;
     }
 
     .copyright {
-      max-width: 1400px;
-      margin: 35px auto 0;
+      max-width: 1250px;
+      margin: 30px auto 0;
       padding-top: 20px;
       border-top: 1px solid rgba(255,255,255,.1);
-      color: #9eb0ca;
+      color: #8ea3c0;
       font-size: 13px;
     }
 
@@ -939,17 +930,21 @@
 
     .toast {
       position: fixed;
-      bottom: 25px;
-      right: 25px;
-      background: var(--blue-dark);
+      left: 20px;
+      bottom: 20px;
+      z-index: 500;
+
+      background: #10233f;
       color: white;
-      padding: 15px 20px;
+
+      padding: 14px 18px;
       border-radius: 12px;
+
       box-shadow: 0 10px 30px rgba(0,0,0,.2);
-      transform: translateY(120px);
+
+      transform: translateY(100px);
       opacity: 0;
       transition: .3s;
-      z-index: 2000;
     }
 
     .toast.show {
@@ -958,146 +953,120 @@
     }
 
     /* =========================
-       RESPONSIVE
+       MOBILE
     ========================= */
 
-    @media (max-width: 1100px) {
-      .header-main {
-        grid-template-columns: 180px 1fr auto;
-        gap: 15px;
-      }
-
+    @media (max-width: 1000px) {
       .products {
-        grid-template-columns:
-          repeat(3, minmax(0, 1fr));
+        grid-template-columns: repeat(3, 1fr);
       }
 
-      .features {
-        grid-template-columns:
-          repeat(2, 1fr);
+      .benefits {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .nav {
+        display: none;
       }
     }
 
-    @media (max-width: 800px) {
-      .header-main {
-        grid-template-columns: 1fr auto;
+    @media (max-width: 760px) {
+      .header-inner {
+        min-height: 68px;
+        padding: 0 12px;
       }
 
       .logo {
-        grid-column: 1;
+        min-width: auto;
       }
 
-      .header-actions {
-        grid-column: 2;
-        grid-row: 1;
+      .logo strong {
+        font-size: 19px;
       }
 
-      .search-box {
-        grid-column: 1 / -1;
-        grid-row: 2;
-      }
-
-      .hero-box {
-        padding: 30px;
-      }
-
-      .products {
-        grid-template-columns:
-          repeat(2, minmax(0, 1fr));
-      }
-
-      .footer-inner {
-        grid-template-columns: 1fr 1fr;
-      }
-    }
-
-    @media (max-width: 550px) {
-      .topbar-inner {
-        justify-content: center;
-      }
-
-      .topbar span:last-child {
+      .logo span {
         display: none;
       }
 
-      .header-main {
-        padding: 10px 14px;
+      .search-button {
+        display: none;
       }
 
-      .logo-text strong {
-        font-size: 21px;
+      .cart-button {
+        padding: 11px 13px;
       }
 
       .hero {
-        padding: 0 10px;
+        margin-top: 15px;
+        padding: 0 12px;
       }
 
       .hero-box {
-        min-height: 300px;
-        padding: 25px;
+        min-height: 380px;
+        padding: 30px 25px;
       }
 
-      .hero h1 {
-        font-size: 36px;
+      .hero-camera {
+        left: 0;
+        bottom: 10px;
+        font-size: 100px;
       }
 
-      .hero p {
-        font-size: 15px;
-      }
-
-      .features {
-        padding: 0 10px;
+      .benefits {
+        padding: 0 12px;
         grid-template-columns: 1fr 1fr;
-        gap: 8px;
       }
 
-      .feature {
-        padding: 12px;
+      .benefit {
+        padding: 14px;
       }
 
-      .feature small {
-        font-size: 10px;
+      .benefit span {
+        display: none;
       }
 
-      .products-section {
-        padding: 0 10px;
+      .shop {
+        padding: 0 12px 60px;
       }
 
       .products {
-        grid-template-columns: 1fr 1fr;
-        gap: 10px;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
       }
 
       .product-image {
-        height: 165px;
+        height: 160px;
       }
 
-      .product-emoji {
-        font-size: 75px;
+      .product-body {
+        padding: 13px;
       }
 
-      .product-info {
-        padding: 12px;
+      .product-body h3 {
+        font-size: 15px;
       }
 
-      .product h3 {
-        font-size: 14px;
+      .product-description {
+        font-size: 12px;
       }
 
-      .description {
-        font-size: 11px;
+      .product-bottom {
+        display: block;
       }
 
       .price {
-        font-size: 18px;
+        margin-bottom: 9px;
       }
 
       .add-button {
-        font-size: 13px;
-        padding: 11px 5px;
+        width: 100%;
       }
 
       .checkout-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .form-grid {
         grid-template-columns: 1fr;
       }
 
@@ -1105,8 +1074,26 @@
         grid-column: auto;
       }
 
+      .shipping-options {
+        grid-template-columns: 1fr;
+      }
+
       .footer-inner {
         grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .products {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .product-image {
+        height: 135px;
+      }
+
+      .hero h1 {
+        font-size: 34px;
       }
     }
   </style>
@@ -1116,51 +1103,44 @@
 
   <!-- TOP BAR -->
   <div class="topbar">
-    <div class="topbar-inner">
-      <span>🚚 משלוחים מהירים לכל הארץ</span>
-      <span>📞 שירות לקוחות | Dada Best</span>
-    </div>
+    🚚 משלוחים ואיסוף עצמי | שירות אישי ומקצועי
   </div>
 
   <!-- HEADER -->
   <header>
-
-    <div class="header-main">
+    <div class="header-inner">
 
       <a href="#" class="logo">
-        <div class="logo-icon">📹</div>
+        <div class="logo-icon">🛡️</div>
 
-        <div class="logo-text">
+        <div>
           <strong>Dada Best</strong>
-          <small>פתרונות אבטחה לבית ולעסק</small>
+          <span>פתרונות אבטחה חכמים</span>
         </div>
       </a>
 
-      <div class="search-box">
-        <span class="search-icon">🔍</span>
-
-        <input
-          type="search"
-          id="searchInput"
-          placeholder="חיפוש מוצר, מצלמה, מערכת הקלטה..."
-        >
-      </div>
+      <nav class="nav">
+        <button onclick="scrollToProducts()">כל המוצרים</button>
+        <button onclick="filterProducts('מצל')">מצלמות</button>
+        <button onclick="filterProducts('NVR')">מערכות הקלטה</button>
+        <button onclick="scrollToProducts()">אביזרים</button>
+      </nav>
 
       <div class="header-actions">
 
         <button
-          class="icon-button"
-          title="מועדפים"
-          onclick="showToast('המועדפים יהיו זמינים בקרוב ❤️')">
-          ♡
+          class="search-button"
+          onclick="toggleSearch()"
+          title="חיפוש">
+          🔍
         </button>
 
         <button
-          class="icon-button"
-          title="סל קניות"
+          class="cart-button"
           onclick="openCart()">
 
           🛒
+          <span>עגלה</span>
 
           <span
             class="cart-count"
@@ -1173,73 +1153,34 @@
       </div>
 
     </div>
-
-    <!-- NAV -->
-    <nav class="nav">
-
-      <div class="nav-inner">
-
-        <button
-          class="active"
-          data-category="all">
-          כל המוצרים
-        </button>
-
-        <button
-          data-category="מצלמות">
-          📷 מצלמות
-        </button>
-
-        <button
-          data-category="הקלטה">
-          💾 מערכות הקלטה
-        </button>
-
-        <button
-          data-category="אחסון">
-          💽 אחסון
-        </button>
-
-        <button
-          data-category="אביזרים">
-          🔌 אביזרים
-        </button>
-
-      </div>
-
-    </nav>
-
   </header>
 
-
   <!-- HERO -->
-
   <section class="hero">
 
     <div class="hero-box">
 
       <div class="hero-content">
 
-        <span class="hero-badge">
-          ⭐ איכות • שירות • אמינות
-        </span>
+        <div class="hero-badge">
+          ⭐ איכות • אמינות • שירות
+        </div>
 
         <h1>
-          הביטחון שלך.
+          אבטחה חכמה
           <br>
-          הבחירה שלנו.
+          לבית ולעסק
         </h1>
 
         <p>
-          ציוד אבטחה איכותי לבית ולעסק,
-          מצלמות, מערכות הקלטה ואביזרים
-          במחירים מעולים.
+          מצלמות, מערכות הקלטה ואביזרי אבטחה
+          באיכות גבוהה — במקום אחד.
         </p>
 
         <button
-          class="hero-button"
-          onclick="document.getElementById('productsSection').scrollIntoView()">
-          גלה את המוצרים שלנו
+          class="hero-btn"
+          onclick="scrollToProducts()">
+          🛍️ לכל המוצרים
         </button>
 
       </div>
@@ -1252,1501 +1193,1343 @@
 
   </section>
 
+  <!-- BENEFITS -->
+  <section class="benefits">
 
-  <!-- FEATURES -->
-
-  <section class="features">
-
-    <div class="feature">
-
-      <div class="feature-icon">
-        🚚
-      </div>
-
+    <div class="benefit">
+      <div class="benefit-icon">🚚</div>
       <div>
-        <strong>משלוחים מהירים</strong>
-        <small>עד הבית בכל הארץ</small>
+        <strong>משלוחים</strong>
+        <span>משלוח עד הבית</span>
       </div>
-
     </div>
 
-    <div class="feature">
-
-      <div class="feature-icon">
-        🔒
-      </div>
-
+    <div class="benefit">
+      <div class="benefit-icon">🏪</div>
       <div>
-        <strong>רכישה מאובטחת</strong>
-        <small>הפרטים שלך מוגנים</small>
+        <strong>איסוף עצמי</strong>
+        <span>אפשרות לאיסוף</span>
       </div>
-
     </div>
 
-    <div class="feature">
-
-      <div class="feature-icon">
-        ⭐
-      </div>
-
+    <div class="benefit">
+      <div class="benefit-icon">🛡️</div>
       <div>
         <strong>מוצרים איכותיים</strong>
-        <small>בחירה קפדנית</small>
+        <span>ציוד שנבחר בקפידה</span>
       </div>
-
     </div>
 
-    <div class="feature">
-
-      <div class="feature-icon">
-        📞
-      </div>
-
+    <div class="benefit">
+      <div class="benefit-icon">💬</div>
       <div>
         <strong>שירות אישי</strong>
-        <small>אנחנו כאן בשבילך</small>
+        <span>אנחנו כאן בשבילכם</span>
       </div>
-
     </div>
 
   </section>
 
+  <!-- SHOP -->
+  <main class="shop" id="shop">
 
-  <!-- PRODUCTS -->
-
-  <main
-    class="products-section"
-    id="productsSection">
-
-    <div class="section-head">
+    <div class="section-heading">
 
       <div>
-
-        <h2>
-          המוצרים שלנו
-        </h2>
-
+        <h2>המוצרים שלנו</h2>
         <p>
-          מצא את הפתרון שמתאים לך
+          בחרו את המוצרים שמתאימים לכם
         </p>
-
-      </div>
-
-      <div
-        class="products-count"
-        id="productsCount">
       </div>
 
     </div>
 
+    <div
+      class="search-box"
+      id="searchBox">
+
+      <input
+        type="search"
+        id="searchInput"
+        placeholder="🔍 חיפוש מוצר..."
+        oninput="searchProducts()">
+
+    </div>
 
     <div
       class="products"
       id="products">
 
       <div class="loading">
-
-        <div class="loader"></div>
-
         טוען מוצרים...
-
       </div>
 
     </div>
 
   </main>
 
+  <!-- FOOTER -->
+  <footer>
 
-  <!-- CART OVERLAY -->
+    <div class="footer-inner">
 
+      <div>
+        <h3>Dada Best</h3>
+
+        <p>
+          החנות שלך לציוד אבטחה,
+          מצלמות ומערכות חכמות
+          לבית ולעסק.
+        </p>
+      </div>
+
+      <div>
+        <h3>שירות</h3>
+        <p>משלוחים</p>
+        <p>איסוף עצמי</p>
+        <p>שירות לקוחות</p>
+      </div>
+
+      <div>
+        <h3>מידע</h3>
+        <p>המוצרים שלנו</p>
+        <p>הזמנות</p>
+        <p>צור קשר</p>
+      </div>
+
+    </div>
+
+    <div class="copyright">
+      © 2026 Dada Best — כל הזכויות שמורות
+    </div>
+
+  </footer>
+
+  <!-- OVERLAY -->
   <div
-    class="cart-overlay"
-    id="cartOverlay"
+    class="overlay"
+    id="overlay"
     onclick="closeCart()">
   </div>
 
-
   <!-- CART -->
-
   <aside
     class="cart-drawer"
     id="cartDrawer">
 
     <div class="cart-header">
 
-      <h2>
-        🛒 סל הקניות
-      </h2>
+      <h2>🛒 סל הקניות</h2>
 
       <button
         class="close-cart"
         onclick="closeCart()">
-        ✕
+        ×
       </button>
 
     </div>
-
 
     <div
       class="cart-items"
       id="cartItems">
 
-    </div>
+      <div class="cart-empty">
 
+        <div class="cart-empty-icon">
+          🛒
+        </div>
+
+        <strong>העגלה עדיין ריקה</strong>
+
+        <p>
+          הוסיפו מוצרים מהחנות
+          כדי להתחיל הזמנה.
+        </p>
+
+      </div>
+
+    </div>
 
     <div class="cart-footer">
 
-      <div class="total-row">
+      <div class="cart-total">
+
+        <span>סה״כ</span>
 
         <span>
-          סה״כ
-        </span>
-
-        <span>
-          <span id="cartTotal">0</span>
-          ₪
+          <span id="cartTotal">0</span> ₪
         </span>
 
       </div>
 
       <button
         class="checkout-button"
-        onclick="openCheckout()">
-        המשך לתשלום
+        id="checkoutButton"
+        onclick="openCheckout()"
+        disabled>
+
+        המשך להזמנה ←
+
       </button>
 
     </div>
 
   </aside>
 
-
-  <!-- CHECKOUT MODAL -->
-
-  <div
-    class="modal"
+  <!-- CHECKOUT -->
+  <section
+    class="checkout-modal"
     id="checkoutModal">
 
-    <div class="checkout-box">
+    <div class="checkout-container">
 
-      <button
-        class="modal-close"
-        onclick="closeCheckout()">
-        ✕
-      </button>
+      <div class="checkout-top">
 
-      <h2>
-        🛍️ השלמת הזמנה
-      </h2>
-
-      <p>
-        מלא את הפרטים ונחזור אליך להמשך הטיפול בהזמנה.
-      </p>
-
-
-      <form id="orderForm">
-
-        <div class="checkout-grid">
-
-          <div class="field">
-
-            <label>
-              שם מלא *
-            </label>
-
-            <input
-              id="name"
-              required
-              placeholder="ישראל ישראלי">
-
-          </div>
-
-
-          <div class="field">
-
-            <label>
-              טלפון *
-            </label>
-
-            <input
-              id="phone"
-              type="tel"
-              required
-              placeholder="050-0000000">
-
-          </div>
-
-
-          <div class="field">
-
-            <label>
-              אימייל
-            </label>
-
-            <input
-              id="email"
-              type="email"
-              placeholder="example@email.com">
-
-          </div>
-
-
-          <div class="field">
-
-            <label>
-              עיר *
-            </label>
-
-            <input
-              id="city"
-              required
-              placeholder="תל אביב">
-
-          </div>
-
-
-          <div class="field">
-
-            <label>
-              רחוב *
-            </label>
-
-            <input
-              id="street"
-              required
-              placeholder="הרצל">
-
-          </div>
-
-
-          <div class="field">
-
-            <label>
-              מספר בית *
-            </label>
-
-            <input
-              id="house"
-              required
-              placeholder="10">
-
-          </div>
-
-
-          <div class="field">
-
-            <label>
-              דירה
-            </label>
-
-            <input
-              id="apartment"
-              placeholder="4">
-
-          </div>
-
-
-          <div class="field">
-
-            <label>
-              מיקוד
-            </label>
-
-            <input
-              id="zip"
-              placeholder="1234567">
-
-          </div>
-
-
-          <div class="field">
-
-            <label>
-              אופן קבלת ההזמנה *
-            </label>
-
-            <select id="shipping">
-
-              <option value="משלוח רגיל">
-                🚚 משלוח רגיל
-              </option>
-
-              <option value="איסוף עצמי">
-                🏪 איסוף עצמי
-              </option>
-
-            </select>
-
-          </div>
-
-
-          <div class="field full">
-
-            <label>
-              הערות להזמנה
-            </label>
-
-            <textarea
-              id="notes"
-              rows="4"
-              placeholder="הערות מיוחדות להזמנה...">
-            </textarea>
-
-          </div>
-
+        <div class="checkout-title">
+          <h1>השלמת הזמנה</h1>
         </div>
-
-
-        <!-- SUMMARY -->
-
-        <div class="checkout-summary">
-
-          <strong>
-            סיכום ההזמנה
-          </strong>
-
-          <div
-            id="checkoutSummary">
-          </div>
-
-          <div class="checkout-summary-row checkout-total">
-
-            <span>
-              סה״כ לתשלום
-            </span>
-
-            <span>
-              <span id="checkoutTotal">
-                0
-              </span>
-              ₪
-            </span>
-
-          </div>
-
-        </div>
-
 
         <button
-          type="submit"
-          class="submit-order">
-
-          שליחת הזמנה ✓
-
+          class="back-button"
+          onclick="closeCheckout()">
+          ← חזרה לחנות
         </button>
 
+      </div>
 
-        <div
-          id="orderMessage"
-          class="message">
+      <div class="checkout-grid">
+
+        <!-- CUSTOMER FORM -->
+        <div class="checkout-card">
+
+          <h2>👤 פרטי הלקוח</h2>
+
+          <form id="orderForm">
+
+            <div class="form-grid">
+
+              <div class="field">
+                <label>שם מלא *</label>
+
+                <input
+                  type="text"
+                  id="name"
+                  required
+                  placeholder="ישראל ישראלי">
+              </div>
+
+              <div class="field">
+                <label>טלפון *</label>
+
+                <input
+                  type="tel"
+                  id="phone"
+                  required
+                  placeholder="050-0000000">
+              </div>
+
+              <div class="field full">
+                <label>אימייל</label>
+
+                <input
+                  type="email"
+                  id="email"
+                  placeholder="example@email.com">
+              </div>
+
+              <div class="field">
+                <label>עיר *</label>
+
+                <input
+                  type="text"
+                  id="city"
+                  required
+                  placeholder="תל אביב">
+              </div>
+
+              <div class="field">
+                <label>רחוב *</label>
+
+                <input
+                  type="text"
+                  id="street"
+                  required
+                  placeholder="הרצל">
+              </div>
+
+              <div class="field">
+                <label>מספר בית *</label>
+
+                <input
+                  type="text"
+                  id="house"
+                  required
+                  placeholder="10">
+              </div>
+
+              <div class="field">
+                <label>דירה</label>
+
+                <input
+                  type="text"
+                  id="apartment"
+                  placeholder="5">
+              </div>
+
+              <div class="field">
+                <label>מיקוד</label>
+
+                <input
+                  type="text"
+                  id="zip"
+                  placeholder="1234567">
+              </div>
+
+            </div>
+
+            <h2 style="margin-top:25px;">
+              🚚 אופן קבלת ההזמנה
+            </h2>
+
+            <div class="shipping-options">
+
+              <label
+                class="shipping-option selected"
+                id="shippingDelivery">
+
+                <input
+                  type="radio"
+                  name="shipping"
+                  value="משלוח רגיל"
+                  checked
+                  onchange="selectShipping('delivery')">
+
+                🚚
+                <strong>משלוח</strong>
+
+                <div style="font-size:12px;color:#718096;margin-top:5px;">
+                  משלוח עד הבית
+                </div>
+
+              </label>
+
+              <label
+                class="shipping-option"
+                id="shippingPickup">
+
+                <input
+                  type="radio"
+                  name="shipping"
+                  value="איסוף עצמי"
+                  onchange="selectShipping('pickup')">
+
+                🏪
+                <strong>איסוף עצמי</strong>
+
+                <div style="font-size:12px;color:#718096;margin-top:5px;">
+                  איסוף מהמקום
+                </div>
+
+              </label>
+
+            </div>
+
+            <div class="field">
+
+              <label>הערות להזמנה</label>
+
+              <textarea
+                id="notes"
+                rows="4"
+                placeholder="לדוגמה: להתקשר לפני ההגעה...">
+              </textarea>
+
+            </div>
+
+            <button
+              type="submit"
+              class="place-order"
+              id="placeOrderButton">
+
+              ✓ שליחת הזמנה
+
+            </button>
+
+            <div
+              class="order-message"
+              id="orderMessage">
+            </div>
+
+          </form>
+
         </div>
 
-      </form>
+        <!-- SUMMARY -->
+        <div class="checkout-card">
+
+          <h2>🧾 סיכום ההזמנה</h2>
+
+          <div id="checkoutItems">
+          </div>
+
+          <div class="summary-total">
+
+            <span>סה״כ לתשלום</span>
+
+            <span>
+              <span id="checkoutTotal">0</span> ₪
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
 
     </div>
 
-  </div>
-
+  </section>
 
   <!-- TOAST -->
-
   <div
     class="toast"
     id="toast">
   </div>
 
 
-  <!-- FOOTER -->
+  <script>
 
-  <footer>
+    /* =========================
+       STATE
+    ========================= */
 
-    <div class="footer-inner">
-
-      <div>
-
-        <h3>
-          Dada Best
-        </h3>
-
-        <p>
-          ציוד אבטחה ופתרונות לבית ולעסק.
-          אנחנו מביאים לכם מוצרים איכותיים
-          ושירות אישי.
-        </p>
-
-      </div>
+    let products = [];
+    let cart = [];
 
 
-      <div>
+    /* =========================
+       HELPERS
+    ========================= */
 
-        <h3>
-          החנות
-        </h3>
+    function money(value) {
 
-        <ul>
-
-          <li>מצלמות</li>
-          <li>מערכות הקלטה</li>
-          <li>אחסון</li>
-          <li>אביזרים</li>
-
-        </ul>
-
-      </div>
-
-
-      <div>
-
-        <h3>
-          שירות
-        </h3>
-
-        <ul>
-
-          <li>משלוחים</li>
-          <li>איסוף עצמי</li>
-          <li>שירות לקוחות</li>
-
-        </ul>
-
-      </div>
-
-
-      <div>
-
-        <h3>
-          צור קשר
-        </h3>
-
-        <ul>
-
-          <li>📞 טלפון</li>
-          <li>✉️ אימייל</li>
-          <li>💬 WhatsApp</li>
-
-        </ul>
-
-      </div>
-
-    </div>
-
-
-    <div class="copyright">
-
-      © 2026 Dada Best — כל הזכויות שמורות
-
-    </div>
-
-  </footer>
-
-
-<script>
-
-  /* =========================
-     STATE
-  ========================= */
-
-  let products = [];
-  let cart = [];
-  let currentCategory = "all";
-
-
-  /* =========================
-     LOAD PRODUCTS
-  ========================= */
-
-  async function loadProducts() {
-
-    const container =
-      document.getElementById("products");
-
-    try {
-
-      const response =
-        await fetch("/api/products");
-
-      if (!response.ok) {
-        throw new Error(
-          "שגיאה בטעינת המוצרים"
-        );
-      }
-
-      products =
-        await response.json();
-
-      renderProducts();
-
-    } catch (error) {
-
-      console.error(error);
-
-      container.innerHTML = `
-        <div class="empty-products">
-          <div style="font-size:45px">⚠️</div>
-          <h3>לא הצלחנו לטעון את המוצרים</h3>
-          <p>
-            בדוק שהשרת פעיל ונסה לרענן את הדף.
-          </p>
-        </div>
-      `;
+      return Number(value || 0)
+        .toLocaleString("he-IL", {
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 2
+        });
 
     }
 
-  }
 
+    function escapeHtml(value) {
 
-  /* =========================
-     RENDER PRODUCTS
-  ========================= */
+      return String(value || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
 
-  function renderProducts() {
-
-    const container =
-      document.getElementById("products");
-
-    const search =
-      document
-        .getElementById("searchInput")
-        .value
-        .trim()
-        .toLowerCase();
-
-
-    let filtered =
-      products.filter(product => {
-
-        const matchesCategory =
-          currentCategory === "all" ||
-          product.category === currentCategory;
-
-        const text =
-          (
-            product.name +
-            " " +
-            product.description +
-            " " +
-            (product.category || "")
-          ).toLowerCase();
-
-        const matchesSearch =
-          !search ||
-          text.includes(search);
-
-        return (
-          matchesCategory &&
-          matchesSearch
-        );
-
-      });
-
-
-    document.getElementById(
-      "productsCount"
-    ).textContent =
-      `${filtered.length} מוצרים`;
-
-
-    if (filtered.length === 0) {
-
-      container.innerHTML = `
-        <div class="empty-products">
-          <div style="font-size:50px">🔎</div>
-          <h3>לא נמצאו מוצרים</h3>
-          <p>
-            נסה חיפוש אחר או בחר קטגוריה אחרת.
-          </p>
-        </div>
-      `;
-
-      return;
     }
 
 
-    container.innerHTML =
-      filtered.map(product => {
+    function showToast(text) {
 
-        const price =
-          Number(product.price) || 0;
+      const toast =
+        document.getElementById("toast");
 
-        const stock =
-          Number(product.stock) || 0;
+      toast.textContent = text;
+      toast.classList.add("show");
 
-        let imageHTML = "";
+      setTimeout(() => {
+        toast.classList.remove("show");
+      }, 2500);
 
-        if (
-          product.image &&
-          (
-            product.image.startsWith("http") ||
-            product.image.startsWith("/") ||
-            product.image.startsWith("data:image")
-          )
-        ) {
+    }
 
-          imageHTML = `
-            <img
-              src="${escapeHtml(product.image)}"
-              alt="${escapeHtml(product.name)}"
-              onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
 
-            <div
-              class="product-emoji"
-              style="display:none">
-              📦
-            </div>
-          `;
+    /* =========================
+       LOAD PRODUCTS
+    ========================= */
 
-        } else {
+    async function loadProducts() {
 
-          imageHTML = `
-            <div class="product-emoji">
-              ${escapeHtml(
-                product.image || "📦"
-              )}
-            </div>
-          `;
+      const container =
+        document.getElementById("products");
 
+      try {
+
+        const response =
+          await fetch("/api/products");
+
+        if (!response.ok) {
+          throw new Error("לא ניתן לטעון מוצרים");
         }
 
+        products =
+          await response.json();
+
+        renderProducts(products);
+
+      } catch (error) {
+
+        console.error(error);
+
+        container.innerHTML = `
+          <div class="empty-products">
+            <div style="font-size:50px;">⚠️</div>
+            <h3>לא הצלחנו לטעון את המוצרים</h3>
+            <p>
+              בדקו שהשרת פעיל ונסו לרענן את הדף.
+            </p>
+          </div>
+        `;
+
+      }
+
+    }
+
+
+    /* =========================
+       RENDER PRODUCTS
+    ========================= */
+
+    function renderProducts(list) {
+
+      const container =
+        document.getElementById("products");
+
+      if (!list.length) {
+
+        container.innerHTML = `
+          <div class="empty-products">
+            לא נמצאו מוצרים.
+          </div>
+        `;
+
+        return;
+      }
+
+      container.innerHTML = list.map(product => {
+
+        const stock =
+          Number(product.stock || 0);
+
+        const image =
+          String(product.image || "").trim();
+
+        const isUrl =
+          /^https?:\/\//i.test(image);
+
+        const imageHtml =
+          isUrl
+            ? `<img src="${escapeHtml(image)}"
+                    alt="${escapeHtml(product.name)}"
+                    onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+               <span class="product-emoji" style="display:none;">📦</span>`
+            : `<span class="product-emoji">
+                 ${escapeHtml(image || "📦")}
+               </span>`;
 
         return `
+
           <article class="product">
 
             <div class="product-image">
 
-              ${imageHTML}
+              ${imageHtml}
 
-              <span class="product-badge">
-                ${stock > 0 ? "במלאי" : "אזל מהמלאי"}
+              <span
+                class="stock-badge ${stock <= 0 ? "out-stock" : ""}">
+
+                ${
+                  stock > 0
+                    ? "✓ במלאי"
+                    : "אזל מהמלאי"
+                }
+
               </span>
-
-              <button
-                class="heart"
-                onclick="toggleFavorite(this)">
-                ♡
-              </button>
 
             </div>
 
-
-            <div class="product-info">
-
-              ${
-                product.category
-                  ? `
-                    <div class="category">
-                      ${escapeHtml(product.category)}
-                    </div>
-                  `
-                  : ""
-              }
-
+            <div class="product-body">
 
               <h3>
                 ${escapeHtml(product.name)}
               </h3>
 
-
-              <div class="description">
-                ${escapeHtml(
-                  product.description || ""
-                )}
+              <div class="product-description">
+                ${escapeHtml(product.description)}
               </div>
 
-
-              <div class="price-row">
+              <div class="product-bottom">
 
                 <div class="price">
-                  ${price.toLocaleString("he-IL")}
-                  ₪
+                  ${money(product.price)} ₪
                 </div>
 
+                <button
+                  class="add-button"
+                  ${
+                    stock <= 0
+                      ? "disabled"
+                      : ""
+                  }
+                  onclick="addToCart(${product.id})">
+
+                  ${
+                    stock > 0
+                      ? "הוסף לעגלה"
+                      : "אזל מהמלאי"
+                  }
+
+                </button>
+
               </div>
-
-
-              <div
-                class="stock ${stock <= 0 ? "out" : ""}">
-
-                ${
-                  stock > 0
-                    ? `✓ נשארו ${stock} יחידות`
-                    : "✕ המוצר אינו במלאי"
-                }
-
-              </div>
-
-
-              <button
-                class="add-button"
-                ${stock <= 0 ? "disabled" : ""}
-                onclick="addToCart(${product.id})">
-
-                ${
-                  stock > 0
-                    ? "הוסף לסל 🛒"
-                    : "אזל מהמלאי"
-                }
-
-              </button>
 
             </div>
 
           </article>
+
         `;
 
       }).join("");
 
-  }
-
-
-  /* =========================
-     CART
-  ========================= */
-
-  function addToCart(productId) {
-
-    const product =
-      products.find(
-        p => Number(p.id) === Number(productId)
-      );
-
-    if (!product) {
-      return;
     }
 
 
-    const existing =
-      cart.find(
-        item =>
-          Number(item.id) === Number(productId)
+    /* =========================
+       ADD TO CART
+    ========================= */
+
+    function addToCart(productId) {
+
+      const product =
+        products.find(
+          p => Number(p.id) === Number(productId)
+        );
+
+      if (!product) {
+        return;
+      }
+
+      const stock =
+        Number(product.stock || 0);
+
+      if (stock <= 0) {
+        showToast("המוצר אזל מהמלאי");
+        return;
+      }
+
+      const existing =
+        cart.find(
+          item =>
+            Number(item.id) === Number(productId)
+        );
+
+      if (existing) {
+
+        if (existing.quantity >= stock) {
+
+          showToast("אין יותר יחידות במלאי");
+          return;
+
+        }
+
+        existing.quantity++;
+
+      } else {
+
+        cart.push({
+          id: Number(product.id),
+          name: product.name,
+          price: Number(product.price),
+          image: product.image || "📦",
+          quantity: 1,
+          stock: stock
+        });
+
+      }
+
+      renderCart();
+
+      openCart();
+
+      showToast("המוצר נוסף לעגלה ✓");
+
+    }
+
+
+    /* =========================
+       CART
+    ========================= */
+
+    function changeQuantity(id, amount) {
+
+      const item =
+        cart.find(
+          item => Number(item.id) === Number(id)
+        );
+
+      if (!item) {
+        return;
+      }
+
+      const newQuantity =
+        item.quantity + amount;
+
+      if (newQuantity <= 0) {
+
+        cart =
+          cart.filter(
+            item =>
+              Number(item.id) !== Number(id)
+          );
+
+      } else if (newQuantity <= item.stock) {
+
+        item.quantity = newQuantity;
+
+      } else {
+
+        showToast("אין מספיק מלאי");
+
+      }
+
+      renderCart();
+
+    }
+
+
+    function removeFromCart(id) {
+
+      cart =
+        cart.filter(
+          item =>
+            Number(item.id) !== Number(id)
+        );
+
+      renderCart();
+
+    }
+
+
+    function getCartTotal() {
+
+      return cart.reduce(
+        (sum, item) =>
+          sum + item.price * item.quantity,
+        0
       );
 
+    }
 
-    if (existing) {
 
-      if (
-        existing.quantity >=
-        Number(product.stock)
-      ) {
+    function renderCart() {
 
-        showToast(
-          "אין יותר יחידות במלאי"
+      const container =
+        document.getElementById("cartItems");
+
+      const total =
+        getCartTotal();
+
+      const count =
+        cart.reduce(
+          (sum, item) =>
+            sum + item.quantity,
+          0
         );
+
+      document.getElementById("cartCount")
+        .textContent = count;
+
+      document.getElementById("cartTotal")
+        .textContent = money(total);
+
+      const checkoutButton =
+        document.getElementById("checkoutButton");
+
+      checkoutButton.disabled =
+        cart.length === 0;
+
+      if (!cart.length) {
+
+        container.innerHTML = `
+
+          <div class="cart-empty">
+
+            <div class="cart-empty-icon">
+              🛒
+            </div>
+
+            <strong>העגלה עדיין ריקה</strong>
+
+            <p>
+              הוסיפו מוצרים מהחנות
+              כדי להתחיל הזמנה.
+            </p>
+
+          </div>
+
+        `;
 
         return;
       }
 
-      existing.quantity++;
 
-    } else {
+      container.innerHTML =
+        cart.map(item => {
 
-      cart.push({
-        id: product.id,
-        name: product.name,
-        price: Number(product.price),
-        image: product.image,
-        quantity: 1,
-        stock: Number(product.stock)
-      });
+          const image =
+            String(item.image || "");
 
-    }
+          const isUrl =
+            /^https?:\/\//i.test(image);
 
+          return `
 
-    saveCart();
-    renderCart();
+            <div class="cart-item">
 
-    showToast(
-      `${product.name} נוסף לסל 🛒`
-    );
+              <div class="cart-item-image">
 
-  }
+                ${
+                  isUrl
+                    ? `<img
+                         src="${escapeHtml(image)}"
+                         alt="${escapeHtml(item.name)}">`
+                    : `<span>
+                         ${escapeHtml(image || "📦")}
+                       </span>`
+                }
 
-
-  function removeFromCart(id) {
-
-    cart =
-      cart.filter(
-        item =>
-          Number(item.id) !== Number(id)
-      );
-
-    saveCart();
-    renderCart();
-
-  }
-
-
-  function changeQuantity(id, change) {
-
-    const item =
-      cart.find(
-        item =>
-          Number(item.id) === Number(id)
-      );
-
-    if (!item) {
-      return;
-    }
-
-
-    const newQuantity =
-      item.quantity + change;
-
-
-    if (newQuantity <= 0) {
-
-      removeFromCart(id);
-
-      return;
-    }
-
-
-    if (
-      newQuantity >
-      Number(item.stock)
-    ) {
-
-      showToast(
-        "אין מספיק מלאי"
-      );
-
-      return;
-    }
-
-
-    item.quantity =
-      newQuantity;
-
-    saveCart();
-    renderCart();
-
-  }
-
-
-  function saveCart() {
-
-    localStorage.setItem(
-      "dadaBestCart",
-      JSON.stringify(cart)
-    );
-
-  }
-
-
-  function loadCart() {
-
-    try {
-
-      const saved =
-        localStorage.getItem(
-          "dadaBestCart"
-        );
-
-      if (saved) {
-
-        cart =
-          JSON.parse(saved);
-
-      }
-
-    } catch (error) {
-
-      cart = [];
-
-    }
-
-    renderCart();
-
-  }
-
-
-  /* =========================
-     RENDER CART
-  ========================= */
-
-  function renderCart() {
-
-    const container =
-      document.getElementById(
-        "cartItems"
-      );
-
-
-    const count =
-      cart.reduce(
-        (sum, item) =>
-          sum + item.quantity,
-        0
-      );
-
-
-    const total =
-      cart.reduce(
-        (sum, item) =>
-          sum +
-          item.price *
-          item.quantity,
-        0
-      );
-
-
-    document.getElementById(
-      "cartCount"
-    ).textContent = count;
-
-
-    document.getElementById(
-      "cartTotal"
-    ).textContent =
-      total.toLocaleString("he-IL");
-
-
-    if (cart.length === 0) {
-
-      container.innerHTML = `
-        <div class="cart-empty">
-
-          <div class="cart-empty-icon">
-            🛒
-          </div>
-
-          <h3>
-            הסל שלך ריק
-          </h3>
-
-          <p>
-            הוסף מוצרים מהחנות כדי להתחיל.
-          </p>
-
-        </div>
-      `;
-
-      return;
-    }
-
-
-    container.innerHTML =
-      cart.map(item => {
-
-        let imageHTML = "";
-
-        if (
-          item.image &&
-          (
-            item.image.startsWith("http") ||
-            item.image.startsWith("/") ||
-            item.image.startsWith("data:image")
-          )
-        ) {
-
-          imageHTML = `
-            <img
-              src="${escapeHtml(item.image)}"
-              alt="${escapeHtml(item.name)}">
-          `;
-
-        } else {
-
-          imageHTML =
-            escapeHtml(
-              item.image || "📦"
-            );
-
-        }
-
-
-        return `
-          <div class="cart-item">
-
-            <div class="cart-item-image">
-              ${imageHTML}
-            </div>
-
-            <div>
-
-              <div class="cart-item-name">
-                ${escapeHtml(item.name)}
               </div>
 
-              <div class="cart-item-price">
-                ${(
-                  item.price *
-                  item.quantity
-                ).toLocaleString("he-IL")}
-                ₪
-              </div>
-
-
-              <div class="quantity">
-
-                <button
-                  onclick="changeQuantity(${item.id}, -1)">
-                  −
-                </button>
+              <div class="cart-item-info">
 
                 <strong>
-                  ${item.quantity}
+                  ${escapeHtml(item.name)}
                 </strong>
 
-                <button
-                  onclick="changeQuantity(${item.id}, 1)">
-                  +
-                </button>
+                <div class="cart-item-price">
+                  ${money(item.price)} ₪
+                </div>
+
+                <div class="quantity">
+
+                  <button
+                    onclick="changeQuantity(${item.id}, 1)">
+                    +
+                  </button>
+
+                  <span>
+                    ${item.quantity}
+                  </span>
+
+                  <button
+                    onclick="changeQuantity(${item.id}, -1)">
+                    −
+                  </button>
+
+                </div>
 
                 <button
-                  class="remove-cart"
+                  class="remove-item"
                   onclick="removeFromCart(${item.id})">
-                  הסר
+
+                  הסר מהעגלה
+
                 </button>
 
               </div>
 
             </div>
 
-          </div>
-        `;
+          `;
 
-      }).join("");
+        }).join("");
 
-  }
-
-
-  /* =========================
-     CART OPEN / CLOSE
-  ========================= */
-
-  function openCart() {
-
-    document
-      .getElementById("cartDrawer")
-      .classList.add("open");
-
-    document
-      .getElementById("cartOverlay")
-      .classList.add("open");
-
-    document.body.style.overflow =
-      "hidden";
-
-  }
-
-
-  function closeCart() {
-
-    document
-      .getElementById("cartDrawer")
-      .classList.remove("open");
-
-    document
-      .getElementById("cartOverlay")
-      .classList.remove("open");
-
-    document.body.style.overflow =
-      "";
-
-  }
-
-
-  /* =========================
-     CHECKOUT
-  ========================= */
-
-  function openCheckout() {
-
-    if (cart.length === 0) {
-
-      showToast(
-        "הסל ריק"
-      );
-
-      return;
     }
 
 
-    renderCheckoutSummary();
+    /* =========================
+       CART OPEN / CLOSE
+    ========================= */
 
-    closeCart();
+    function openCart() {
+
+      document
+        .getElementById("cartDrawer")
+        .classList.add("open");
+
+      document
+        .getElementById("overlay")
+        .classList.add("show");
+
+      document.body.classList.add("no-scroll");
+
+    }
+
+
+    function closeCart() {
+
+      document
+        .getElementById("cartDrawer")
+        .classList.remove("open");
+
+      document
+        .getElementById("overlay")
+        .classList.remove("show");
+
+      document.body.classList.remove("no-scroll");
+
+    }
+
+
+    /* =========================
+       CHECKOUT
+    ========================= */
+
+    function openCheckout() {
+
+      if (!cart.length) {
+        showToast("העגלה ריקה");
+        return;
+      }
+
+      closeCart();
+
+      renderCheckout();
+
+      document
+        .getElementById("checkoutModal")
+        .classList.add("show");
+
+      document.body.classList.add("no-scroll");
+
+      window.scrollTo(0, 0);
+
+    }
+
+
+    function closeCheckout() {
+
+      document
+        .getElementById("checkoutModal")
+        .classList.remove("show");
+
+      document.body.classList.remove("no-scroll");
+
+    }
+
+
+    function renderCheckout() {
+
+      const container =
+        document.getElementById("checkoutItems");
+
+      container.innerHTML =
+        cart.map(item => `
+
+          <div class="order-summary-item">
+
+            <span>
+              ${escapeHtml(item.name)}
+              × ${item.quantity}
+            </span>
+
+            <strong>
+              ${money(
+                item.price * item.quantity
+              )} ₪
+            </strong>
+
+          </div>
+
+        `).join("");
+
+      document.getElementById("checkoutTotal")
+        .textContent =
+        money(getCartTotal());
+
+    }
+
+
+    /* =========================
+       SHIPPING
+    ========================= */
+
+    function selectShipping(type) {
+
+      document
+        .getElementById("shippingDelivery")
+        .classList.toggle(
+          "selected",
+          type === "delivery"
+        );
+
+      document
+        .getElementById("shippingPickup")
+        .classList.toggle(
+          "selected",
+          type === "pickup"
+        );
+
+    }
+
+
+    /* =========================
+       SEND ORDER
+    ========================= */
 
     document
-      .getElementById("checkoutModal")
-      .classList.add("open");
+      .getElementById("orderForm")
+      .addEventListener(
+        "submit",
+        async function(event) {
 
-    document.body.style.overflow =
-      "hidden";
+          event.preventDefault();
 
-  }
+          if (!cart.length) {
 
+            showOrderMessage(
+              "העגלה ריקה.",
+              false
+            );
 
-  function closeCheckout() {
+            return;
 
-    document
-      .getElementById("checkoutModal")
-      .classList.remove("open");
+          }
 
-    document.body.style.overflow =
-      "";
-
-  }
-
-
-  function renderCheckoutSummary() {
-
-    const container =
-      document.getElementById(
-        "checkoutSummary"
-      );
-
-
-    const total =
-      cart.reduce(
-        (sum, item) =>
-          sum +
-          item.price *
-          item.quantity,
-        0
-      );
-
-
-    container.innerHTML =
-      cart.map(item => `
-        <div class="checkout-summary-row">
-
-          <span>
-            ${escapeHtml(item.name)}
-            × ${item.quantity}
-          </span>
-
-          <strong>
-            ${(
-              item.price *
-              item.quantity
-            ).toLocaleString("he-IL")}
-            ₪
-          </strong>
-
-        </div>
-      `).join("");
-
-
-    document.getElementById(
-      "checkoutTotal"
-    ).textContent =
-      total.toLocaleString("he-IL");
-
-  }
-
-
-  /* =========================
-     ORDER
-  ========================= */
-
-  document
-    .getElementById("orderForm")
-    .addEventListener(
-      "submit",
-      async function(event) {
-
-        event.preventDefault();
-
-
-        const message =
-          document.getElementById(
-            "orderMessage"
-          );
-
-
-        if (cart.length === 0) {
-
-          message.className =
-            "message error";
-
-          message.textContent =
-            "הסל ריק.";
-
-          return;
-        }
-
-
-        const total =
-          cart.reduce(
-            (sum, item) =>
-              sum +
-              item.price *
-              item.quantity,
-            0
-          );
-
-
-        const customer = {
-
-          name:
+          const button =
             document.getElementById(
-              "name"
-            ).value.trim(),
+              "placeOrderButton"
+            );
 
-          phone:
-            document.getElementById(
-              "phone"
-            ).value.trim(),
-
-          email:
-            document.getElementById(
-              "email"
-            ).value.trim(),
-
-          city:
-            document.getElementById(
-              "city"
-            ).value.trim(),
-
-          street:
-            document.getElementById(
-              "street"
-            ).value.trim(),
-
-          house:
-            document.getElementById(
-              "house"
-            ).value.trim(),
-
-          apartment:
-            document.getElementById(
-              "apartment"
-            ).value.trim(),
-
-          zip:
-            document.getElementById(
-              "zip"
-            ).value.trim(),
-
-          shipping:
-            document.getElementById(
-              "shipping"
-            ).value,
-
-          notes:
-            document.getElementById(
-              "notes"
-            ).value.trim()
-
-        };
+          button.disabled = true;
+          button.textContent =
+            "שולח הזמנה...";
 
 
-        try {
+          const shipping =
+            document.querySelector(
+              'input[name="shipping"]:checked'
+            )?.value || "משלוח רגיל";
 
-          const response =
-            await fetch(
-              "/api/orders",
-              {
 
-                method: "POST",
+          const customer = {
 
-                headers: {
-                  "Content-Type":
-                    "application/json"
-                },
+            name:
+              document
+                .getElementById("name")
+                .value
+                .trim(),
 
-                body:
-                  JSON.stringify({
+            phone:
+              document
+                .getElementById("phone")
+                .value
+                .trim(),
+
+            email:
+              document
+                .getElementById("email")
+                .value
+                .trim(),
+
+            city:
+              document
+                .getElementById("city")
+                .value
+                .trim(),
+
+            street:
+              document
+                .getElementById("street")
+                .value
+                .trim(),
+
+            house:
+              document
+                .getElementById("house")
+                .value
+                .trim(),
+
+            apartment:
+              document
+                .getElementById("apartment")
+                .value
+                .trim(),
+
+            zip:
+              document
+                .getElementById("zip")
+                .value
+                .trim(),
+
+            shipping:
+
+              shipping,
+
+            notes:
+              document
+                .getElementById("notes")
+                .value
+                .trim()
+
+          };
+
+
+          const items =
+            cart.map(item => ({
+
+              id: item.id,
+
+              name: item.name,
+
+              price: item.price,
+
+              quantity: item.quantity
+
+            }));
+
+
+          const total =
+            getCartTotal();
+
+
+          try {
+
+            const response =
+              await fetch(
+                "/api/orders",
+                {
+                  method: "POST",
+
+                  headers: {
+                    "Content-Type":
+                      "application/json"
+                  },
+
+                  body: JSON.stringify({
 
                     customer:
+
                       customer,
 
                     items:
-                      cart,
+
+                      items,
 
                     total:
+
                       total
 
                   })
 
-              }
+                }
+              );
+
+
+            const data =
+              await response.json();
+
+
+            if (!response.ok) {
+
+              throw new Error(
+                data.error ||
+                "שגיאה בשליחת ההזמנה"
+              );
+
+            }
+
+
+            const orderNumber =
+              data.order_number ||
+              "הזמנה התקבלה";
+
+
+            showOrderMessage(
+              `
+                <strong>
+                  🎉 ההזמנה התקבלה בהצלחה!
+                </strong>
+                <br>
+                מספר הזמנה:
+                <strong>${escapeHtml(orderNumber)}</strong>
+                <br>
+                תודה רבה על ההזמנה.
+              `,
+              true
             );
 
 
-          const data =
-            await response.json();
+            cart = [];
+
+            renderCart();
+
+            document
+              .getElementById("orderForm")
+              .reset();
 
 
-          if (!response.ok) {
+            selectShipping("delivery");
 
-            throw new Error(
-              data.error ||
-              "שגיאה בשליחת ההזמנה"
+
+            button.textContent =
+              "✓ ההזמנה נשלחה";
+
+
+          } catch (error) {
+
+            console.error(
+              "ORDER ERROR:",
+              error
             );
+
+            showOrderMessage(
+              "אירעה שגיאה בשליחת ההזמנה: " +
+              error.message,
+              false
+            );
+
+            button.disabled = false;
+
+            button.textContent =
+              "✓ שליחת הזמנה";
 
           }
 
-
-          message.className =
-            "message success";
-
-          message.textContent =
-            "✓ ההזמנה התקבלה בהצלחה! מספר הזמנה: " +
-            (
-              data.order_number ||
-              "DADA"
-            );
-
-
-          cart = [];
-
-          saveCart();
-
-          renderCart();
-
-
-          document
-            .getElementById(
-              "orderForm"
-            )
-            .reset();
-
-
-        } catch (error) {
-
-          console.error(error);
-
-          message.className =
-            "message error";
-
-          message.textContent =
-            "אירעה שגיאה בשליחת ההזמנה: " +
-            error.message;
-
-        }
-
-      }
-    );
-
-
-  /* =========================
-     SEARCH
-  ========================= */
-
-  document
-    .getElementById("searchInput")
-    .addEventListener(
-      "input",
-      renderProducts
-    );
-
-
-  /* =========================
-     CATEGORIES
-  ========================= */
-
-  document
-    .querySelectorAll(
-      ".nav button"
-    )
-    .forEach(button => {
-
-      button.addEventListener(
-        "click",
-        function() {
-
-          document
-            .querySelectorAll(
-              ".nav button"
-            )
-            .forEach(
-              b =>
-                b.classList.remove(
-                  "active"
-                )
-            );
-
-
-          this.classList.add(
-            "active"
-          );
-
-
-          currentCategory =
-            this.dataset.category;
-
-
-          renderProducts();
-
         }
       );
 
-    });
 
+    function showOrderMessage(
+      text,
+      success
+    ) {
 
-  /* =========================
-     FAVORITES
-  ========================= */
-
-  function toggleFavorite(button) {
-
-    button.classList.toggle(
-      "active"
-    );
-
-    button.textContent =
-      button.classList.contains("active")
-        ? "♥"
-        : "♡";
-
-  }
-
-
-  /* =========================
-     TOAST
-  ========================= */
-
-  let toastTimer;
-
-  function showToast(text) {
-
-    const toast =
-      document.getElementById(
-        "toast"
-      );
-
-    toast.textContent = text;
-
-    toast.classList.add("show");
-
-    clearTimeout(toastTimer);
-
-    toastTimer =
-      setTimeout(() => {
-
-        toast.classList.remove(
-          "show"
+      const element =
+        document.getElementById(
+          "orderMessage"
         );
 
-      }, 2500);
+      element.innerHTML = text;
 
-  }
+      element.className =
+        "order-message " +
+        (
+          success
+            ? "order-success"
+            : "order-error"
+        );
 
-
-  /* =========================
-     ESCAPE HTML
-  ========================= */
-
-  function escapeHtml(value) {
-
-    return String(value ?? "")
-      .replaceAll("&", "&amp;")
-      .replaceAll("<", "&lt;")
-      .replaceAll(">", "&gt;")
-      .replaceAll('"', "&quot;")
-      .replaceAll("'", "&#039;");
-
-  }
+    }
 
 
-  /* =========================
-     INITIALIZE
-  ========================= */
+    /* =========================
+       SEARCH
+    ========================= */
 
-  loadCart();
+    function toggleSearch() {
 
-  loadProducts();
+      const box =
+        document.getElementById(
+          "searchBox"
+        );
 
-</script>
+      box.classList.toggle("active");
+
+      if (box.classList.contains("active")) {
+
+        document
+          .getElementById("searchInput")
+          .focus();
+
+      }
+
+    }
+
+
+    function searchProducts() {
+
+      const value =
+        document
+          .getElementById("searchInput")
+          .value
+          .trim()
+          .toLowerCase();
+
+      const filtered =
+        products.filter(product => {
+
+          const text =
+            (
+              product.name +
+              " " +
+              product.description
+            ).toLowerCase();
+
+          return text.includes(value);
+
+        });
+
+      renderProducts(filtered);
+
+    }
+
+
+    function filterProducts(text) {
+
+      const filtered =
+        products.filter(product => {
+
+          return (
+            String(product.name)
+              .toLowerCase()
+              .includes(
+                text.toLowerCase()
+              )
+          );
+
+        });
+
+      renderProducts(filtered);
+
+      document
+        .getElementById("shop")
+        .scrollIntoView({
+          behavior: "smooth"
+        });
+
+    }
+
+
+    /* =========================
+       NAVIGATION
+    ========================= */
+
+    function scrollToProducts() {
+
+      document
+        .getElementById("shop")
+        .scrollIntoView({
+          behavior: "smooth"
+        });
+
+    }
+
+
+    /* =========================
+       START
+    ========================= */
+
+    loadProducts();
+
+    renderCart();
+
+  </script>
 
 </body>
 </html>
