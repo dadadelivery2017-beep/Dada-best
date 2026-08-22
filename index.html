@@ -828,6 +828,122 @@
     }
 
     /* =========================
+       PAYMENT MODAL
+    ========================= */
+
+    .payment-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 950;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: rgba(5,25,55,.62);
+    }
+
+    .payment-modal.show {
+      display: flex;
+    }
+
+    .payment-card {
+      width: min(520px, 100%);
+      max-height: 90vh;
+      overflow-y: auto;
+      background: white;
+      border-radius: 24px;
+      padding: 30px;
+      box-shadow: 0 25px 80px rgba(0,0,0,.28);
+    }
+
+    .payment-card h2 {
+      margin: 0 0 8px;
+      font-size: 28px;
+    }
+
+    .payment-subtitle {
+      color: var(--muted);
+      margin: 0 0 22px;
+      line-height: 1.6;
+    }
+
+    .payment-demo {
+      background: #fff7ed;
+      border: 1px solid #fed7aa;
+      color: #9a3412;
+      padding: 12px 14px;
+      border-radius: 12px;
+      margin-bottom: 18px;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .payment-total-box {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 15px;
+      border-radius: 12px;
+      background: var(--blue-light);
+      color: var(--blue-dark);
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 18px;
+    }
+
+    .payment-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .payment-submit {
+      border: 0;
+      background: var(--green);
+      color: white;
+      padding: 14px;
+      border-radius: 11px;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .payment-cancel {
+      border: 1px solid var(--border);
+      background: white;
+      color: #334155;
+      padding: 14px;
+      border-radius: 11px;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .payment-error {
+      display: none;
+      margin-top: 14px;
+      padding: 12px;
+      border-radius: 10px;
+      background: #fee2e2;
+      color: #991b1b;
+      line-height: 1.5;
+    }
+
+    .payment-error.show {
+      display: block;
+    }
+
+    @media (max-width: 760px) {
+      .payment-card {
+        padding: 24px 18px;
+      }
+
+      .payment-actions {
+        grid-template-columns: 1fr;
+      }
+    }
+
+
+    /* =========================
        SUCCESS MODAL
     ========================= */
 
@@ -1951,6 +2067,112 @@
   </section>
 
 
+  <!-- SIMULATED PAYMENT -->
+
+  <div
+    class="payment-modal"
+    id="paymentModal"
+  >
+
+    <div class="payment-card">
+
+      <h2>💳 תשלום באשראי</h2>
+
+      <p class="payment-subtitle">
+        זהו מסך סליקה מדומה לצורכי בדיקה בלבד.
+        אין כאן חיוב אמיתי.
+      </p>
+
+      <div class="payment-demo">
+        💡 לצורך בדיקה אפשר להשתמש בכל מספר כרטיס בן 16 ספרות.
+        <br>
+        מספר בדיקה לדחיית תשלום:
+        <strong>4000000000000002</strong>
+      </div>
+
+      <div class="payment-total-box">
+        <span>סה״כ לתשלום</span>
+        <span id="paymentTotal">0 ₪</span>
+      </div>
+
+      <div class="field">
+        <label>שם בעל הכרטיס *</label>
+        <input
+          type="text"
+          id="cardHolder"
+          placeholder="ישראל ישראלי"
+          autocomplete="cc-name"
+          required>
+      </div>
+
+      <div class="field">
+        <label>מספר כרטיס *</label>
+        <input
+          type="text"
+          id="cardNumber"
+          inputmode="numeric"
+          maxlength="19"
+          placeholder="1234 5678 9012 3456"
+          autocomplete="cc-number"
+          required>
+      </div>
+
+      <div class="form-grid">
+
+        <div class="field">
+          <label>תוקף *</label>
+          <input
+            type="text"
+            id="cardExpiry"
+            maxlength="7"
+            placeholder="MM/YY"
+            autocomplete="cc-exp"
+            required>
+        </div>
+
+        <div class="field">
+          <label>CVV *</label>
+          <input
+            type="password"
+            id="cardCvv"
+            inputmode="numeric"
+            maxlength="4"
+            placeholder="123"
+            autocomplete="cc-csc"
+            required>
+        </div>
+
+      </div>
+
+      <div
+        class="payment-error"
+        id="paymentError"
+      ></div>
+
+      <div class="payment-actions">
+
+        <button
+          type="button"
+          class="payment-cancel"
+          onclick="closePaymentModal()">
+          ביטול
+        </button>
+
+        <button
+          type="button"
+          class="payment-submit"
+          id="paymentSubmitButton"
+          onclick="submitSimulatedPayment()">
+          🔒 אישור תשלום
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
   <!-- SUCCESS -->
 
   <div
@@ -2929,6 +3151,337 @@
        SEND ORDER
     ========================= */
 
+    let pendingOrderNumber = "";
+    let pendingPaymentMethod = "";
+    let pendingOrderData = null;
+
+
+    function getSelectedShipping() {
+
+      return document
+        .querySelector(
+          'input[name="shipping"]:checked'
+        )
+        ?.value ||
+        "משלוח רגיל";
+
+    }
+
+
+    function getSelectedPayment() {
+
+      return document
+        .querySelector(
+          'input[name="payment"]:checked'
+        )
+        ?.value ||
+        "";
+
+    }
+
+
+    function setCheckoutButton(
+      disabled,
+      text
+    ) {
+
+      const button =
+        document.getElementById(
+          "placeOrderButton"
+        );
+
+      button.disabled = disabled;
+      button.textContent = text;
+
+    }
+
+
+    function showPaymentModal(
+      orderNumber
+    ) {
+
+      pendingOrderNumber =
+        orderNumber;
+
+      document.getElementById(
+        "paymentTotal"
+      ).textContent =
+        money(
+          getCartTotal()
+        ) + " ₪";
+
+      const errorBox =
+        document.getElementById(
+          "paymentError"
+        );
+
+      errorBox.className =
+        "payment-error";
+
+      errorBox.textContent = "";
+
+      document.getElementById(
+        "paymentSubmitButton"
+      ).disabled = false;
+
+      document.getElementById(
+        "paymentSubmitButton"
+      ).textContent =
+        "🔒 אישור תשלום";
+
+      document
+        .getElementById(
+          "paymentModal"
+        )
+        .classList.add(
+          "show"
+        );
+
+      document.body.classList.add(
+        "no-scroll"
+      );
+
+    }
+
+
+    function closePaymentModal() {
+
+      document
+        .getElementById(
+          "paymentModal"
+        )
+        .classList.remove(
+          "show"
+        );
+
+      document.body.classList.add(
+        "no-scroll"
+      );
+
+    }
+
+
+    function showPaymentError(
+      message
+    ) {
+
+      const box =
+        document.getElementById(
+          "paymentError"
+        );
+
+      box.textContent = message;
+
+      box.className =
+        message
+          ? "payment-error show"
+          : "payment-error";
+
+    }
+
+
+    async function submitSimulatedPayment() {
+
+      if (!pendingOrderNumber) {
+
+        showPaymentError(
+          "לא נמצאה הזמנה לתשלום."
+        );
+
+        return;
+
+      }
+
+      const holder =
+        document.getElementById(
+          "cardHolder"
+        ).value.trim();
+
+      const cardNumber =
+        document.getElementById(
+          "cardNumber"
+        ).value
+          .replace(/\s+/g, "")
+          .trim();
+
+      const expiry =
+        document.getElementById(
+          "cardExpiry"
+        ).value.trim();
+
+      const cvv =
+        document.getElementById(
+          "cardCvv"
+        ).value.trim();
+
+      if (!holder) {
+        showPaymentError(
+          "יש להזין שם בעל הכרטיס."
+        );
+        return;
+      }
+
+      if (!/^\d{16}$/.test(cardNumber)) {
+        showPaymentError(
+          "יש להזין מספר כרטיס מדומה בן 16 ספרות."
+        );
+        return;
+      }
+
+      if (
+        !/^(0[1-9]|1[0-2])\/\d{2}$/.test(
+          expiry
+        ) &&
+        !/^(0[1-9]|1[0-2])\/\d{4}$/.test(
+          expiry
+        )
+      ) {
+        showPaymentError(
+          "יש להזין תוקף בצורה MM/YY."
+        );
+        return;
+      }
+
+      if (!/^\d{3,4}$/.test(cvv)) {
+        showPaymentError(
+          "יש להזין CVV בן 3 או 4 ספרות."
+        );
+        return;
+      }
+
+      const button =
+        document.getElementById(
+          "paymentSubmitButton"
+        );
+
+      button.disabled = true;
+
+      button.textContent =
+        "⏳ מאשר תשלום...";
+
+      showPaymentError("");
+
+      try {
+
+        const response =
+          await fetch(
+            "/api/payments/simulate",
+            {
+              method: "POST",
+
+              headers: {
+                "Content-Type":
+                  "application/json"
+              },
+
+              body:
+                JSON.stringify({
+                  order_number:
+                    pendingOrderNumber,
+                  holder:
+                    holder,
+                  card_number:
+                    cardNumber,
+                  expiry:
+                    expiry,
+                  cvv:
+                    cvv
+                })
+            }
+          );
+
+        const data =
+          await response
+            .json()
+            .catch(
+              () => ({})
+            );
+
+        if (!response.ok) {
+
+          throw new Error(
+            data.error ||
+            "התשלום המדומה נדחה"
+          );
+
+        }
+
+        const paidOrderNumber =
+          data.order_number ||
+          pendingOrderNumber;
+
+        // Clear payment fields immediately.
+        document.getElementById(
+          "cardHolder"
+        ).value = "";
+
+        document.getElementById(
+          "cardNumber"
+        ).value = "";
+
+        document.getElementById(
+          "cardExpiry"
+        ).value = "";
+
+        document.getElementById(
+          "cardCvv"
+        ).value = "";
+
+        closePaymentModal();
+        closeCheckout();
+
+        cart = [];
+
+        renderCart();
+
+        document
+          .getElementById(
+            "orderForm"
+          )
+          .reset();
+
+        selectShipping(
+          "delivery"
+        );
+
+        selectPayment(
+          "credit"
+        );
+
+        pendingOrderData = null;
+
+        showSuccessModal(
+          paidOrderNumber,
+          "אשראי - שולם"
+        );
+
+        setCheckoutButton(
+          true,
+          "✓ ההזמנה נשלחה"
+        );
+
+      } catch (error) {
+
+        console.error(
+          "PAYMENT ERROR:",
+          error
+        );
+
+        showPaymentError(
+          error.message ||
+          "התשלום המדומה נכשל."
+        );
+
+        button.disabled = false;
+
+        button.textContent =
+          "🔒 ניסיון נוסף";
+
+      }
+
+    }
+
+
     document
       .getElementById(
         "orderForm"
@@ -2938,7 +3491,6 @@
         async function(event) {
 
           event.preventDefault();
-
 
           if (!cart.length) {
 
@@ -2950,30 +3502,11 @@
 
           }
 
-
-          const button =
-            document.getElementById(
-              "placeOrderButton"
-            );
-
-
           const shipping =
-            document
-              .querySelector(
-                'input[name="shipping"]:checked'
-              )
-              ?.value ||
-            "משלוח רגיל";
-
+            getSelectedShipping();
 
           const paymentMethod =
-            document
-              .querySelector(
-                'input[name="payment"]:checked'
-              )
-              ?.value ||
-            "";
-
+            getSelectedPayment();
 
           if (
             ![
@@ -2991,7 +3524,6 @@
             return;
 
           }
-
 
           const customer = {
 
@@ -3072,7 +3604,6 @@
 
           };
 
-
           const items =
             cart.map(
               item => ({
@@ -3092,16 +3623,13 @@
               })
             );
 
-
           const total =
             getCartTotal();
 
-
-          button.disabled = true;
-
-          button.textContent =
-            "שולח הזמנה...";
-
+          setCheckoutButton(
+            true,
+            "שולח הזמנה..."
+          );
 
           try {
 
@@ -3136,14 +3664,12 @@
                 }
               );
 
-
             const data =
               await response
                 .json()
                 .catch(
                   () => ({})
                 );
-
 
             if (!response.ok) {
 
@@ -3154,51 +3680,77 @@
 
             }
 
-
             const orderNumber =
               data.order_number ||
               data.order?.order_number ||
-              "התקבלה";
+              "";
 
+            if (!orderNumber) {
 
-            // Clear cart
+              throw new Error(
+                "השרת לא החזיר מספר הזמנה."
+              );
+
+            }
+
+            // CREDIT
+            if (
+              paymentMethod ===
+              "אשראי"
+            ) {
+
+              pendingOrderNumber =
+                orderNumber;
+
+              pendingPaymentMethod =
+                "אשראי";
+
+              pendingOrderData =
+                data.order || null;
+
+              showPaymentModal(
+                orderNumber
+              );
+
+              setCheckoutButton(
+                true,
+                "ממתין לאישור תשלום..."
+              );
+
+              return;
+
+            }
+
+            // CASH
             cart = [];
 
             renderCart();
 
-
-            // Reset form
             document
               .getElementById(
                 "orderForm"
               )
               .reset();
 
-
             selectShipping(
               "delivery"
             );
-
 
             selectPayment(
               "credit"
             );
 
-
-            // Close checkout
             closeCheckout();
 
-
-            // Show success window
             showSuccessModal(
               orderNumber,
-              paymentMethod
+              "מזומן - ממתין לתשלום"
             );
 
-
-            button.textContent =
-              "✓ ההזמנה נשלחה";
-
+            setCheckoutButton(
+              true,
+              "✓ ההזמנה נשלחה"
+            );
 
           } catch (error) {
 
@@ -3207,19 +3759,15 @@
               error
             );
 
-
             showToast(
               "אירעה שגיאה בשליחת ההזמנה: " +
               error.message
             );
 
-
-            button.disabled =
-              false;
-
-
-            button.textContent =
-              "✓ שליחת הזמנה";
+            setCheckoutButton(
+              false,
+              "✓ שליחת הזמנה"
+            );
 
           }
 
@@ -3276,11 +3824,30 @@
           "show"
         );
 
+      document
+        .getElementById(
+          "paymentModal"
+        )
+        .classList.remove(
+          "show"
+        );
 
       document.body.classList.remove(
         "no-scroll"
       );
 
+      pendingOrderNumber = "";
+      pendingPaymentMethod = "";
+      pendingOrderData = null;
+
+      const button =
+        document.getElementById(
+          "placeOrderButton"
+        );
+
+      button.disabled = false;
+      button.textContent =
+        "✓ שליחת הזמנה";
 
       window.scrollTo({
         top: 0,
