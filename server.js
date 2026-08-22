@@ -16,23 +16,37 @@ const PORT = process.env.PORT || 8080;
 // ENVIRONMENT
 // =========================================================
 
+// Resend
 const RESEND_API_KEY =
   process.env.RESEND_API_KEY || '';
 
-const ADMIN_PASSWORD =
-  RESEND_API_KEY || '12345678';
+// Admin username
+const ADMIN_USERNAME =
+  process.env.ADMIN_USERNAME || 'admin key';
 
+// Admin password/key
+// Backward compatibility:
+// if ADMIN_KEY is not set, use the old RESEND_API_KEY.
+const ADMIN_KEY =
+  process.env.ADMIN_KEY ||
+  RESEND_API_KEY ||
+  '12345678';
+
+// Database
 const DATABASE_URL =
   process.env.DATABASE_URL || '';
 
+// Admin email
 const ADMIN_EMAIL =
   process.env.ADMIN_EMAIL ||
   'dadadelivery2017@gmail.com';
 
+// Test email
 const TEST_EMAIL =
   process.env.TEST_EMAIL ||
   ADMIN_EMAIL;
 
+// Resend sender
 const FROM_EMAIL =
   process.env.FROM_EMAIL ||
   'onboarding@resend.dev';
@@ -98,7 +112,7 @@ async function initDatabase() {
     )
   `);
 
-  // Adds the column if the orders table already existed
+  // Add payment_method to old orders tables
   await pool.query(`
     ALTER TABLE orders
     ADD COLUMN IF NOT EXISTS payment_method TEXT DEFAULT ''
@@ -120,7 +134,7 @@ function adminAuth(req, res, next) {
 
   if (
     !key ||
-    key !== ADMIN_PASSWORD
+    key !== ADMIN_KEY
   ) {
 
     return res.status(401).json({
@@ -135,6 +149,16 @@ function adminAuth(req, res, next) {
 // =========================================================
 // ADMIN LOGIN
 // =========================================================
+//
+// New login:
+// username = ADMIN_USERNAME
+// password = ADMIN_KEY
+//
+// Backward compatibility:
+// if username is missing, password-only login is accepted
+// when the password equals ADMIN_KEY.
+// This keeps the old admin.html working until it is updated.
+// =========================================================
 
 app.post(
   '/api/admin/login',
@@ -142,25 +166,45 @@ app.post(
 
     try {
 
+      const username =
+        String(
+          req.body?.username || ''
+        ).trim();
+
       const password =
         String(
           req.body?.password || ''
         );
 
+      // New login: username + password
+      const newLoginValid =
+        username === ADMIN_USERNAME &&
+        password === ADMIN_KEY;
+
+      // Old login: password only
+      const oldLoginValid =
+        !username &&
+        password === ADMIN_KEY;
+
       if (
-        password !==
-        ADMIN_PASSWORD
+        !newLoginValid &&
+        !oldLoginValid
       ) {
 
         return res.status(401).json({
-          error: 'סיסמה שגויה'
+          error:
+            'שם משתמש או סיסמה שגויים'
         });
 
       }
 
       return res.json({
+
         success: true,
-        adminKey: ADMIN_PASSWORD
+
+        adminKey:
+          ADMIN_KEY
+
       });
 
     } catch (error) {
@@ -171,8 +215,10 @@ app.post(
       );
 
       return res.status(500).json({
+
         error:
           'שגיאה בהתחברות'
+
       });
 
     }
@@ -210,8 +256,10 @@ app.get(
       );
 
       return res.status(500).json({
+
         error:
           'שגיאה בטעינת המוצרים'
+
       });
 
     }
@@ -249,8 +297,10 @@ app.get(
       );
 
       return res.status(500).json({
+
         error:
           'שגיאה בטעינת המוצרים'
+
       });
 
     }
@@ -308,8 +358,10 @@ app.post(
       if (!name) {
 
         return res.status(400).json({
+
           error:
             'חסר שם מוצר'
+
         });
 
       }
@@ -362,8 +414,10 @@ app.post(
       );
 
       return res.status(500).json({
+
         error:
           'שגיאה בהוספת מוצר'
+
       });
 
     }
@@ -428,8 +482,10 @@ app.patch(
       ) {
 
         return res.status(400).json({
+
           error:
             'מזהה מוצר לא תקין'
+
         });
 
       }
@@ -437,8 +493,10 @@ app.patch(
       if (!name) {
 
         return res.status(400).json({
+
           error:
             'חסר שם מוצר'
+
         });
 
       }
@@ -473,8 +531,10 @@ app.patch(
       if (!result.rows.length) {
 
         return res.status(404).json({
+
           error:
             'המוצר לא נמצא'
+
         });
 
       }
@@ -491,8 +551,10 @@ app.patch(
       );
 
       return res.status(500).json({
+
         error:
           'שגיאה בעדכון מוצר'
+
       });
 
     }
@@ -521,8 +583,10 @@ app.delete(
       ) {
 
         return res.status(400).json({
+
           error:
             'מזהה מוצר לא תקין'
+
         });
 
       }
@@ -540,14 +604,18 @@ app.delete(
       if (!result.rows.length) {
 
         return res.status(404).json({
+
           error:
             'המוצר לא נמצא'
+
         });
 
       }
 
       return res.json({
+
         success: true
+
       });
 
     } catch (error) {
@@ -558,8 +626,10 @@ app.delete(
       );
 
       return res.status(500).json({
+
         error:
           'שגיאה במחיקת מוצר'
+
       });
 
     }
@@ -597,8 +667,10 @@ app.get(
       );
 
       return res.status(500).json({
+
         error:
           'שגיאה בטעינת ההזמנות'
+
       });
 
     }
@@ -611,8 +683,22 @@ app.get(
 // =========================================================
 //
 // Supports both:
-// customer: { ... }
-// and direct fields from older versions.
+//
+// {
+//   customer: {
+//     name,
+//     phone,
+//     email,
+//     city,
+//     street,
+//     house,
+//     apartment,
+//     shipping,
+//     notes
+//   }
+// }
+//
+// and old direct fields.
 // =========================================================
 
 function getCustomerData(body) {
@@ -759,9 +845,7 @@ async function sendNewOrderEmails(order) {
               quantity;
 
             return `
-
               <tr>
-
                 <td style="
                   padding:10px;
                   border-bottom:1px solid #eee;
@@ -783,27 +867,21 @@ async function sendNewOrderEmails(order) {
                 ">
                   ${subtotal.toFixed(2)} ₪
                 </td>
-
               </tr>
-
             `;
 
           })
           .join('')
 
       : `
-
           <tr>
-
             <td
               colspan="3"
               style="padding:10px;"
             >
               אין פירוט מוצרים
             </td>
-
           </tr>
-
         `;
 
   const customerEmail =
@@ -828,7 +906,9 @@ async function sendNewOrderEmails(order) {
 
   const apartmentText =
     order.apartment
-      ? `, דירה ${escapeHtml(order.apartment)}`
+      ? `, דירה ${escapeHtml(
+          order.apartment
+        )}`
       : '';
 
   // =======================================================
@@ -836,7 +916,6 @@ async function sendNewOrderEmails(order) {
   // =======================================================
 
   const adminHtml = `
-
     <div
       dir="rtl"
       style="
@@ -875,48 +954,61 @@ async function sendNewOrderEmails(order) {
 
         <h2>
           הזמנה
-          ${escapeHtml(order.order_number)}
+          ${escapeHtml(
+            order.order_number
+          )}
         </h2>
 
         <p>
           <strong>לקוח:</strong>
-          ${escapeHtml(order.customer_name)}
+          ${escapeHtml(
+            order.customer_name
+          )}
         </p>
 
         <p>
           <strong>טלפון:</strong>
-          ${escapeHtml(order.phone)}
+          ${escapeHtml(
+            order.phone
+          )}
         </p>
 
         <p>
           <strong>אימייל:</strong>
           ${escapeHtml(
-            order.email || 'לא נמסר'
+            order.email ||
+            'לא נמסר'
           )}
         </p>
 
         <p>
           <strong>אופן קבלה:</strong>
           ${escapeHtml(
-            order.shipping || 'לא נבחר'
+            order.shipping ||
+            'לא נבחר'
           )}
         </p>
 
         <p>
           <strong>אמצעי תשלום:</strong>
-          ${escapeHtml(paymentText)}
+          ${escapeHtml(
+            paymentText
+          )}
         </p>
 
         <p>
           <strong>כתובת:</strong>
-          ${escapeHtml(address)}
+          ${escapeHtml(
+            address
+          )}
           ${apartmentText}
         </p>
 
         <p>
           <strong>הערות:</strong>
           ${escapeHtml(
-            order.notes || 'אין'
+            order.notes ||
+            'אין'
           )}
         </p>
 
@@ -985,7 +1077,6 @@ async function sendNewOrderEmails(order) {
       </div>
 
     </div>
-
   `;
 
   try {
@@ -1061,7 +1152,6 @@ async function sendNewOrderEmails(order) {
   }
 
   const customerHtml = `
-
     <div
       dir="rtl"
       style="
@@ -1087,7 +1177,8 @@ async function sendNewOrderEmails(order) {
       <p>
         שלום
         ${escapeHtml(
-          order.customer_name || ''
+          order.customer_name ||
+          ''
         )},
       </p>
 
@@ -1110,7 +1201,9 @@ async function sendNewOrderEmails(order) {
           אמצעי תשלום:
         </strong>
 
-        ${escapeHtml(paymentText)}
+        ${escapeHtml(
+          paymentText
+        )}
       </p>
 
       <p>
@@ -1119,7 +1212,8 @@ async function sendNewOrderEmails(order) {
         </strong>
 
         ${escapeHtml(
-          order.shipping || 'לא נבחר'
+          order.shipping ||
+          'לא נבחר'
         )}
       </p>
 
@@ -1162,17 +1256,16 @@ async function sendNewOrderEmails(order) {
       </table>
 
       <h2>
-
         סה״כ:
         ${Number(
           order.total || 0
         ).toFixed(2)}
         ₪
-
       </h2>
 
       <p>
-        ניצור איתך קשר לגבי המשך הטיפול בהזמנה.
+        ניצור איתך קשר לגבי
+        המשך הטיפול בהזמנה.
       </p>
 
       <p>
@@ -1182,7 +1275,6 @@ async function sendNewOrderEmails(order) {
       </p>
 
     </div>
-
   `;
 
   try {
@@ -1258,43 +1350,30 @@ app.post(
       const body =
         req.body || {};
 
-      // -----------------------------------------------------
-      // CUSTOMER
-      // -----------------------------------------------------
-
       const customer =
         getCustomerData(body);
 
-      // -----------------------------------------------------
-      // ITEMS
-      // -----------------------------------------------------
-
       const items =
-        Array.isArray(body.items)
+        Array.isArray(
+          body.items
+        )
           ? body.items
           : [];
-
-      // -----------------------------------------------------
-      // TOTAL
-      // -----------------------------------------------------
 
       const total =
         Number(
           body.total || 0
         );
 
-      // -----------------------------------------------------
-      // PAYMENT
-      // -----------------------------------------------------
-
       const paymentMethod =
         String(
-          body.payment_method || ''
+          body.payment_method ||
+          ''
         ).trim();
 
-      // -----------------------------------------------------
+      // =====================================================
       // VALIDATION
-      // -----------------------------------------------------
+      // =====================================================
 
       if (!customer.name) {
 
@@ -1339,17 +1418,17 @@ app.post(
 
       }
 
-      // -----------------------------------------------------
+      // =====================================================
       // ORDER NUMBER
-      // -----------------------------------------------------
+      // =====================================================
 
       const orderNumber =
         'DB-' +
         Date.now();
 
-      // -----------------------------------------------------
+      // =====================================================
       // SAVE ORDER
-      // -----------------------------------------------------
+      // =====================================================
 
       const result =
         await pool.query(
@@ -1423,7 +1502,8 @@ app.post(
 
       console.log(
         'CUSTOMER EMAIL:',
-        order.email || 'NONE'
+        order.email ||
+        'NONE'
       );
 
       console.log(
@@ -1431,20 +1511,17 @@ app.post(
         order.payment_method
       );
 
-      // -----------------------------------------------------
-      // SEND EMAILS NOW
-      // -----------------------------------------------------
-      //
-      // This was the missing part in your previous version.
-      //
+      // =====================================================
+      // SEND ORDER EMAILS
+      // =====================================================
 
       await sendNewOrderEmails(
         order
       );
 
-      // -----------------------------------------------------
+      // =====================================================
       // RETURN SUCCESS
-      // -----------------------------------------------------
+      // =====================================================
 
       return res.json({
 
@@ -1467,8 +1544,10 @@ app.post(
       );
 
       return res.status(500).json({
+
         error:
           'שגיאה ביצירת הזמנה'
+
       });
 
     }
@@ -1503,8 +1582,10 @@ app.patch(
       ) {
 
         return res.status(400).json({
+
           error:
             'מזהה הזמנה לא תקין'
+
         });
 
       }
@@ -1526,8 +1607,10 @@ app.patch(
       if (!result.rows.length) {
 
         return res.status(404).json({
+
           error:
             'ההזמנה לא נמצאה'
+
         });
 
       }
@@ -1544,8 +1627,10 @@ app.patch(
       );
 
       return res.status(500).json({
+
         error:
           'שגיאה בעדכון הזמנה'
+
       });
 
     }
@@ -1574,8 +1659,10 @@ app.delete(
       ) {
 
         return res.status(400).json({
+
           error:
             'מזהה הזמנה לא תקין'
+
         });
 
       }
@@ -1593,14 +1680,19 @@ app.delete(
       if (!result.rows.length) {
 
         return res.status(404).json({
+
           error:
             'ההזמנה לא נמצאה'
+
         });
 
       }
 
       return res.json({
-        success: true
+
+        success:
+          true
+
       });
 
     } catch (error) {
@@ -1611,8 +1703,10 @@ app.delete(
       );
 
       return res.status(500).json({
+
         error:
           'שגיאה במחיקת הזמנה'
+
       });
 
     }
@@ -1640,8 +1734,10 @@ app.post(
       );
 
       return res.status(500).json({
+
         error:
           'RESEND_API_KEY לא מוגדר ב-Railway'
+
       });
 
     }
@@ -1666,7 +1762,6 @@ app.post(
             'Dada Best - בדיקת מייל',
 
           html: `
-
             <div
               dir="rtl"
               style="
@@ -1687,7 +1782,6 @@ app.post(
               </p>
 
             </div>
-
           `
 
         });
@@ -1726,7 +1820,8 @@ app.post(
           'המייל נשלח בהצלחה',
 
         id:
-          result?.data?.id || null
+          result?.data?.id ||
+          null
 
       });
 
@@ -1783,6 +1878,14 @@ app.get(
           'אשראי',
           'מזומן'
         ],
+
+      adminUsername:
+        ADMIN_USERNAME,
+
+      adminKeyConfigured:
+        Boolean(
+          ADMIN_KEY
+        ),
 
       testEmailEndpoint:
         true
@@ -1889,6 +1992,18 @@ async function start() {
         );
 
         console.log(
+          'Admin username:',
+          ADMIN_USERNAME
+        );
+
+        console.log(
+          'Admin key:',
+          ADMIN_KEY
+            ? 'CONFIGURED'
+            : 'NOT CONFIGURED'
+        );
+
+        console.log(
           'Admin email:',
           ADMIN_EMAIL
         );
@@ -1920,7 +2035,9 @@ async function start() {
       error
     );
 
-    process.exit(1);
+    process.exit(
+      1
+    );
 
   }
 
