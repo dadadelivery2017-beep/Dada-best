@@ -21,17 +21,20 @@ app.disable("x-powered-by");
 ========================= */
 
 function requireAdmin(req, res, next) {
-  const adminKey = process.env.ADMIN_KEY;
+  const adminKeys = [
+    process.env.ADMIN_KEY,
+    process.env.DANIELADMIN
+  ].filter(Boolean);
 
-  if (!adminKey) {
+  if (adminKeys.length === 0) {
     return res.status(500).json({
-      error: "ADMIN_KEY is not configured on the server"
+      error: "No admin password configured on the server"
     });
   }
 
   const receivedKey = req.headers["x-admin-key"];
 
-  if (!receivedKey || receivedKey !== adminKey) {
+  if (!receivedKey || !adminKeys.includes(receivedKey)) {
     return res.status(401).json({
       error: "Unauthorized"
     });
