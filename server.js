@@ -1,9 +1,22 @@
 const express = require("express");
 const { Pool } = require("pg");
 const path = require("path");
+const { Resend } = require("resend");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+/* =========================
+   RESEND
+========================= */
+
+const resend = process.env.RESEND_API_KEY
+  ? new Resend(process.env.RESEND_API_KEY)
+  : null;
+
+/* =========================
+   DATABASE
+========================= */
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
@@ -205,7 +218,8 @@ app.get("/api/health", async (req, res) => {
 
     res.json({
       success: true,
-      message: "Dada Best server is working"
+      message: "Dada Best server is working",
+      emailService: resend ? "ready" : "not configured"
     });
   } catch (error) {
     console.error("HEALTH ERROR:", error);
@@ -265,10 +279,7 @@ app.get(
 
       res.json(result.rows);
     } catch (error) {
-      console.error(
-        "ADMIN PRODUCTS ERROR:",
-        error
-      );
+      console.error("ADMIN PRODUCTS ERROR:", error);
 
       res.status(500).json({
         error: "Failed to load products"
@@ -347,15 +358,10 @@ app.post(
         String(category || "").trim()
       ]);
 
-      res.status(201).json(
-        result.rows[0]
-      );
+      res.status(201).json(result.rows[0]);
 
     } catch (error) {
-      console.error(
-        "CREATE PRODUCT ERROR:",
-        error
-      );
+      console.error("CREATE PRODUCT ERROR:", error);
 
       res.status(500).json({
         error: "Failed to create product"
@@ -443,10 +449,7 @@ app.patch(
       res.json(result.rows[0]);
 
     } catch (error) {
-      console.error(
-        "UPDATE PRODUCT ERROR:",
-        error
-      );
+      console.error("UPDATE PRODUCT ERROR:", error);
 
       res.status(500).json({
         error: "Failed to update product"
@@ -481,10 +484,7 @@ app.delete(
       });
 
     } catch (error) {
-      console.error(
-        "DELETE PRODUCT ERROR:",
-        error
-      );
+      console.error("DELETE PRODUCT ERROR:", error);
 
       res.status(500).json({
         error: "Failed to delete product"
@@ -509,10 +509,7 @@ app.get(
       res.json(result.rows);
 
     } catch (error) {
-      console.error(
-        "LOAD ORDERS ERROR:",
-        error
-      );
+      console.error("LOAD ORDERS ERROR:", error);
 
       res.status(500).json({
         error: "Failed to load orders"
@@ -592,26 +589,16 @@ app.post(
         String(customer.house).trim(),
         String(customer.apartment || "").trim(),
         String(customer.zip || "").trim(),
-        String(
-          customer.shipping ||
-          "משלוח רגיל"
-        ).trim(),
-        String(
-          customer.notes || ""
-        ).trim(),
+        String(customer.shipping || "משלוח רגיל").trim(),
+        String(customer.notes || "").trim(),
         JSON.stringify(items),
         Number(total) || 0
       ]);
 
-      res.status(201).json(
-        result.rows[0]
-      );
+      res.status(201).json(result.rows[0]);
 
     } catch (error) {
-      console.error(
-        "CREATE ORDER ERROR:",
-        error
-      );
+      console.error("CREATE ORDER ERROR:", error);
 
       res.status(500).json({
         error: "Failed to create order"
@@ -638,9 +625,7 @@ app.patch(
         "הושלמה"
       ];
 
-      if (
-        !allowedStatuses.includes(status)
-      ) {
+      if (!allowedStatuses.includes(status)) {
         return res.status(400).json({
           error: "Invalid order status"
         });
@@ -662,15 +647,10 @@ app.patch(
         });
       }
 
-      res.json(
-        result.rows[0]
-      );
+      res.json(result.rows[0]);
 
     } catch (error) {
-      console.error(
-        "UPDATE ORDER ERROR:",
-        error
-      );
+      console.error("UPDATE ORDER ERROR:", error);
 
       res.status(500).json({
         error: "Failed to update order"
@@ -704,10 +684,7 @@ app.delete(
       });
 
     } catch (error) {
-      console.error(
-        "DELETE ORDER ERROR:",
-        error
-      );
+      console.error("DELETE ORDER ERROR:", error);
 
       res.status(500).json({
         error: "Failed to delete order"
@@ -740,6 +717,12 @@ async function start() {
       () => {
         console.log(
           `Dada Best running on port ${PORT}`
+        );
+
+        console.log(
+          `Email service: ${
+            resend ? "READY" : "NOT CONFIGURED"
+          }`
         );
       }
     );
