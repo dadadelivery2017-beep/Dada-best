@@ -4,2600 +4,517 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dada Best - Admin</title>
-
   <style>
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f1f5f9;
-      color: #172033;
-    }
-
-    button, input, textarea, select {
-      font-family: inherit;
-    }
-
-    button {
-      cursor: pointer;
-      border: 0;
-    }
-
-    #loginScreen {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      background:
-        radial-gradient(circle at top right, #2563eb, transparent 35%),
-        linear-gradient(135deg, #0f172a, #1e3a8a);
-    }
-
-    .login-card {
-      width: 100%;
-      max-width: 430px;
-      background: white;
-      border-radius: 22px;
-      padding: 35px;
-      box-shadow: 0 25px 70px rgba(0,0,0,.25);
-      text-align: center;
-    }
-
-    .logo {
-      width: 70px;
-      height: 70px;
-      margin: 0 auto 18px;
-      border-radius: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: linear-gradient(135deg, #2563eb, #06b6d4);
-      color: white;
-      font-size: 32px;
-      font-weight: bold;
-    }
-
-    .login-card h1 {
-      margin: 0 0 8px;
-      font-size: 28px;
-    }
-
-    .login-card p {
-      color: #64748b;
-      margin-bottom: 25px;
-    }
-
-    .field {
-      text-align: right;
-      margin-bottom: 15px;
-    }
-
-    .field label {
-      display: block;
-      margin-bottom: 7px;
-      font-weight: bold;
-    }
-
-    input, textarea, select {
-      width: 100%;
-      padding: 13px 14px;
-      border: 1px solid #d7dee8;
-      border-radius: 10px;
-      background: white;
-      font-size: 15px;
-      outline: none;
-    }
-
-    input:focus, textarea:focus, select:focus {
-      border-color: #2563eb;
-      box-shadow: 0 0 0 3px rgba(37,99,235,.12);
-    }
-
-    .primary-btn {
-      width: 100%;
-      padding: 14px;
-      border-radius: 11px;
-      background: linear-gradient(135deg, #2563eb, #0ea5e9);
-      color: white;
-      font-size: 16px;
-      font-weight: bold;
-    }
-
-    .primary-btn:hover {
-      opacity: .95;
-    }
-
-    .login-error {
-      margin-top: 15px;
-      padding: 12px;
-      border-radius: 10px;
-      background: #fee2e2;
-      color: #b91c1c;
-      display: none;
-    }
-
-    #adminApp {
-      display: none;
-      min-height: 100vh;
-    }
-
-    .topbar {
-      background: #0f172a;
-      color: white;
-      padding: 15px 25px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 15px;
-      position: sticky;
-      top: 0;
-      z-index: 20;
-    }
-
-    .topbar-title {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .topbar-title strong {
-      font-size: 20px;
-    }
-
-    .status {
-      font-size: 13px;
-      color: #93c5fd;
-    }
-
-    .logout {
-      background: #334155;
-      color: white;
-      padding: 9px 15px;
-      border-radius: 9px;
-    }
-
-    .logout:hover {
-      background: #475569;
-    }
-
-    .layout {
-      display: flex;
-      min-height: calc(100vh - 70px);
-    }
-
-    .sidebar {
-      width: 235px;
-      background: white;
-      border-left: 1px solid #e2e8f0;
-      padding: 20px 12px;
-      flex-shrink: 0;
-    }
-
-    .nav-btn {
-      width: 100%;
-      padding: 13px 15px;
-      margin-bottom: 7px;
-      background: transparent;
-      color: #475569;
-      border-radius: 10px;
-      text-align: right;
-      font-size: 15px;
-      font-weight: bold;
-    }
-
-    .nav-btn:hover {
-      background: #eff6ff;
-      color: #2563eb;
-    }
-
-    .nav-btn.active {
-      background: #dbeafe;
-      color: #1d4ed8;
-    }
-
-    .main {
-      flex: 1;
-      padding: 25px;
-      max-width: 1500px;
-      margin: auto;
-      width: 100%;
-    }
-
-    .tab {
-      display: none;
-    }
-
-    .tab.active {
-      display: block;
-    }
-
-    .page-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 15px;
-      margin-bottom: 22px;
-      flex-wrap: wrap;
-    }
-
-    .page-header h1 {
-      margin: 0;
-      font-size: 28px;
-    }
-
-    .page-header p {
-      margin: 6px 0 0;
-      color: #64748b;
-    }
-
-    .btn {
-      padding: 11px 16px;
-      border-radius: 9px;
-      font-weight: bold;
-    }
-
-    .btn-blue {
-      background: #2563eb;
-      color: white;
-    }
-
-    .btn-blue:hover {
-      background: #1d4ed8;
-    }
-
-    .btn-green {
-      background: #16a34a;
-      color: white;
-    }
-
-    .btn-green:hover {
-      background: #15803d;
-    }
-
-    .btn-red {
-      background: #dc2626;
-      color: white;
-    }
-
-    .btn-red:hover {
-      background: #b91c1c;
-    }
-
-    .btn-gray {
-      background: #e2e8f0;
-      color: #334155;
-    }
-
-    .btn-gray:hover {
-      background: #cbd5e1;
-    }
-
-    .btn-email {
-      background: linear-gradient(135deg, #7c3aed, #2563eb);
-      color: white;
-    }
-
-    .btn-email:hover {
-      opacity: .95;
-    }
-
-    .card {
-      background: white;
-      border-radius: 15px;
-      border: 1px solid #e2e8f0;
-      box-shadow: 0 5px 20px rgba(15,23,42,.05);
-      padding: 20px;
-      margin-bottom: 20px;
-    }
-
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 15px;
-      margin-bottom: 20px;
-    }
-
-    .stat-card {
-      background: white;
-      padding: 20px;
-      border-radius: 15px;
-      border: 1px solid #e2e8f0;
-    }
-
-    .stat-label {
-      color: #64748b;
-      font-size: 14px;
-    }
-
-    .stat-value {
-      margin-top: 8px;
-      font-size: 30px;
-      font-weight: bold;
-      color: #1d4ed8;
-    }
-
-    .product-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 18px;
-    }
-
-    .product-card {
-      background: white;
-      border: 1px solid #e2e8f0;
-      border-radius: 15px;
-      padding: 18px;
-    }
-
-    .product-image {
-      height: 150px;
-      border-radius: 12px;
-      background: #f1f5f9;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 60px;
-      margin-bottom: 15px;
-      overflow: hidden;
-    }
-
-    .product-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .product-card h3 {
-      margin: 5px 0;
-    }
-
-    .product-card small {
-      color: #64748b;
-    }
-
-    .product-form {
-      margin-top: 15px;
-    }
-
-    .product-actions {
-      display: flex;
-      gap: 8px;
-      margin-top: 12px;
-    }
-
-    .product-actions button {
-      flex: 1;
-    }
-
-    .order-card {
-      background: white;
-      border: 1px solid #e2e8f0;
-      border-radius: 15px;
-      padding: 20px;
-      margin-bottom: 15px;
-    }
-
-    .order-header {
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      align-items: center;
-      flex-wrap: wrap;
-      border-bottom: 1px solid #e2e8f0;
-      padding-bottom: 12px;
-      margin-bottom: 15px;
-    }
-
-    .order-number {
-      font-size: 18px;
-      font-weight: bold;
-      color: #1d4ed8;
-    }
-
-    .order-info {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-      margin-bottom: 15px;
-    }
-
-    .info-box {
-      background: #f8fafc;
-      border-radius: 10px;
-      padding: 12px;
-    }
-
-    .info-box strong {
-      display: block;
-      margin-bottom: 4px;
-    }
-
-    .items-list {
-      margin-top: 12px;
-    }
-
-    .item-row {
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      padding: 8px 0;
-      border-bottom: 1px solid #f1f5f9;
-    }
-
-    .order-total {
-      font-size: 20px;
-      font-weight: bold;
-      margin-top: 15px;
-    }
-
-    .category-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .category {
-      padding: 10px 15px;
-      background: #eff6ff;
-      color: #1d4ed8;
-      border-radius: 999px;
-      font-weight: bold;
-    }
-
-    .message {
-      padding: 13px 15px;
-      border-radius: 10px;
-      margin-bottom: 15px;
-      display: none;
-    }
-
-    .message.success {
-      display: block;
-      background: #dcfce7;
-      color: #166534;
-    }
-
-    .message.error {
-      display: block;
-      background: #fee2e2;
-      color: #991b1b;
-    }
-
-    .empty {
-      text-align: center;
-      padding: 40px;
-      color: #64748b;
-    }
-
-    .payment-badge {
-      display: inline-block;
-      padding: 6px 10px;
-      border-radius: 999px;
-      background: #ecfeff;
-      color: #0e7490;
-      font-size: 13px;
-      font-weight: bold;
-    }
-
-    @media (max-width: 900px) {
-
-      .layout {
-        display: block;
-      }
-
-      .sidebar {
-        width: 100%;
-        border-left: 0;
-        border-bottom: 1px solid #e2e8f0;
-        display: flex;
-        overflow-x: auto;
-        gap: 5px;
-      }
-
-      .nav-btn {
-        min-width: 130px;
-        margin: 0;
-      }
-
-      .stats-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-    }
-
-    @media (max-width: 600px) {
-
-      .main {
-        padding: 15px;
-      }
-
-      .topbar {
-        padding: 12px 15px;
-      }
-
-      .stats-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .order-info {
-        grid-template-columns: 1fr;
-      }
-
-      .product-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .login-card {
-        padding: 25px 20px;
-      }
-
-    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Arial,sans-serif;background:#f1f5f9;color:#172033}
+    button,input,textarea,select{font-family:inherit}
+    button{cursor:pointer;border:0}
+    #loginScreen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;background:radial-gradient(circle at top right,#2563eb,transparent 35%),linear-gradient(135deg,#0f172a,#1e3a8a)}
+    .login-card{width:100%;max-width:430px;background:#fff;border-radius:22px;padding:35px;box-shadow:0 25px 70px rgba(0,0,0,.25);text-align:center}
+    .logo{width:70px;height:70px;margin:0 auto 18px;border-radius:20px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#2563eb,#06b6d4);color:#fff;font-size:32px;font-weight:bold}
+    .login-card h1{margin:0 0 8px;font-size:28px}.login-card p{color:#64748b;margin-bottom:25px}
+    .field{text-align:right;margin-bottom:15px}.field label{display:block;margin-bottom:7px;font-weight:bold}
+    input,textarea,select{width:100%;padding:13px 14px;border:1px solid #d7dee8;border-radius:10px;background:#fff;font-size:15px;outline:none}
+    input:focus,textarea:focus,select:focus{border-color:#2563eb;box-shadow:0 0 0 3px rgba(37,99,235,.12)}
+    .primary-btn{width:100%;padding:14px;border-radius:11px;background:linear-gradient(135deg,#2563eb,#0ea5e9);color:#fff;font-size:16px;font-weight:bold}
+    .login-error{margin-top:15px;padding:12px;border-radius:10px;background:#fee2e2;color:#b91c1c;display:none}
+    #adminApp{display:none;min-height:100vh}
+    .topbar{background:#0f172a;color:#fff;padding:15px 25px;display:flex;justify-content:space-between;align-items:center;gap:15px;position:sticky;top:0;z-index:20}
+    .topbar-title{display:flex;align-items:center;gap:12px}.topbar-title strong{font-size:20px}.status{font-size:13px;color:#93c5fd}
+    .logout{background:#334155;color:#fff;padding:9px 15px;border-radius:9px}
+    .layout{display:flex;min-height:calc(100vh - 70px)}
+    .sidebar{width:235px;background:#fff;border-left:1px solid #e2e8f0;padding:20px 12px;flex-shrink:0}
+    .nav-btn{width:100%;padding:13px 15px;margin-bottom:7px;background:transparent;color:#475569;border-radius:10px;text-align:right;font-size:15px;font-weight:bold}
+    .nav-btn:hover{background:#eff6ff;color:#2563eb}.nav-btn.active{background:#dbeafe;color:#1d4ed8}
+    .main{flex:1;padding:25px;max-width:1600px;margin:auto;width:100%}.tab{display:none}.tab.active{display:block}
+    .page-header{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:22px;flex-wrap:wrap}
+    .page-header h1{margin:0;font-size:28px}.page-header p{margin:6px 0 0;color:#64748b}
+    .btn{padding:11px 16px;border-radius:9px;font-weight:bold}.btn-blue{background:#2563eb;color:#fff}.btn-green{background:#16a34a;color:#fff}.btn-red{background:#dc2626;color:#fff}.btn-gray{background:#e2e8f0;color:#334155}.btn-email{background:linear-gradient(135deg,#7c3aed,#2563eb);color:#fff}.btn-yellow{background:#d97706;color:#fff}
+    .btn:disabled{opacity:.55;cursor:not-allowed}
+    .card{background:#fff;border-radius:15px;border:1px solid #e2e8f0;box-shadow:0 5px 20px rgba(15,23,42,.05);padding:20px;margin-bottom:20px}
+    .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:15px;margin-bottom:20px}.stat-card{background:#fff;padding:20px;border-radius:15px;border:1px solid #e2e8f0}.stat-label{color:#64748b;font-size:14px}.stat-value{margin-top:8px;font-size:30px;font-weight:bold;color:#1d4ed8}
+    .product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:18px}.product-card{background:#fff;border:1px solid #e2e8f0;border-radius:15px;padding:18px}
+    .product-image{height:180px;border-radius:12px;background:#f1f5f9;display:flex;align-items:center;justify-content:center;font-size:60px;margin-bottom:15px;overflow:hidden}.product-image img{width:100%;height:100%;object-fit:contain}
+    .product-card h3{margin:5px 0}.product-card small{color:#64748b}.product-form{margin-top:15px}.product-actions{display:flex;gap:8px;margin-top:12px}.product-actions button{flex:1}
+    .image-preview{margin-top:8px;border:1px dashed #cbd5e1;border-radius:12px;padding:10px;background:#f8fafc;text-align:center;min-height:80px;display:flex;align-items:center;justify-content:center}.image-preview img{max-width:100%;max-height:160px;border-radius:10px}
+    .category-actions{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:end}.category-select{margin-bottom:0}
+    .category-list{display:flex;flex-wrap:wrap;gap:10px}.category{padding:10px 15px;background:#eff6ff;color:#1d4ed8;border-radius:999px;font-weight:bold}
+    .category-item{display:flex;align-items:center;gap:8px}
+    .order-toolbar{display:grid;grid-template-columns:1fr 220px;gap:10px;margin-bottom:15px}.order-card{background:#fff;border:1px solid #e2e8f0;border-radius:15px;padding:20px;margin-bottom:15px}
+    .order-header{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap;border-bottom:1px solid #e2e8f0;padding-bottom:12px;margin-bottom:15px}
+    .order-number{font-size:18px;font-weight:bold;color:#1d4ed8}.order-info{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:15px}.info-box{background:#f8fafc;border-radius:10px;padding:12px}.info-box strong{display:block;margin-bottom:4px}
+    .items-list{margin-top:12px}.item-row{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid #f1f5f9}.order-total{font-size:20px;font-weight:bold;margin-top:15px}
+    .message{padding:13px 15px;border-radius:10px;margin-bottom:15px;display:none}.message.success{display:block;background:#dcfce7;color:#166534}.message.error{display:block;background:#fee2e2;color:#991b1b}.empty{text-align:center;padding:40px;color:#64748b}
+    .payment-badge,.status-badge{display:inline-block;padding:6px 10px;border-radius:999px;font-size:13px;font-weight:bold}.payment-badge{background:#ecfeff;color:#0e7490}.status-new{background:#dbeafe;color:#1d4ed8}.status-done{background:#dcfce7;color:#166534}.status-working{background:#fef3c7;color:#92400e}.status-sent{background:#ede9fe;color:#6d28d9}
+    .completed-box{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:12px;padding:12px;margin-top:12px}.muted{color:#64748b}
+    .modal-backdrop{position:fixed;inset:0;background:rgba(15,23,42,.55);display:none;align-items:center;justify-content:center;padding:20px;z-index:1000}.modal-backdrop.show{display:flex}
+    .modal{width:min(650px,100%);background:#fff;border-radius:18px;padding:24px;box-shadow:0 30px 90px rgba(0,0,0,.3)}.modal h2{margin-top:0}.modal-actions{display:flex;gap:8px;justify-content:flex-start;margin-top:15px}
+    @media(max-width:900px){.layout{display:block}.sidebar{width:100%;border-left:0;border-bottom:1px solid #e2e8f0;display:flex;overflow-x:auto;gap:5px}.nav-btn{min-width:130px;margin:0}.stats-grid{grid-template-columns:repeat(2,1fr)}.order-toolbar{grid-template-columns:1fr}}
+    @media(max-width:600px){.main{padding:15px}.topbar{padding:12px 15px}.stats-grid{grid-template-columns:1fr}.order-info{grid-template-columns:1fr}.product-grid{grid-template-columns:1fr}.login-card{padding:25px 20px}.category-actions{grid-template-columns:1fr}}
   </style>
 </head>
-
 <body>
 
 <section id="loginScreen">
-
   <div class="login-card">
-
-    <div class="logo">
-      DB
-    </div>
-
-    <h1>
-      Dada Best
-    </h1>
-
-    <p>
-      לוח ניהול החנות
-    </p>
-
+    <div class="logo">DB</div>
+    <h1>Dada Best</h1>
+    <p>לוח ניהול החנות</p>
     <form id="loginForm">
-
       <div class="field">
-
-        <label>
-          שם משתמש
-        </label>
-
-        <input
-          type="text"
-          id="adminUsername"
-          required
-          autocomplete="username"
-          placeholder="הזן שם משתמש"
-          value="admin key">
-
+        <label>שם משתמש</label>
+        <input type="text" id="adminUsername" required autocomplete="username" value="admin key">
       </div>
-
       <div class="field">
-
-        <label>
-          סיסמה
-        </label>
-
-        <input
-          type="password"
-          id="adminPassword"
-          required
-          autocomplete="current-password"
-          placeholder="הזן סיסמה">
-
+        <label>סיסמה</label>
+        <input type="password" id="adminPassword" required autocomplete="current-password" placeholder="הזן סיסמה">
       </div>
-
-      <button
-        type="submit"
-        class="primary-btn">
-
-        כניסה למערכת
-
-      </button>
-
+      <button type="submit" class="primary-btn">כניסה למערכת</button>
     </form>
-
-    <div
-      id="loginError"
-      class="login-error">
-    </div>
-
+    <div id="loginError" class="login-error"></div>
   </div>
-
 </section>
-
 
 <section id="adminApp">
-
   <header class="topbar">
-
     <div class="topbar-title">
-
-      <div
-        class="logo"
-        style="
-          width:42px;
-          height:42px;
-          margin:0;
-          border-radius:12px;
-          font-size:18px;
-        "
-      >
-        DB
-      </div>
-
-      <div>
-
-        <strong>
-          Dada Best Admin
-        </strong>
-
-        <div class="status">
-          מערכת ניהול
-        </div>
-
-      </div>
-
+      <div class="logo" style="width:42px;height:42px;margin:0;border-radius:12px;font-size:18px;">DB</div>
+      <div><strong>Dada Best Admin</strong><div class="status">מערכת ניהול</div></div>
     </div>
-
-    <button
-      class="logout"
-      onclick="logout()">
-
-      יציאה
-
-    </button>
-
+    <button class="logout" onclick="logout()">יציאה</button>
   </header>
 
-
   <div class="layout">
-
     <aside class="sidebar">
-
-      <button
-        class="nav-btn active"
-        data-tab="productsTab">
-
-        📦 מוצרים
-
-      </button>
-
-      <button
-        class="nav-btn"
-        data-tab="categoriesTab">
-
-        🗂️ קטגוריות
-
-      </button>
-
-      <button
-        class="nav-btn"
-        data-tab="ordersTab">
-
-        🛒 הזמנות
-
-      </button>
-
-      <button
-        class="nav-btn"
-        data-tab="statsTab">
-
-        📊 סטטיסטיקות
-
-      </button>
-
-      <button
-        class="nav-btn"
-        data-tab="emailTab">
-
-        📧 מייל
-
-      </button>
-
+      <button class="nav-btn active" data-tab="productsTab">📦 מוצרים</button>
+      <button class="nav-btn" data-tab="categoriesTab">🗂️ קטגוריות</button>
+      <button class="nav-btn" data-tab="ordersTab">🛒 הזמנות</button>
+      <button class="nav-btn" data-tab="statsTab">📊 סטטיסטיקות</button>
+      <button class="nav-btn" data-tab="emailTab">📧 מייל</button>
     </aside>
 
-
     <main class="main">
+      <div id="globalMessage" class="message"></div>
 
-      <div
-        id="globalMessage"
-        class="message">
-      </div>
-
-
-      <!-- PRODUCTS -->
-
-      <section
-        id="productsTab"
-        class="tab active">
-
+      <section id="productsTab" class="tab active">
         <div class="page-header">
-
-          <div>
-
-            <h1>
-              מוצרים
-            </h1>
-
-            <p>
-              ניהול מחירים, מלאי ומוצרים
-            </p>
-
-          </div>
-
-          <button
-            class="btn btn-blue"
-            onclick="showAddProduct()">
-
-            + מוצר חדש
-
-          </button>
-
+          <div><h1>מוצרים</h1><p>ניהול מחירים, מלאי, קטגוריות ותמונות</p></div>
+          <button class="btn btn-blue" onclick="showAddProduct()">+ מוצר חדש</button>
         </div>
 
-
-        <div
-          id="productFormCard"
-          class="card"
-          style="display:none;">
-
-          <h2 id="productFormTitle">
-            הוספת מוצר
-          </h2>
-
+        <div id="productFormCard" class="card" style="display:none">
+          <h2 id="productFormTitle">הוספת מוצר</h2>
           <form id="productForm">
-
-            <input
-              type="hidden"
-              id="productId">
-
+            <input type="hidden" id="productId">
+            <div class="field"><label>שם מוצר</label><input id="productName" required></div>
+            <div class="field"><label>תיאור</label><textarea id="productDescription" rows="3"></textarea></div>
+            <div class="field"><label>מחיר ₪</label><input id="productPrice" type="number" min="0" step="0.01" required></div>
+            <div class="field"><label>מלאי</label><input id="productStock" type="number" min="0" step="1" required></div>
             <div class="field">
-
-              <label>
-                שם מוצר
-              </label>
-
-              <input
-                id="productName"
-                required>
-
+              <label>קטגוריה</label>
+              <select id="productCategorySelect"></select>
+              <input id="productCategory" style="margin-top:8px" placeholder="או הקלד קטגוריה חדשה">
             </div>
-
             <div class="field">
-
-              <label>
-                תיאור
-              </label>
-
-              <textarea
-                id="productDescription"
-                rows="3">
-              </textarea>
-
+              <label>תמונה / קישור לתמונה</label>
+              <input id="productImage" placeholder="https://... או 📹" oninput="previewProductImage('productImage','addPreview')">
+              <div id="addPreview" class="image-preview">תצוגה מקדימה</div>
             </div>
-
-            <div class="field">
-
-              <label>
-                מחיר ₪
-              </label>
-
-              <input
-                id="productPrice"
-                type="number"
-                min="0"
-                step="0.01"
-                required>
-
-            </div>
-
-            <div class="field">
-
-              <label>
-                מלאי
-              </label>
-
-              <input
-                id="productStock"
-                type="number"
-                min="0"
-                step="1"
-                required>
-
-            </div>
-
-            <div class="field">
-
-              <label>
-                קטגוריה
-              </label>
-
-              <input
-                id="productCategory"
-                placeholder="לדוגמה: מצלמות">
-
-            </div>
-
-            <div class="field">
-
-              <label>
-                תמונה / אימוג׳י
-              </label>
-
-              <input
-                id="productImage"
-                placeholder="https://... או 📹">
-
-            </div>
-
-            <div class="field">
-
-              <label>
-
-                <input
-                  type="checkbox"
-                  id="productActive"
-                  checked
-                  style="width:auto;">
-
-                מוצר פעיל באתר
-
-              </label>
-
-            </div>
-
-            <button
-              class="btn btn-green"
-              type="submit">
-
-              שמור מוצר
-
-            </button>
-
-            <button
-              class="btn btn-gray"
-              type="button"
-              onclick="hideProductForm()">
-
-              ביטול
-
-            </button>
-
+            <div class="field"><label><input type="checkbox" id="productActive" checked style="width:auto"> מוצר פעיל באתר</label></div>
+            <button class="btn btn-green" type="submit">שמור מוצר</button>
+            <button class="btn btn-gray" type="button" onclick="hideProductForm()">ביטול</button>
           </form>
-
         </div>
 
-
-        <div
-          id="productsGrid"
-          class="product-grid">
-        </div>
-
+        <div id="productsGrid" class="product-grid"></div>
       </section>
 
-
-      <!-- CATEGORIES -->
-
-      <section
-        id="categoriesTab"
-        class="tab">
-
-        <div class="page-header">
-
-          <div>
-
-            <h1>
-              קטגוריות
-            </h1>
-
-            <p>
-              הקטגוריות הקיימות במוצרים
-            </p>
-
-          </div>
-
-        </div>
-
+      <section id="categoriesTab" class="tab">
+        <div class="page-header"><div><h1>קטגוריות</h1><p>שינוי מהיר של קטגוריות והזזה של מוצרים מקטגוריה לקטגוריה</p></div></div>
         <div class="card">
-
-          <div
-            id="categoriesList"
-            class="category-list">
+          <div class="category-actions">
+            <div class="field"><label>בחר מוצר</label><select id="moveProductSelect" class="category-select" onchange="prepareCategoryMove()"></select></div>
+            <button class="btn btn-blue" onclick="moveSelectedProduct()">העבר קטגוריה</button>
           </div>
-
+          <div class="field" style="margin-top:12px">
+            <label>קטגוריה חדשה</label>
+            <select id="moveCategorySelect"></select>
+          </div>
         </div>
-
+        <div class="card"><div id="categoriesList" class="category-list"></div></div>
       </section>
 
-
-      <!-- ORDERS -->
-
-      <section
-        id="ordersTab"
-        class="tab">
-
+      <section id="ordersTab" class="tab">
         <div class="page-header">
-
-          <div>
-
-            <h1>
-              הזמנות
-            </h1>
-
-            <p>
-              פרטי הלקוחות וההזמנות
-            </p>
-
-          </div>
-
-          <button
-            class="btn btn-blue"
-            onclick="loadOrders()">
-
-            🔄 רענן
-
-          </button>
-
+          <div><h1>הזמנות</h1><p>פרטי הלקוחות, תשלומים והזמנות שהושלמו נשמרות במערכת</p></div>
+          <button class="btn btn-blue" onclick="loadOrders()">🔄 רענן</button>
         </div>
-
+        <div class="order-toolbar">
+          <input id="orderSearch" placeholder="חיפוש לפי מספר הזמנה, שם, טלפון או אימייל" oninput="renderOrders()">
+          <select id="orderFilter" onchange="renderOrders()">
+            <option value="all">כל ההזמנות</option>
+            <option value="חדשה">חדשות</option>
+            <option value="בטיפול">בטיפול</option>
+            <option value="נשלחה">נשלחו</option>
+            <option value="הושלמה">הושלמו</option>
+          </select>
+        </div>
         <div id="ordersList"></div>
-
       </section>
 
-
-      <!-- STATS -->
-
-      <section
-        id="statsTab"
-        class="tab">
-
-        <div class="page-header">
-
-          <div>
-
-            <h1>
-              סטטיסטיקות
-            </h1>
-
-            <p>
-              תמונת מצב של החנות
-            </p>
-
-          </div>
-
-        </div>
-
+      <section id="statsTab" class="tab">
+        <div class="page-header"><div><h1>סטטיסטיקות</h1><p>תמונת מצב של החנות</p></div></div>
         <div class="stats-grid">
-
-          <div class="stat-card">
-
-            <div class="stat-label">
-              מוצרים
-            </div>
-
-            <div
-              id="statProducts"
-              class="stat-value">
-
-              0
-
-            </div>
-
-          </div>
-
-
-          <div class="stat-card">
-
-            <div class="stat-label">
-              הזמנות
-            </div>
-
-            <div
-              id="statOrders"
-              class="stat-value">
-
-              0
-
-            </div>
-
-          </div>
-
-
-          <div class="stat-card">
-
-            <div class="stat-label">
-              הכנסות
-            </div>
-
-            <div
-              id="statRevenue"
-              class="stat-value">
-
-              0 ₪
-
-            </div>
-
-          </div>
-
-
-          <div class="stat-card">
-
-            <div class="stat-label">
-              הזמנות חדשות
-            </div>
-
-            <div
-              id="statNewOrders"
-              class="stat-value">
-
-              0
-
-            </div>
-
-          </div>
-
+          <div class="stat-card"><div class="stat-label">מוצרים</div><div id="statProducts" class="stat-value">0</div></div>
+          <div class="stat-card"><div class="stat-label">הזמנות</div><div id="statOrders" class="stat-value">0</div></div>
+          <div class="stat-card"><div class="stat-label">הכנסות</div><div id="statRevenue" class="stat-value">0 ₪</div></div>
+          <div class="stat-card"><div class="stat-label">הזמנות חדשות</div><div id="statNewOrders" class="stat-value">0</div></div>
         </div>
-
+        <div class="card"><h2>הזמנות שהושלמו</h2><div id="completedOrdersSummary" class="muted">0</div></div>
       </section>
 
-
-      <!-- EMAIL -->
-
-      <section
-        id="emailTab"
-        class="tab">
-
-        <div class="page-header">
-
-          <div>
-
-            <h1>
-              מערכת מייל
-            </h1>
-
-            <p>
-              בדיקת החיבור ל־Resend
-            </p>
-
-          </div>
-
-        </div>
-
-
+      <section id="emailTab" class="tab">
+        <div class="page-header"><div><h1>מערכת מייל</h1><p>בדיקת החיבור ל־Resend עם דוגמה של מייל לקוח</p></div></div>
         <div class="card">
-
-          <h2>
-            📧 שליחת מייל בדיקה
-          </h2>
-
-          <p>
-            הבדיקה תשלח מייל אל:
-          </p>
-
-          <strong>
-            dadadelivery2017@gmail.com
-          </strong>
-
+          <h2>📧 שליחת מייל בדיקה</h2>
+          <p>הבדיקה תשלח מייל אל:</p>
+          <strong>dadadelivery2017@gmail.com</strong>
           <br><br>
-
-          <button
-            id="testEmailButton"
-            class="btn btn-email"
-            onclick="sendTestEmail()">
-
-            📧 שלח מייל בדיקה
-
-          </button>
-
-          <div
-            id="emailResult"
-            class="message"
-            style="margin-top:15px;">
-          </div>
-
+          <button id="testEmailButton" class="btn btn-email" onclick="sendTestEmail()">📧 שלח מייל דוגמה ללקוח</button>
+          <div id="emailResult" class="message" style="margin-top:15px"></div>
         </div>
-
       </section>
-
     </main>
-
   </div>
-
 </section>
 
+<div id="categoryMoveModal" class="modal-backdrop">
+  <div class="modal">
+    <h2>העברת מוצר לקטגוריה</h2>
+    <p id="categoryMoveText" class="muted"></p>
+    <div class="field"><label>קטגוריה</label><select id="modalCategorySelect"></select></div>
+    <div class="modal-actions">
+      <button class="btn btn-green" onclick="confirmCategoryMove()">שמור</button>
+      <button class="btn btn-gray" onclick="closeCategoryMove()">ביטול</button>
+    </div>
+  </div>
+</div>
 
 <script>
-
-  /* =========================================================
-     STATE
-  ========================================================= */
-
-  let adminKey =
-    localStorage.getItem(
-      "dada_admin_key"
-    ) || "";
-
+  let adminKey = localStorage.getItem("dada_admin_key") || "";
   let products = [];
-
   let orders = [];
+  let moveProductId = null;
 
-
-  /* =========================================================
-     MESSAGES
-  ========================================================= */
-
-  function showMessage(
-    text,
-    type = "success"
-  ) {
-
-    const box =
-      document.getElementById(
-        "globalMessage"
-      );
-
-    box.className =
-      "message " + type;
-
-    box.textContent =
-      text;
-
-    setTimeout(() => {
-
-      box.className =
-        "message";
-
-    }, 5000);
-
+  function showMessage(text, type="success"){
+    const box=document.getElementById("globalMessage");
+    box.className="message "+type; box.textContent=text;
+    setTimeout(()=>box.className="message",5000);
   }
 
-
-  /* =========================================================
-     API
-  ========================================================= */
-
-  async function api(
-    url,
-    options = {}
-  ) {
-
-    options.headers = {
-
-      ...(options.headers || {}),
-
-      "Content-Type":
-        "application/json",
-
-      "x-admin-key":
-        adminKey
-
-    };
-
-    const response =
-      await fetch(
-        url,
-        options
-      );
-
-    const data =
-      await response
-        .json()
-        .catch(() => ({}));
-
-    if (!response.ok) {
-
-      throw new Error(
-        data.error ||
-        "שגיאה בשרת"
-      );
-
-    }
-
+  async function api(url, options={}){
+    options.headers={...(options.headers||{}),"Content-Type":"application/json","x-admin-key":adminKey};
+    const response=await fetch(url,options);
+    const data=await response.json().catch(()=>({}));
+    if(!response.ok) throw new Error(data.error||"שגיאה בשרת");
     return data;
-
   }
 
+  document.getElementById("loginForm").addEventListener("submit",async(e)=>{
+    e.preventDefault();
+    const username=document.getElementById("adminUsername").value.trim();
+    const password=document.getElementById("adminPassword").value;
+    const errorBox=document.getElementById("loginError");
+    errorBox.style.display="none";
+    try{
+      const r=await fetch("/api/admin/login",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({username,password})});
+      const data=await r.json().catch(()=>({}));
+      if(!r.ok) throw new Error(data.error||"התחברות נכשלה");
+      adminKey=data.adminKey||"";
+      if(!adminKey) throw new Error("שרת האדמין לא החזיר מפתח התחברות");
+      localStorage.setItem("dada_admin_key",adminKey);
+      showAdmin();
+    }catch(err){errorBox.style.display="block";errorBox.textContent=err.message||"שגיאה בהתחברות";}
+  });
 
-  /* =========================================================
-     LOGIN
-  ========================================================= */
+  function showAdmin(){document.getElementById("loginScreen").style.display="none";document.getElementById("adminApp").style.display="block";loadAll();}
+  function logout(){localStorage.removeItem("dada_admin_key");adminKey="";location.reload();}
 
-  document
-    .getElementById("loginForm")
-    .addEventListener(
-      "submit",
-      async function(event) {
-
-        event.preventDefault();
-
-        const username =
-          document
-            .getElementById(
-              "adminUsername"
-            )
-            .value
-            .trim();
-
-        const password =
-          document
-            .getElementById(
-              "adminPassword"
-            )
-            .value;
-
-        const errorBox =
-          document
-            .getElementById(
-              "loginError"
-            );
-
-        errorBox.style.display =
-          "none";
-
-        errorBox.textContent =
-          "";
-
-        try {
-
-          const response =
-            await fetch(
-              "/api/admin/login",
-              {
-                method: "POST",
-
-                headers: {
-                  "Content-Type":
-                    "application/json"
-                },
-
-                body:
-                  JSON.stringify({
-                    username,
-                    password
-                  })
-              }
-            );
-
-          const data =
-            await response
-              .json()
-              .catch(() => ({}));
-
-          if (!response.ok) {
-
-            throw new Error(
-              data.error ||
-              "התחברות נכשלה"
-            );
-
-          }
-
-          adminKey =
-            data.adminKey || "";
-
-          if (!adminKey) {
-
-            throw new Error(
-              "שרת האדמין לא החזיר מפתח התחברות"
-            );
-
-          }
-
-          localStorage.setItem(
-            "dada_admin_key",
-            adminKey
-          );
-
-          showAdmin();
-
-        } catch (error) {
-
-          errorBox.style.display =
-            "block";
-
-          errorBox.textContent =
-            error.message ||
-            "שגיאה בהתחברות";
-
-        }
-
-      }
-    );
-
-
-  /* =========================================================
-     SHOW ADMIN
-  ========================================================= */
-
-  function showAdmin() {
-
-    document
-      .getElementById(
-        "loginScreen"
-      )
-      .style.display =
-        "none";
-
-    document
-      .getElementById(
-        "adminApp"
-      )
-      .style.display =
-        "block";
-
-    loadAll();
-
-  }
-
-
-  /* =========================================================
-     LOGOUT
-  ========================================================= */
-
-  function logout() {
-
-    localStorage.removeItem(
-      "dada_admin_key"
-    );
-
-    adminKey =
-      "";
-
-    location.reload();
-
-  }
-
-
-  /* =========================================================
-     NAVIGATION
-  ========================================================= */
-
-  document
-    .querySelectorAll(".nav-btn")
-    .forEach(button => {
-
-      button.addEventListener(
-        "click",
-        () => {
-
-          document
-            .querySelectorAll(
-              ".nav-btn"
-            )
-            .forEach(btn =>
-              btn.classList.remove(
-                "active"
-              )
-            );
-
-          document
-            .querySelectorAll(
-              ".tab"
-            )
-            .forEach(tab =>
-              tab.classList.remove(
-                "active"
-              )
-            );
-
-          button.classList.add(
-            "active"
-          );
-
-          document
-            .getElementById(
-              button.dataset.tab
-            )
-            .classList.add(
-              "active"
-            );
-
-        }
-      );
-
+  document.querySelectorAll(".nav-btn").forEach(button=>{
+    button.addEventListener("click",()=>{
+      document.querySelectorAll(".nav-btn").forEach(b=>b.classList.remove("active"));
+      document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+      button.classList.add("active");
+      document.getElementById(button.dataset.tab).classList.add("active");
     });
+  });
 
-
-  /* =========================================================
-     LOAD ALL
-  ========================================================= */
-
-  async function loadAll() {
-
-    try {
-
-      await loadProducts();
-
-      await loadOrders();
-
-    } catch (error) {
-
-      showMessage(
-        error.message,
-        "error"
-      );
-
-      if (
-        error.message ===
-        "Unauthorized"
-      ) {
-
-        logout();
-
-      }
-
-    }
-
+  async function loadAll(){
+    try{await loadProducts();await loadOrders();}
+    catch(error){showMessage(error.message,"error");if(error.message==="Unauthorized") logout();}
   }
 
-
-  /* =========================================================
-     PRODUCTS
-  ========================================================= */
-
-  async function loadProducts() {
-
-    products =
-      await api(
-        "/api/admin/products"
-      );
-
+  async function loadProducts(){
+    products=await api("/api/admin/products");
     renderProducts();
-
     renderCategories();
-
+    populateCategoryControls();
     updateStats();
-
   }
 
+  function currentCategories(){
+    return [...new Set(products.map(p=>String(p.category||"").trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"he"));
+  }
 
-  function renderProducts() {
-
-    const grid =
-      document.getElementById(
-        "productsGrid"
-      );
-
-    if (!products.length) {
-
-      grid.innerHTML =
-        '<div class="card empty">אין מוצרים</div>';
-
-      return;
-
+  function populateCategoryControls(){
+    const categories=currentCategories();
+    const add=document.getElementById("productCategorySelect");
+    add.innerHTML=`<option value="">בחר קטגוריה קיימת</option>`+categories.map(c=>`<option value="${escapeAttr(c)}">${escapeHtml(c)}</option>`).join("");
+    const move=document.getElementById("moveCategorySelect");
+    move.innerHTML=categories.map(c=>`<option value="${escapeAttr(c)}">${escapeHtml(c)}</option>`).join("");
+    const modal=document.getElementById("modalCategorySelect");
+    modal.innerHTML=categories.map(c=>`<option value="${escapeAttr(c)}">${escapeHtml(c)}</option>`).join("");
+    if(!categories.length){
+      move.innerHTML="<option value=''>אין קטגוריות</option>";
+      modal.innerHTML="<option value=''>אין קטגוריות</option>";
     }
-
-    grid.innerHTML =
-      products
-        .map(product => {
-
-          let imageHtml =
-            "";
-
-          if (
-            product.image &&
-            (
-              product.image.startsWith(
-                "http"
-              ) ||
-              product.image.startsWith(
-                "data:image"
-              )
-            )
-          ) {
-
-            imageHtml =
-              `<img
-                src="${escapeHtml(
-                  product.image
-                )}"
-                alt="">`;
-
-          } else {
-
-            imageHtml =
-              escapeHtml(
-                product.image ||
-                "📦"
-              );
-
-          }
-
-          return `
-
-            <div class="product-card">
-
-              <div class="product-image">
-                ${imageHtml}
-              </div>
-
-              <h3>
-                ${escapeHtml(
-                  product.name
-                )}
-              </h3>
-
-              <small>
-                ${escapeHtml(
-                  product.category ||
-                  "ללא קטגוריה"
-                )}
-              </small>
-
-              <div class="product-form">
-
-                <div class="field">
-
-                  <label>
-                    שם
-                  </label>
-
-                  <input
-                    id="name-${product.id}"
-                    value="${escapeAttr(
-                      product.name
-                    )}">
-
-                </div>
-
-
-                <div class="field">
-
-                  <label>
-                    מחיר ₪
-                  </label>
-
-                  <input
-                    id="price-${product.id}"
-                    type="number"
-                    min="0"
-                    step="0.01"
-                    value="${product.price}">
-
-                </div>
-
-
-                <div class="field">
-
-                  <label>
-                    מלאי
-                  </label>
-
-                  <input
-                    id="stock-${product.id}"
-                    type="number"
-                    min="0"
-                    value="${product.stock}">
-
-                </div>
-
-
-                <div class="field">
-
-                  <label>
-                    קטגוריה
-                  </label>
-
-                  <input
-                    id="category-${product.id}"
-                    value="${escapeAttr(
-                      product.category ||
-                      ""
-                    )}">
-
-                </div>
-
-
-                <div class="field">
-
-                  <label>
-                    תמונה / אימוג׳י
-                  </label>
-
-                  <input
-                    id="image-${product.id}"
-                    value="${escapeAttr(
-                      product.image ||
-                      ""
-                    )}">
-
-                </div>
-
-
-                <div class="field">
-
-                  <label>
-
-                    <input
-                      type="checkbox"
-                      id="active-${product.id}"
-                      ${
-                        product.active
-                          ? "checked"
-                          : ""
-                      }
-                      style="width:auto;">
-
-                    פעיל באתר
-
-                  </label>
-
-                </div>
-
-
-                <div class="product-actions">
-
-                  <button
-                    class="btn btn-green"
-                    onclick="saveProduct(${product.id})">
-
-                    שמור
-
-                  </button>
-
-                  <button
-                    class="btn btn-red"
-                    onclick="deleteProduct(${product.id})">
-
-                    מחק
-
-                  </button>
-
-                </div>
-
-              </div>
-
-            </div>
-
-          `;
-
-        })
-        .join("");
-
+    const productSelect=document.getElementById("moveProductSelect");
+    productSelect.innerHTML=products.map(p=>`<option value="${p.id}">${escapeHtml(p.name)} — ${escapeHtml(p.category||"ללא קטגוריה")}</option>`).join("");
   }
 
-
-  /* =========================================================
-     ADD PRODUCT
-  ========================================================= */
-
-  function showAddProduct() {
-
-    document
-      .getElementById(
-        "productFormCard"
-      )
-      .style.display =
-        "block";
-
-    document
-      .getElementById(
-        "productFormTitle"
-      )
-      .textContent =
-        "הוספת מוצר";
-
-    document
-      .getElementById(
-        "productForm"
-      )
-      .reset();
-
-    document
-      .getElementById(
-        "productId"
-      )
-      .value =
-        "";
-
+  function renderProducts(){
+    const grid=document.getElementById("productsGrid");
+    if(!products.length){grid.innerHTML='<div class="card empty">אין מוצרים</div>';return;}
+    grid.innerHTML=products.map(product=>{
+      const image=String(product.image||"").trim();
+      const imageHtml=/^https?:\/\//i.test(image)||image.startsWith("data:image")?`<img src="${escapeAttr(image)}" alt="">`:escapeHtml(image||"📦");
+      const cats=currentCategories();
+      const categoryOptions=cats.map(c=>`<option value="${escapeAttr(c)}" ${String(product.category||"")===c?"selected":""}>${escapeHtml(c)}</option>`).join("");
+      return `
+      <div class="product-card">
+        <div class="product-image">${imageHtml}</div>
+        <h3>${escapeHtml(product.name)}</h3>
+        <small>${escapeHtml(product.category||"ללא קטגוריה")}</small>
+        <div class="product-form">
+          <div class="field"><label>שם</label><input id="name-${product.id}" value="${escapeAttr(product.name)}"></div>
+          <div class="field"><label>תיאור</label><textarea id="desc-${product.id}" rows="3">${escapeHtml(product.description||"")}</textarea></div>
+          <div class="field"><label>מחיר ₪</label><input id="price-${product.id}" type="number" min="0" step="0.01" value="${product.price}"></div>
+          <div class="field"><label>מלאי</label><input id="stock-${product.id}" type="number" min="0" value="${product.stock}"></div>
+          <div class="field"><label>קטגוריה</label>
+            <select id="category-select-${product.id}" onchange="document.getElementById('category-${product.id}').value=this.value">
+              <option value="">בחר קטגוריה</option>${categoryOptions}
+            </select>
+            <input id="category-${product.id}" value="${escapeAttr(product.category||"")}" style="margin-top:8px" placeholder="או הקלד קטגוריה חדשה">
+          </div>
+          <div class="field"><label>תמונה / אימוג׳י</label>
+            <input id="image-${product.id}" value="${escapeAttr(product.image||"")}" oninput="previewProductImage('image-${product.id}','preview-${product.id}')">
+            <div id="preview-${product.id}" class="image-preview">${/^https?:\/\//i.test(image)||image.startsWith("data:image")?`<img src="${escapeAttr(image)}" alt="">`:`${escapeHtml(image||"📦")}`}</div>
+          </div>
+          <div class="field"><label><input type="checkbox" id="active-${product.id}" ${product.active?"checked":""} style="width:auto"> פעיל באתר</label></div>
+          <div class="product-actions">
+            <button class="btn btn-green" onclick="saveProduct(${product.id})">שמור</button>
+            <button class="btn btn-blue" onclick="openCategoryMove(${product.id})">העבר קטגוריה</button>
+            <button class="btn btn-red" onclick="deleteProduct(${product.id})">מחק</button>
+          </div>
+        </div>
+      </div>`;
+    }).join("");
   }
 
-
-  function hideProductForm() {
-
-    document
-      .getElementById(
-        "productFormCard"
-      )
-      .style.display =
-        "none";
-
+  function showAddProduct(){
+    document.getElementById("productFormCard").style.display="block";
+    document.getElementById("productFormTitle").textContent="הוספת מוצר";
+    document.getElementById("productForm").reset();
+    document.getElementById("productId").value="";
+    document.getElementById("addPreview").textContent="תצוגה מקדימה";
   }
+  function hideProductForm(){document.getElementById("productFormCard").style.display="none";}
 
-
-  document
-    .getElementById(
-      "productForm"
-    )
-    .addEventListener(
-      "submit",
-      async function(event) {
-
-        event.preventDefault();
-
-        try {
-
-          const data = {
-
-            name:
-              document
-                .getElementById(
-                  "productName"
-                )
-                .value,
-
-            description:
-              document
-                .getElementById(
-                  "productDescription"
-                )
-                .value,
-
-            price:
-              Number(
-                document
-                  .getElementById(
-                    "productPrice"
-                  )
-                  .value
-              ),
-
-            stock:
-              Number(
-                document
-                  .getElementById(
-                    "productStock"
-                  )
-                  .value
-              ),
-
-            category:
-              document
-                .getElementById(
-                  "productCategory"
-                )
-                .value,
-
-            image:
-              document
-                .getElementById(
-                  "productImage"
-                )
-                .value,
-
-            active:
-              document
-                .getElementById(
-                  "productActive"
-                )
-                .checked
-
-          };
-
-          await api(
-            "/api/admin/products",
-            {
-              method:
-                "POST",
-
-              body:
-                JSON.stringify(
-                  data
-                )
-
-            }
-          );
-
-          hideProductForm();
-
-          await loadProducts();
-
-          showMessage(
-            "המוצר נוסף בהצלחה"
-          );
-
-        } catch (error) {
-
-          showMessage(
-            error.message,
-            "error"
-          );
-
-        }
-
-      }
-    );
-
-
-  /* =========================================================
-     SAVE PRODUCT
-  ========================================================= */
-
-  async function saveProduct(id) {
-
-    try {
-
-      const product =
-        products.find(
-          p => p.id === id
-        );
-
-      const data = {
-
-        name:
-          document
-            .getElementById(
-              `name-${id}`
-            )
-            .value,
-
-        description:
-          product?.description ||
-          "",
-
-        price:
-          Number(
-            document
-              .getElementById(
-                `price-${id}`
-              )
-              .value
-          ),
-
-        stock:
-          Number(
-            document
-              .getElementById(
-                `stock-${id}`
-              )
-              .value
-          ),
-
-        category:
-          document
-            .getElementById(
-              `category-${id}`
-            )
-            .value,
-
-        image:
-          document
-            .getElementById(
-              `image-${id}`
-            )
-            .value,
-
-        active:
-          document
-            .getElementById(
-              `active-${id}`
-            )
-            .checked
-
+  document.getElementById("productForm").addEventListener("submit",async(e)=>{
+    e.preventDefault();
+    try{
+      const categoryFromSelect=document.getElementById("productCategorySelect").value;
+      const categoryTyped=document.getElementById("productCategory").value.trim();
+      const data={
+        name:document.getElementById("productName").value.trim(),
+        description:document.getElementById("productDescription").value,
+        price:Number(document.getElementById("productPrice").value),
+        stock:Number(document.getElementById("productStock").value),
+        category:categoryTyped||categoryFromSelect,
+        image:document.getElementById("productImage").value.trim(),
+        active:document.getElementById("productActive").checked
       };
+      await api("/api/admin/products",{method:"POST",body:JSON.stringify(data)});
+      hideProductForm(); await loadProducts(); showMessage("המוצר נוסף בהצלחה");
+    }catch(error){showMessage(error.message,"error");}
+  });
 
-      await api(
-        `/api/admin/products/${id}`,
-        {
-          method:
-            "PATCH",
-
-          body:
-            JSON.stringify(
-              data
-            )
-
-        }
-      );
-
-      await loadProducts();
-
-      showMessage(
-        "המוצר עודכן בהצלחה"
-      );
-
-    } catch (error) {
-
-      showMessage(
-        error.message,
-        "error"
-      );
-
-    }
-
+  async function saveProduct(id){
+    try{
+      const data={
+        name:document.getElementById(`name-${id}`).value.trim(),
+        description:document.getElementById(`desc-${id}`).value,
+        price:Number(document.getElementById(`price-${id}`).value),
+        stock:Number(document.getElementById(`stock-${id}`).value),
+        category:document.getElementById(`category-${id}`).value.trim(),
+        image:document.getElementById(`image-${id}`).value.trim(),
+        active:document.getElementById(`active-${id}`).checked
+      };
+      await api(`/api/admin/products/${id}`,{method:"PATCH",body:JSON.stringify(data)});
+      await loadProducts(); showMessage("המוצר עודכן בהצלחה");
+    }catch(error){showMessage(error.message,"error");}
   }
 
-
-  /* =========================================================
-     DELETE PRODUCT
-  ========================================================= */
-
-  async function deleteProduct(id) {
-
-    if (
-      !confirm(
-        "למחוק את המוצר?"
-      )
-    ) {
-
-      return;
-
-    }
-
-    try {
-
-      await api(
-        `/api/admin/products/${id}`,
-        {
-          method:
-            "DELETE"
-        }
-      );
-
-      await loadProducts();
-
-      showMessage(
-        "המוצר נמחק"
-      );
-
-    } catch (error) {
-
-      showMessage(
-        error.message,
-        "error"
-      );
-
-    }
-
+  async function deleteProduct(id){
+    if(!confirm("למחוק את המוצר?")) return;
+    try{await api(`/api/admin/products/${id}`,{method:"DELETE"});await loadProducts();showMessage("המוצר נמחק");}
+    catch(error){showMessage(error.message,"error");}
   }
 
-
-  /* =========================================================
-     CATEGORIES
-  ========================================================= */
-
-  function renderCategories() {
-
-    const list =
-      document.getElementById(
-        "categoriesList"
-      );
-
-    const categories =
-      [
-        ...new Set(
-          products
-            .map(
-              p => p.category
-            )
-            .filter(Boolean)
-        )
-      ];
-
-    if (!categories.length) {
-
-      list.innerHTML =
-        '<div class="empty">אין קטגוריות</div>';
-
-      return;
-
-    }
-
-    list.innerHTML =
-      categories
-        .map(
-          category =>
-            `<div class="category">
-              ${escapeHtml(
-                category
-              )}
-            </div>`
-        )
-        .join("");
-
+  function renderCategories(){
+    const list=document.getElementById("categoriesList");
+    const categories=currentCategories();
+    if(!categories.length){list.innerHTML='<div class="empty">אין קטגוריות</div>';return;}
+    const counts=categories.map(c=>({c,n:products.filter(p=>String(p.category||"").trim()===c).length}));
+    list.innerHTML=counts.map(x=>`<div class="category-item"><div class="category">${escapeHtml(x.c)} · ${x.n}</div></div>`).join("");
   }
 
-
-  /* =========================================================
-     ORDERS
-  ========================================================= */
-
-  async function loadOrders() {
-
-    orders =
-      await api(
-        "/api/orders"
-      );
-
-    renderOrders();
-
-    updateStats();
-
+  function prepareCategoryMove(){
+    const id=Number(document.getElementById("moveProductSelect").value);
+    const p=products.find(x=>Number(x.id)===id);
+    if(!p) return;
+    const select=document.getElementById("moveCategorySelect");
+    if(p.category) select.value=p.category;
   }
 
-
-  function renderOrders() {
-
-    const container =
-      document.getElementById(
-        "ordersList"
-      );
-
-    if (!orders.length) {
-
-      container.innerHTML =
-        '<div class="card empty">אין הזמנות עדיין</div>';
-
-      return;
-
-    }
-
-    container.innerHTML =
-      orders
-        .map(order => {
-
-          let items = [];
-
-          try {
-
-            items =
-              typeof order.items ===
-              "string"
-
-                ? JSON.parse(
-                    order.items
-                  )
-
-                : Array.isArray(
-                    order.items
-                  )
-                    ? order.items
-                    : [];
-
-          } catch {
-
-            items = [];
-
-          }
-
-          return `
-
-            <div class="order-card">
-
-              <div class="order-header">
-
-                <div>
-
-                  <div class="order-number">
-                    ${escapeHtml(
-                      order.order_number
-                    )}
-                  </div>
-
-                  <small>
-                    ${escapeHtml(
-                      new Date(
-                        order.created_at
-                      )
-                      .toLocaleString(
-                        "he-IL"
-                      )
-                    )}
-                  </small>
-
-                </div>
-
-
-                <select
-                  onchange="
-                    updateOrderStatus(
-                      ${order.id},
-                      this.value
-                    )
-                  "
-                >
-
-                  ${[
-                    "חדשה",
-                    "בטיפול",
-                    "נשלחה",
-                    "הושלמה"
-                  ]
-                  .map(status => `
-                    <option
-                      value="${status}"
-                      ${
-                        order.status ===
-                        status
-                          ? "selected"
-                          : ""
-                      }
-                    >
-                      ${status}
-                    </option>
-                  `)
-                  .join("")}
-
-                </select>
-
-              </div>
-
-
-              <div class="order-info">
-
-                <div class="info-box">
-
-                  <strong>
-                    👤 לקוח
-                  </strong>
-
-                  ${escapeHtml(
-                    order.customer_name
-                  )}
-
-                </div>
-
-
-                <div class="info-box">
-
-                  <strong>
-                    📞 טלפון
-                  </strong>
-
-                  ${escapeHtml(
-                    order.phone
-                  )}
-
-                </div>
-
-
-                <div class="info-box">
-
-                  <strong>
-                    📧 אימייל
-                  </strong>
-
-                  ${escapeHtml(
-                    order.email ||
-                    "לא נמסר"
-                  )}
-
-                </div>
-
-
-                <div class="info-box">
-
-                  <strong>
-                    💳 תשלום
-                  </strong>
-
-                  <span class="payment-badge">
-                    ${escapeHtml(
-                      order.payment_method ||
-                      "לא נבחר"
-                    )}
-                  </span>
-
-                </div>
-
-
-                <div class="info-box">
-
-                  <strong>
-                    🚚 משלוח
-                  </strong>
-
-                  ${escapeHtml(
-                    order.shipping ||
-                    ""
-                  )}
-
-                </div>
-
-
-                <div class="info-box">
-
-                  <strong>
-                    📍 כתובת
-                  </strong>
-
-                  ${escapeHtml(
-                    order.city || ""
-                  )},
-                  ${escapeHtml(
-                    order.street || ""
-                  )}
-                  ${escapeHtml(
-                    order.house_number || ""
-                  )}
-
-                  ${
-                    order.apartment
-                      ? ", דירה " +
-                        escapeHtml(
-                          order.apartment
-                        )
-                      : ""
-                  }
-
-                </div>
-
-
-                <div class="info-box">
-
-                  <strong>
-                    📝 הערות
-                  </strong>
-
-                  ${escapeHtml(
-                    order.notes ||
-                    "אין"
-                  )}
-
-                </div>
-
-              </div>
-
-
-              <strong>
-                פריטים:
-              </strong>
-
-
-              <div class="items-list">
-
-                ${
-                  items.length
-
-                    ? items
-                        .map(
-                          item => `
-
-                            <div
-                              class="item-row"
-                            >
-
-                              <span>
-
-                                ${escapeHtml(
-                                  item.name ||
-                                  "מוצר"
-                                )}
-
-                                ×
-
-                                ${
-                                  item.quantity ||
-                                  1
-                                }
-
-                              </span>
-
-                              <span>
-
-                                ${
-                                  Number(
-                                    item.price ||
-                                    0
-                                  ) *
-                                  Number(
-                                    item.quantity ||
-                                    1
-                                  )
-                                }
-
-                                ₪
-
-                              </span>
-
-                            </div>
-
-                          `
-                        )
-                        .join("")
-
-                    : "אין פירוט"
-                }
-
-              </div>
-
-
-              <div class="order-total">
-
-                סה״כ:
-
-                ${Number(
-                  order.total || 0
-                ).toFixed(2)}
-
-                ₪
-
-              </div>
-
-              <br>
-
-
-              <button
-                class="btn btn-red"
-                onclick="
-                  deleteOrder(
-                    ${order.id}
-                  )
-                "
-              >
-
-                מחק הזמנה
-
-              </button>
-
-            </div>
-
-          `;
-
-        })
-        .join("");
-
+  function moveSelectedProduct(){
+    const id=Number(document.getElementById("moveProductSelect").value);
+    if(!id){showMessage("בחר מוצר","error");return;}
+    openCategoryMove(id);
   }
 
-
-  /* =========================================================
-     UPDATE ORDER STATUS
-  ========================================================= */
-
-  async function updateOrderStatus(
-    id,
-    status
-  ) {
-
-    try {
-
-      await api(
-        `/api/orders/${id}`,
-        {
-          method:
-            "PATCH",
-
-          body:
-            JSON.stringify({
-              status
-            })
-
-        }
-      );
-
-      await loadOrders();
-
-      showMessage(
-        "סטטוס ההזמנה עודכן"
-      );
-
-    } catch (error) {
-
-      showMessage(
-        error.message,
-        "error"
-      );
-
-    }
-
+  function openCategoryMove(id){
+    const product=products.find(p=>Number(p.id)===Number(id));
+    if(!product) return;
+    moveProductId=product.id;
+    const modal=document.getElementById("categoryMoveModal");
+    const select=document.getElementById("modalCategorySelect");
+    if(product.category && currentCategories().includes(product.category)) select.value=product.category;
+    document.getElementById("categoryMoveText").textContent=`המוצר "${product.name}" נמצא כרגע בקטגוריה "${product.category||"ללא קטגוריה"}". בחר קטגוריה חדשה ושמור.`;
+    modal.classList.add("show");
   }
 
+  function closeCategoryMove(){moveProductId=null;document.getElementById("categoryMoveModal").classList.remove("show");}
 
-  /* =========================================================
-     DELETE ORDER
-  ========================================================= */
-
-  async function deleteOrder(id) {
-
-    if (
-      !confirm(
-        "למחוק את ההזמנה?"
-      )
-    ) {
-
-      return;
-
-    }
-
-    try {
-
-      await api(
-        `/api/orders/${id}`,
-        {
-          method:
-            "DELETE"
-        }
-      );
-
-      await loadOrders();
-
-      showMessage(
-        "ההזמנה נמחקה"
-      );
-
-    } catch (error) {
-
-      showMessage(
-        error.message,
-        "error"
-      );
-
-    }
-
+  async function confirmCategoryMove(){
+    if(!moveProductId)return;
+    const product=products.find(p=>Number(p.id)===Number(moveProductId));
+    const category=document.getElementById("modalCategorySelect").value;
+    if(!product||!category){showMessage("בחר קטגוריה","error");return;}
+    try{
+      await api(`/api/admin/products/${product.id}`,{method:"PATCH",body:JSON.stringify({
+        name:product.name,description:product.description||"",price:Number(product.price||0),stock:Number(product.stock||0),category,image:product.image||"",active:product.active!==false
+      })});
+      closeCategoryMove();await loadProducts();showMessage("המוצר הועבר לקטגוריה החדשה");
+    }catch(error){showMessage(error.message,"error");}
   }
 
-
-  /* =========================================================
-     STATS
-  ========================================================= */
-
-  function updateStats() {
-
-    document
-      .getElementById(
-        "statProducts"
-      )
-      .textContent =
-        products.length;
-
-    document
-      .getElementById(
-        "statOrders"
-      )
-      .textContent =
-        orders.length;
-
-    const revenue =
-      orders.reduce(
-        (sum, order) =>
-          sum +
-          Number(
-            order.total || 0
-          ),
-        0
-      );
-
-    document
-      .getElementById(
-        "statRevenue"
-      )
-      .textContent =
-        revenue.toFixed(2) +
-        " ₪";
-
-    document
-      .getElementById(
-        "statNewOrders"
-      )
-      .textContent =
-        orders.filter(
-          order =>
-            order.status ===
-            "חדשה"
-        ).length;
-
+  function previewProductImage(inputId,previewId){
+    const value=document.getElementById(inputId)?.value.trim();
+    const box=document.getElementById(previewId);
+    if(!box)return;
+    if(/^https?:\/\//i.test(value)||value.startsWith("data:image")) box.innerHTML=`<img src="${escapeAttr(value)}" alt="" onerror="this.parentElement.textContent='לא ניתן לטעון תמונה'">`;
+    else box.textContent=value||"תצוגה מקדימה";
   }
 
+  async function loadOrders(){orders=await api("/api/orders");renderOrders();updateStats();}
 
-  /* =========================================================
-     TEST EMAIL
-  ========================================================= */
-
-  async function sendTestEmail() {
-
-    const button =
-      document.getElementById(
-        "testEmailButton"
-      );
-
-    const resultBox =
-      document.getElementById(
-        "emailResult"
-      );
-
-    button.disabled =
-      true;
-
-    button.textContent =
-      "⏳ שולח...";
-
-    resultBox.className =
-      "message";
-
-    try {
-
-      const data =
-        await api(
-          "/api/admin/test-email",
-          {
-            method:
-              "POST"
-          }
-        );
-
-      resultBox.className =
-        "message success";
-
-      resultBox.textContent =
-        "✅ מייל הבדיקה נשלח בהצלחה ל־dadadelivery2017@gmail.com. בדוק גם בתיקיית ספאם.";
-
-    } catch (error) {
-
-      resultBox.className =
-        "message error";
-
-      resultBox.textContent =
-        "❌ שליחת המייל נכשלה: " +
-        error.message;
-
-    } finally {
-
-      button.disabled =
-        false;
-
-      button.textContent =
-        "📧 שלח מייל בדיקה";
-
-    }
-
+  function renderOrders(){
+    const container=document.getElementById("ordersList");
+    const search=(document.getElementById("orderSearch").value||"").trim().toLowerCase();
+    const filter=document.getElementById("orderFilter").value;
+    const filtered=orders.filter(order=>{
+      const hay=[order.order_number,order.customer_name,order.phone,order.email].map(v=>String(v||"").toLowerCase()).join(" ");
+      return (!search||hay.includes(search))&&(filter==="all"||order.status===filter);
+    });
+    if(!filtered.length){container.innerHTML='<div class="card empty">אין הזמנות מתאימות</div>';return;}
+    container.innerHTML=filtered.map(order=>{
+      let items=[];try{items=Array.isArray(order.items)?order.items:JSON.parse(order.items||"[]")}catch{items=[]}
+      const statusClass=order.status==="הושלמה"?"status-done":order.status==="בטיפול"?"status-working":order.status==="נשלחה"?"status-sent":"status-new";
+      const completed=order.status==="הושלמה";
+      return `
+      <div class="order-card">
+        <div class="order-header">
+          <div>
+            <div class="order-number">${escapeHtml(order.order_number)}</div>
+            <small>${escapeHtml(new Date(order.created_at).toLocaleString("he-IL"))}</small>
+            <div style="margin-top:8px"><span class="status-badge ${statusClass}">${escapeHtml(order.status||"חדשה")}</span></div>
+          </div>
+          <select onchange="updateOrderStatus(${order.id},this.value)">
+            ${["חדשה","בטיפול","נשלחה","הושלמה"].map(s=>`<option value="${escapeAttr(s)}" ${order.status===s?"selected":""}>${escapeHtml(s)}</option>`).join("")}
+          </select>
+        </div>
+        <div class="order-info">
+          <div class="info-box"><strong>👤 לקוח</strong>${escapeHtml(order.customer_name)}</div>
+          <div class="info-box"><strong>📞 טלפון</strong>${escapeHtml(order.phone)}</div>
+          <div class="info-box"><strong>📧 אימייל</strong>${escapeHtml(order.email||"לא נמסר")}</div>
+          <div class="info-box"><strong>💳 תשלום</strong><span class="payment-badge">${escapeHtml(order.payment_method||"לא נבחר")}</span></div>
+          <div class="info-box"><strong>🚚 משלוח</strong>${escapeHtml(order.shipping||"")}</div>
+          <div class="info-box"><strong>📍 כתובת</strong>${escapeHtml(order.city||"")}, ${escapeHtml(order.street||"")} ${escapeHtml(order.house_number||"")}${order.apartment?", דירה "+escapeHtml(order.apartment):""}</div>
+          <div class="info-box"><strong>📝 הערות</strong>${escapeHtml(order.notes||"אין")}</div>
+        </div>
+        <strong>פריטים:</strong>
+        <div class="items-list">${items.length?items.map(item=>`<div class="item-row"><span>${escapeHtml(item.name||"מוצר")} × ${Number(item.quantity||1)}</span><span>${(Number(item.price||0)*Number(item.quantity||1)).toFixed(2)} ₪</span></div>`).join(""):"אין פירוט"}</div>
+        <div class="order-total">סה״כ: ${Number(order.total||0).toFixed(2)} ₪</div>
+        ${completed?`<div class="completed-box">✅ ההזמנה נשמרה כהושלמה במערכת.</div>`:""}
+        <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap">
+          ${!completed?`<button class="btn btn-green" onclick="markOrderCompleted(${order.id})">✓ סמן כהושלמה</button>`:""}
+          <button class="btn btn-red" onclick="deleteOrder(${order.id})">מחק הזמנה</button>
+        </div>
+      </div>`;
+    }).join("");
   }
 
-
-  /* =========================================================
-     ESCAPE HTML
-  ========================================================= */
-
-  function escapeHtml(value) {
-
-    return String(
-      value ?? ""
-    )
-      .replaceAll(
-        "&",
-        "&amp;"
-      )
-      .replaceAll(
-        "<",
-        "&lt;"
-      )
-      .replaceAll(
-        ">",
-        "&gt;"
-      )
-      .replaceAll(
-        '"',
-        "&quot;"
-      )
-      .replaceAll(
-        "'",
-        "&#039;"
-      );
-
+  async function updateOrderStatus(id,status){
+    try{await api(`/api/orders/${id}`,{method:"PATCH",body:JSON.stringify({status})});await loadOrders();showMessage("סטטוס ההזמנה עודכן");}
+    catch(error){showMessage(error.message,"error");}
   }
 
+  async function markOrderCompleted(id){await updateOrderStatus(id,"הושלמה");}
 
-  function escapeAttr(value) {
-
-    return escapeHtml(
-      value
-    );
-
+  async function deleteOrder(id){
+    if(!confirm("למחוק את ההזמנה?"))return;
+    try{await api(`/api/orders/${id}`,{method:"DELETE"});await loadOrders();showMessage("ההזמנה נמחקה");}
+    catch(error){showMessage(error.message,"error");}
   }
 
-
-  /* =========================================================
-     START FROM SAVED ADMIN KEY
-  ========================================================= */
-
-  if (adminKey) {
-
-    showAdmin();
-
+  function updateStats(){
+    document.getElementById("statProducts").textContent=products.length;
+    document.getElementById("statOrders").textContent=orders.length;
+    const revenue=orders.reduce((s,o)=>s+Number(o.total||0),0);
+    document.getElementById("statRevenue").textContent=revenue.toFixed(2)+" ₪";
+    document.getElementById("statNewOrders").textContent=orders.filter(o=>o.status==="חדשה").length;
+    document.getElementById("completedOrdersSummary").textContent=orders.filter(o=>o.status==="הושלמה").length+" הזמנות הושלמו ונשמרו";
   }
 
+  async function sendTestEmail(){
+    const button=document.getElementById("testEmailButton");
+    const resultBox=document.getElementById("emailResult");
+    button.disabled=true;button.textContent="⏳ שולח...";resultBox.className="message";
+    try{
+      await api("/api/admin/test-email",{method:"POST"});
+      resultBox.className="message success";
+      resultBox.textContent="✅ מייל דוגמה של לקוח נשלח בהצלחה. בדוק את תיבת הדואר ואת תיקיית הספאם.";
+    }catch(error){
+      resultBox.className="message error";
+      resultBox.textContent="❌ שליחת המייל נכשלה: "+error.message;
+    }finally{button.disabled=false;button.textContent="📧 שלח מייל דוגמה ללקוח";}
+  }
+
+  function escapeHtml(value){return String(value??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
+  function escapeAttr(value){return escapeHtml(value)}
+
+  if(adminKey) showAdmin();
 </script>
-
 </body>
 </html>
