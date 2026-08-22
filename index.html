@@ -30,10 +30,7 @@
 
     body {
       margin: 0;
-      font-family:
-        Arial,
-        "Segoe UI",
-        sans-serif;
+      font-family: Arial, "Segoe UI", sans-serif;
       background: #f6f9fd;
       color: var(--text);
     }
@@ -83,7 +80,6 @@
       margin: auto;
       min-height: 78px;
       padding: 0 22px;
-
       display: flex;
       align-items: center;
       gap: 25px;
@@ -104,11 +100,9 @@
       border-radius: 14px;
       background: linear-gradient(135deg, #0878ed, #063a91);
       color: white;
-
       display: flex;
       align-items: center;
       justify-content: center;
-
       font-size: 24px;
       box-shadow: 0 8px 20px rgba(7,87,201,.25);
     }
@@ -169,14 +163,11 @@
       background: var(--blue);
       border-radius: 13px;
       padding: 12px 18px;
-
       display: flex;
       align-items: center;
       gap: 9px;
-
       font-size: 15px;
       font-weight: bold;
-
       box-shadow: 0 8px 20px rgba(7,87,201,.25);
     }
 
@@ -211,7 +202,6 @@
       min-height: 350px;
       border-radius: 25px;
       overflow: hidden;
-
       background:
         radial-gradient(
           circle at 85% 20%,
@@ -224,12 +214,9 @@
           #0874e8 55%,
           #00a4e8
         );
-
       color: white;
-
       padding: 50px;
       position: relative;
-
       display: flex;
       align-items: center;
     }
@@ -295,7 +282,6 @@
       max-width: 1250px;
       margin: 0 auto 35px;
       padding: 0 22px;
-
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 15px;
@@ -306,11 +292,9 @@
       border: 1px solid var(--border);
       border-radius: 16px;
       padding: 20px;
-
       display: flex;
       align-items: center;
       gap: 14px;
-
       box-shadow: var(--shadow);
     }
 
@@ -321,11 +305,9 @@
       border-radius: 13px;
       background: var(--blue-light);
       color: var(--blue);
-
       display: flex;
       align-items: center;
       justify-content: center;
-
       font-size: 22px;
     }
 
@@ -387,15 +369,9 @@
       font-size: 16px;
     }
 
-    .search-box input:focus {
-      border-color: var(--blue);
-      box-shadow: 0 0 0 4px rgba(7,87,201,.08);
-    }
-
     .products {
       display: grid;
-      grid-template-columns:
-        repeat(4, minmax(0, 1fr));
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 20px;
     }
 
@@ -404,12 +380,8 @@
       border: 1px solid var(--border);
       border-radius: 18px;
       overflow: hidden;
-
       box-shadow: 0 5px 25px rgba(20,65,120,.07);
-
-      transition:
-        transform .2s,
-        box-shadow .2s;
+      transition: transform .2s, box-shadow .2s;
     }
 
     .product:hover {
@@ -419,17 +391,10 @@
 
     .product-image {
       height: 220px;
-      background:
-        linear-gradient(
-          145deg,
-          #f1f7ff,
-          #e9f2ff
-        );
-
+      background: linear-gradient(145deg, #f1f7ff, #e9f2ff);
       display: flex;
       align-items: center;
       justify-content: center;
-
       position: relative;
       overflow: hidden;
     }
@@ -449,10 +414,8 @@
       position: absolute;
       top: 12px;
       right: 12px;
-
       background: #dff8eb;
       color: #087a43;
-
       padding: 7px 10px;
       border-radius: 50px;
       font-size: 11px;
@@ -506,10 +469,6 @@
       font-weight: bold;
     }
 
-    .add-button:hover {
-      background: var(--blue-dark);
-    }
-
     .add-button:disabled {
       background: #cbd5e1;
       cursor: not-allowed;
@@ -526,7 +485,7 @@
     }
 
     /* =========================
-       CART DRAWER
+       CART
     ========================= */
 
     .overlay {
@@ -547,16 +506,12 @@
       right: 0;
       width: min(450px, 100%);
       height: 100vh;
-
       background: white;
       z-index: 110;
-
       transform: translateX(105%);
       transition: transform .3s ease;
-
       display: flex;
       flex-direction: column;
-
       box-shadow: -15px 0 50px rgba(0,0,0,.18);
     }
 
@@ -567,7 +522,6 @@
     .cart-header {
       padding: 20px;
       border-bottom: 1px solid var(--border);
-
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -611,7 +565,6 @@
     .cart-item {
       border-bottom: 1px solid var(--border);
       padding: 15px 0;
-
       display: flex;
       gap: 12px;
     }
@@ -621,11 +574,9 @@
       height: 65px;
       border-radius: 12px;
       background: var(--blue-light);
-
       display: flex;
       align-items: center;
       justify-content: center;
-
       flex-shrink: 0;
       overflow: hidden;
     }
@@ -718,7 +669,6 @@
       inset: 0;
       background: #f5f8fc;
       z-index: 200;
-
       display: none;
       overflow-y: auto;
     }
@@ -810,27 +760,37 @@
       box-shadow: 0 0 0 3px rgba(7,87,201,.08);
     }
 
-    .shipping-options {
+    .shipping-options,
+    .payment-options {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 12px;
       margin: 10px 0 20px;
     }
 
-    .shipping-option {
+    .shipping-option,
+    .payment-option {
       border: 2px solid var(--border);
       border-radius: 12px;
       padding: 15px;
       cursor: pointer;
+      transition: .15s;
     }
 
-    .shipping-option.selected {
+    .shipping-option.selected,
+    .payment-option.selected {
       border-color: var(--blue);
       background: var(--blue-light);
     }
 
-    .shipping-option input {
+    .shipping-option input,
+    .payment-option input {
       margin-left: 7px;
+    }
+
+    .payment-title {
+      margin-top: 25px;
+      margin-bottom: 8px;
     }
 
     .order-summary-item {
@@ -867,24 +827,106 @@
       cursor: not-allowed;
     }
 
-    .order-message {
-      margin-top: 15px;
-      padding: 14px;
-      border-radius: 10px;
+    /* =========================
+       SUCCESS MODAL
+    ========================= */
+
+    .success-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
       display: none;
-      line-height: 1.6;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: rgba(5,25,55,.62);
     }
 
-    .order-success {
-      display: block;
+    .success-modal.show {
+      display: flex;
+    }
+
+    .success-card {
+      width: min(480px, 100%);
+      background: white;
+      border-radius: 24px;
+      padding: 35px;
+      text-align: center;
+      box-shadow: 0 25px 80px rgba(0,0,0,.25);
+    }
+
+    .success-icon {
+      width: 82px;
+      height: 82px;
+      margin: 0 auto 20px;
+      border-radius: 50%;
       background: #dcfce7;
-      color: #166534;
+      color: #16a34a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 42px;
     }
 
-    .order-error {
-      display: block;
-      background: #fee2e2;
-      color: #991b1b;
+    .success-card h2 {
+      margin: 0 0 10px;
+      font-size: 28px;
+    }
+
+    .success-card p {
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .success-order-number {
+      margin: 20px 0 12px;
+      padding: 15px;
+      border-radius: 12px;
+      background: var(--blue-light);
+      color: var(--blue-dark);
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    .success-payment {
+      margin-bottom: 20px;
+      color: #334155;
+      font-weight: bold;
+    }
+
+    .success-home-button {
+      width: 100%;
+      border: 0;
+      background: var(--blue);
+      color: white;
+      padding: 15px;
+      border-radius: 12px;
+      font-size: 17px;
+      font-weight: bold;
+    }
+
+    /* =========================
+       TOAST
+    ========================= */
+
+    .toast {
+      position: fixed;
+      left: 20px;
+      bottom: 20px;
+      z-index: 1500;
+      background: #10233f;
+      color: white;
+      padding: 14px 18px;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.2);
+      transform: translateY(100px);
+      opacity: 0;
+      transition: .3s;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
     }
 
     /* =========================
@@ -900,7 +942,6 @@
     .footer-inner {
       max-width: 1250px;
       margin: auto;
-
       display: grid;
       grid-template-columns: 2fr 1fr 1fr;
       gap: 40px;
@@ -925,38 +966,11 @@
     }
 
     /* =========================
-       TOAST
-    ========================= */
-
-    .toast {
-      position: fixed;
-      left: 20px;
-      bottom: 20px;
-      z-index: 500;
-
-      background: #10233f;
-      color: white;
-
-      padding: 14px 18px;
-      border-radius: 12px;
-
-      box-shadow: 0 10px 30px rgba(0,0,0,.2);
-
-      transform: translateY(100px);
-      opacity: 0;
-      transition: .3s;
-    }
-
-    .toast.show {
-      transform: translateY(0);
-      opacity: 1;
-    }
-
-    /* =========================
        MOBILE
     ========================= */
 
     @media (max-width: 1000px) {
+
       .products {
         grid-template-columns: repeat(3, 1fr);
       }
@@ -971,6 +985,7 @@
     }
 
     @media (max-width: 760px) {
+
       .header-inner {
         min-height: 68px;
         padding: 0 12px;
@@ -1074,16 +1089,22 @@
         grid-column: auto;
       }
 
-      .shipping-options {
+      .shipping-options,
+      .payment-options {
         grid-template-columns: 1fr;
       }
 
       .footer-inner {
         grid-template-columns: 1fr;
       }
+
+      .success-card {
+        padding: 28px 20px;
+      }
     }
 
     @media (max-width: 420px) {
+
       .products {
         grid-template-columns: 1fr 1fr;
       }
@@ -1102,49 +1123,89 @@
 <body>
 
   <!-- TOP BAR -->
+
   <div class="topbar">
     🚚 משלוחים ואיסוף עצמי | שירות אישי ומקצועי
   </div>
 
+
   <!-- HEADER -->
+
   <header>
+
     <div class="header-inner">
 
       <a href="#" class="logo">
-        <div class="logo-icon">🛡️</div>
+
+        <div class="logo-icon">
+          🛡️
+        </div>
 
         <div>
           <strong>Dada Best</strong>
-          <span>פתרונות אבטחה חכמים</span>
+          <span>
+            פתרונות אבטחה חכמים
+          </span>
         </div>
+
       </a>
 
+
       <nav class="nav">
-        <button onclick="scrollToProducts()">כל המוצרים</button>
-        <button onclick="filterProducts('מצל')">מצלמות</button>
-        <button onclick="filterProducts('NVR')">מערכות הקלטה</button>
-        <button onclick="scrollToProducts()">אביזרים</button>
+
+        <button
+          onclick="scrollToProducts()"
+        >
+          כל המוצרים
+        </button>
+
+        <button
+          onclick="filterProducts('מצל')"
+        >
+          מצלמות
+        </button>
+
+        <button
+          onclick="filterProducts('NVR')"
+        >
+          מערכות הקלטה
+        </button>
+
+        <button
+          onclick="scrollToProducts()"
+        >
+          אביזרים
+        </button>
+
       </nav>
+
 
       <div class="header-actions">
 
         <button
           class="search-button"
           onclick="toggleSearch()"
-          title="חיפוש">
+          title="חיפוש"
+        >
           🔍
         </button>
 
+
         <button
           class="cart-button"
-          onclick="openCart()">
+          onclick="openCart()"
+        >
 
           🛒
-          <span>עגלה</span>
+
+          <span>
+            עגלה
+          </span>
 
           <span
             class="cart-count"
-            id="cartCount">
+            id="cartCount"
+          >
             0
           </span>
 
@@ -1153,9 +1214,12 @@
       </div>
 
     </div>
+
   </header>
 
+
   <!-- HERO -->
+
   <section class="hero">
 
     <div class="hero-box">
@@ -1179,11 +1243,13 @@
 
         <button
           class="hero-btn"
-          onclick="scrollToProducts()">
+          onclick="scrollToProducts()"
+        >
           🛍️ לכל המוצרים
         </button>
 
       </div>
+
 
       <div class="hero-camera">
         📹
@@ -1193,72 +1259,132 @@
 
   </section>
 
+
   <!-- BENEFITS -->
+
   <section class="benefits">
 
     <div class="benefit">
-      <div class="benefit-icon">🚚</div>
-      <div>
-        <strong>משלוחים</strong>
-        <span>משלוח עד הבית</span>
+
+      <div class="benefit-icon">
+        🚚
       </div>
+
+      <div>
+        <strong>
+          משלוחים
+        </strong>
+
+        <span>
+          משלוח עד הבית
+        </span>
+      </div>
+
     </div>
 
-    <div class="benefit">
-      <div class="benefit-icon">🏪</div>
-      <div>
-        <strong>איסוף עצמי</strong>
-        <span>אפשרות לאיסוף</span>
-      </div>
-    </div>
 
     <div class="benefit">
-      <div class="benefit-icon">🛡️</div>
-      <div>
-        <strong>מוצרים איכותיים</strong>
-        <span>ציוד שנבחר בקפידה</span>
+
+      <div class="benefit-icon">
+        🏪
       </div>
+
+      <div>
+        <strong>
+          איסוף עצמי
+        </strong>
+
+        <span>
+          אפשרות לאיסוף
+        </span>
+      </div>
+
     </div>
 
+
     <div class="benefit">
-      <div class="benefit-icon">💬</div>
-      <div>
-        <strong>שירות אישי</strong>
-        <span>אנחנו כאן בשבילכם</span>
+
+      <div class="benefit-icon">
+        🛡️
       </div>
+
+      <div>
+        <strong>
+          מוצרים איכותיים
+        </strong>
+
+        <span>
+          ציוד שנבחר בקפידה
+        </span>
+      </div>
+
+    </div>
+
+
+    <div class="benefit">
+
+      <div class="benefit-icon">
+        💬
+      </div>
+
+      <div>
+        <strong>
+          שירות אישי
+        </strong>
+
+        <span>
+          אנחנו כאן בשבילכם
+        </span>
+      </div>
+
     </div>
 
   </section>
 
+
   <!-- SHOP -->
-  <main class="shop" id="shop">
+
+  <main
+    class="shop"
+    id="shop"
+  >
 
     <div class="section-heading">
 
       <div>
-        <h2>המוצרים שלנו</h2>
+
+        <h2>
+          המוצרים שלנו
+        </h2>
+
         <p>
           בחרו את המוצרים שמתאימים לכם
         </p>
+
       </div>
 
     </div>
 
+
     <div
       class="search-box"
-      id="searchBox">
+      id="searchBox"
+    >
 
       <input
         type="search"
         id="searchInput"
         placeholder="🔍 חיפוש מוצר..."
-        oninput="searchProducts()">
+        oninput="searchProducts()"
+      >
 
     </div>
 
+
     <div
       class="products"
-      id="products">
+      id="products"
+    >
 
       <div class="loading">
         טוען מוצרים...
@@ -1268,36 +1394,71 @@
 
   </main>
 
+
   <!-- FOOTER -->
+
   <footer>
 
     <div class="footer-inner">
 
       <div>
-        <h3>Dada Best</h3>
+
+        <h3>
+          Dada Best
+        </h3>
 
         <p>
           החנות שלך לציוד אבטחה,
           מצלמות ומערכות חכמות
           לבית ולעסק.
         </p>
+
       </div>
 
-      <div>
-        <h3>שירות</h3>
-        <p>משלוחים</p>
-        <p>איסוף עצמי</p>
-        <p>שירות לקוחות</p>
-      </div>
 
       <div>
-        <h3>מידע</h3>
-        <p>המוצרים שלנו</p>
-        <p>הזמנות</p>
-        <p>צור קשר</p>
+
+        <h3>
+          שירות
+        </h3>
+
+        <p>
+          משלוחים
+        </p>
+
+        <p>
+          איסוף עצמי
+        </p>
+
+        <p>
+          שירות לקוחות
+        </p>
+
+      </div>
+
+
+      <div>
+
+        <h3>
+          מידע
+        </h3>
+
+        <p>
+          המוצרים שלנו
+        </p>
+
+        <p>
+          הזמנות
+        </p>
+
+        <p>
+          צור קשר
+        </p>
+
       </div>
 
     </div>
+
 
     <div class="copyright">
       © 2026 Dada Best — כל הזכויות שמורות
@@ -1305,33 +1466,44 @@
 
   </footer>
 
+
   <!-- OVERLAY -->
+
   <div
     class="overlay"
     id="overlay"
-    onclick="closeCart()">
+    onclick="closeCart()"
+  >
   </div>
 
+
   <!-- CART -->
+
   <aside
     class="cart-drawer"
-    id="cartDrawer">
+    id="cartDrawer"
+  >
 
     <div class="cart-header">
 
-      <h2>🛒 סל הקניות</h2>
+      <h2>
+        🛒 סל הקניות
+      </h2>
 
       <button
         class="close-cart"
-        onclick="closeCart()">
+        onclick="closeCart()"
+      >
         ×
       </button>
 
     </div>
 
+
     <div
       class="cart-items"
-      id="cartItems">
+      id="cartItems"
+    >
 
       <div class="cart-empty">
 
@@ -1339,7 +1511,9 @@
           🛒
         </div>
 
-        <strong>העגלה עדיין ריקה</strong>
+        <strong>
+          העגלה עדיין ריקה
+        </strong>
 
         <p>
           הוסיפו מוצרים מהחנות
@@ -1350,183 +1524,282 @@
 
     </div>
 
+
     <div class="cart-footer">
 
       <div class="cart-total">
 
-        <span>סה״כ</span>
+        <span>
+          סה״כ
+        </span>
 
         <span>
-          <span id="cartTotal">0</span> ₪
+          <span id="cartTotal">
+            0
+          </span>
+          ₪
         </span>
 
       </div>
+
 
       <button
         class="checkout-button"
         id="checkoutButton"
         onclick="openCheckout()"
-        disabled>
-
+        disabled
+      >
         המשך להזמנה ←
-
       </button>
 
     </div>
 
   </aside>
 
+
   <!-- CHECKOUT -->
+
   <section
     class="checkout-modal"
-    id="checkoutModal">
+    id="checkoutModal"
+  >
 
     <div class="checkout-container">
 
       <div class="checkout-top">
 
         <div class="checkout-title">
-          <h1>השלמת הזמנה</h1>
+
+          <h1>
+            השלמת הזמנה
+          </h1>
+
         </div>
+
 
         <button
           class="back-button"
-          onclick="closeCheckout()">
+          onclick="closeCheckout()"
+        >
           ← חזרה לחנות
         </button>
 
       </div>
 
+
       <div class="checkout-grid">
 
-        <!-- CUSTOMER FORM -->
+
+        <!-- CUSTOMER -->
+
         <div class="checkout-card">
 
-          <h2>👤 פרטי הלקוח</h2>
+          <h2>
+            👤 פרטי הלקוח
+          </h2>
+
 
           <form id="orderForm">
 
             <div class="form-grid">
 
+
               <div class="field">
-                <label>שם מלא *</label>
+
+                <label>
+                  שם מלא *
+                </label>
 
                 <input
                   type="text"
                   id="name"
                   required
-                  placeholder="ישראל ישראלי">
+                  placeholder="ישראל ישראלי"
+                >
+
               </div>
 
+
               <div class="field">
-                <label>טלפון *</label>
+
+                <label>
+                  טלפון *
+                </label>
 
                 <input
                   type="tel"
                   id="phone"
                   required
-                  placeholder="050-0000000">
+                  placeholder="050-0000000"
+                >
+
               </div>
 
+
               <div class="field full">
-                <label>אימייל</label>
+
+                <label>
+                  אימייל
+                </label>
 
                 <input
                   type="email"
                   id="email"
-                  placeholder="example@email.com">
+                  placeholder="example@email.com"
+                >
+
               </div>
 
+
               <div class="field">
-                <label>עיר *</label>
+
+                <label>
+                  עיר *
+                </label>
 
                 <input
                   type="text"
                   id="city"
                   required
-                  placeholder="תל אביב">
+                  placeholder="תל אביב"
+                >
+
               </div>
 
+
               <div class="field">
-                <label>רחוב *</label>
+
+                <label>
+                  רחוב *
+                </label>
 
                 <input
                   type="text"
                   id="street"
                   required
-                  placeholder="הרצל">
+                  placeholder="הרצל"
+                >
+
               </div>
 
+
               <div class="field">
-                <label>מספר בית *</label>
+
+                <label>
+                  מספר בית *
+                </label>
 
                 <input
                   type="text"
                   id="house"
                   required
-                  placeholder="10">
+                  placeholder="10"
+                >
+
               </div>
 
+
               <div class="field">
-                <label>דירה</label>
+
+                <label>
+                  דירה
+                </label>
 
                 <input
                   type="text"
                   id="apartment"
-                  placeholder="5">
+                  placeholder="5"
+                >
+
               </div>
 
+
               <div class="field">
-                <label>מיקוד</label>
+
+                <label>
+                  מיקוד
+                </label>
 
                 <input
                   type="text"
                   id="zip"
-                  placeholder="1234567">
+                  placeholder="1234567"
+                >
+
               </div>
 
             </div>
 
-            <h2 style="margin-top:25px;">
+
+            <!-- SHIPPING -->
+
+            <h2
+              style="margin-top:25px;"
+            >
               🚚 אופן קבלת ההזמנה
             </h2>
 
+
             <div class="shipping-options">
+
 
               <label
                 class="shipping-option selected"
-                id="shippingDelivery">
+                id="shippingDelivery"
+              >
 
                 <input
                   type="radio"
                   name="shipping"
                   value="משלוח רגיל"
                   checked
-                  onchange="selectShipping('delivery')">
+                  onchange="selectShipping('delivery')"
+                >
 
                 🚚
-                <strong>משלוח</strong>
 
-                <div style="font-size:12px;color:#718096;margin-top:5px;">
+                <strong>
+                  משלוח
+                </strong>
+
+                <div
+                  style="
+                    font-size:12px;
+                    color:#718096;
+                    margin-top:5px;
+                  "
+                >
                   משלוח עד הבית
                 </div>
 
               </label>
 
+
               <label
                 class="shipping-option"
-                id="shippingPickup">
+                id="shippingPickup"
+              >
 
                 <input
                   type="radio"
                   name="shipping"
                   value="איסוף עצמי"
-                  onchange="selectShipping('pickup')">
+                  onchange="selectShipping('pickup')"
+                >
 
                 🏪
-                <strong>איסוף עצמי</strong>
 
-                <div style="font-size:12px;color:#718096;margin-top:5px;">
+                <strong>
+                  איסוף עצמי
+                </strong>
+
+                <div
+                  style="
+                    font-size:12px;
+                    color:#718096;
+                    margin-top:5px;
+                  "
+                >
                   איסוף מהמקום
                 </div>
 
@@ -1534,50 +1807,137 @@
 
             </div>
 
+
+            <!-- PAYMENT -->
+
+            <h2 class="payment-title">
+              💳 אמצעי תשלום
+            </h2>
+
+
+            <div class="payment-options">
+
+
+              <label
+                class="payment-option selected"
+                id="paymentCredit"
+              >
+
+                <input
+                  type="radio"
+                  name="payment"
+                  value="אשראי"
+                  checked
+                  onchange="selectPayment('credit')"
+                >
+
+                💳
+
+                <strong>
+                  אשראי
+                </strong>
+
+                <div
+                  style="
+                    font-size:12px;
+                    color:#718096;
+                    margin-top:5px;
+                  "
+                >
+                  תשלום באשראי
+                </div>
+
+              </label>
+
+
+              <label
+                class="payment-option"
+                id="paymentCash"
+              >
+
+                <input
+                  type="radio"
+                  name="payment"
+                  value="מזומן"
+                  onchange="selectPayment('cash')"
+                >
+
+                💵
+
+                <strong>
+                  מזומן
+                </strong>
+
+                <div
+                  style="
+                    font-size:12px;
+                    color:#718096;
+                    margin-top:5px;
+                  "
+                >
+                  תשלום במזומן
+                </div>
+
+              </label>
+
+            </div>
+
+
+            <!-- NOTES -->
+
             <div class="field">
 
-              <label>הערות להזמנה</label>
+              <label>
+                הערות להזמנה
+              </label>
 
               <textarea
                 id="notes"
                 rows="4"
-                placeholder="לדוגמה: להתקשר לפני ההגעה...">
-              </textarea>
+                placeholder="לדוגמה: להתקשר לפני ההגעה..."
+              ></textarea>
 
             </div>
+
 
             <button
               type="submit"
               class="place-order"
-              id="placeOrderButton">
-
+              id="placeOrderButton"
+            >
               ✓ שליחת הזמנה
-
             </button>
-
-            <div
-              class="order-message"
-              id="orderMessage">
-            </div>
 
           </form>
 
         </div>
 
+
         <!-- SUMMARY -->
+
         <div class="checkout-card">
 
-          <h2>🧾 סיכום ההזמנה</h2>
+          <h2>
+            🧾 סיכום ההזמנה
+          </h2>
 
-          <div id="checkoutItems">
+          <div
+            id="checkoutItems"
+          >
           </div>
+
 
           <div class="summary-total">
 
-            <span>סה״כ לתשלום</span>
+            <span>
+              סה״כ לתשלום
+            </span>
 
             <span>
-              <span id="checkoutTotal">0</span> ₪
+              <span id="checkoutTotal">
+                0
+              </span>
+              ₪
             </span>
 
           </div>
@@ -1590,10 +1950,65 @@
 
   </section>
 
+
+  <!-- SUCCESS -->
+
+  <div
+    class="success-modal"
+    id="successModal"
+  >
+
+    <div class="success-card">
+
+      <div class="success-icon">
+        ✓
+      </div>
+
+
+      <h2>
+        ההזמנה נשלחה בהצלחה!
+      </h2>
+
+
+      <p>
+        תודה רבה על ההזמנה.
+        הפרטים התקבלו במערכת.
+      </p>
+
+
+      <div
+        class="success-order-number"
+        id="successOrderNumber"
+      >
+        מספר הזמנה
+      </div>
+
+
+      <div
+        class="success-payment"
+        id="successPayment"
+      >
+      </div>
+
+
+      <button
+        class="success-home-button"
+        onclick="returnToSite()"
+      >
+        🏠 חזרה לאתר
+      </button>
+
+    </div>
+
+  </div>
+
+
   <!-- TOAST -->
+
   <div
     class="toast"
-    id="toast">
+    id="toast"
+  >
   </div>
 
 
@@ -1613,18 +2028,24 @@
 
     function money(value) {
 
-      return Number(value || 0)
-        .toLocaleString("he-IL", {
+      return Number(
+        value || 0
+      ).toLocaleString(
+        "he-IL",
+        {
           minimumFractionDigits: 0,
           maximumFractionDigits: 2
-        });
+        }
+      );
 
     }
 
 
     function escapeHtml(value) {
 
-      return String(value || "")
+      return String(
+        value ?? ""
+      )
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
         .replace(/>/g, "&gt;")
@@ -1637,13 +2058,23 @@
     function showToast(text) {
 
       const toast =
-        document.getElementById("toast");
+        document.getElementById(
+          "toast"
+        );
 
-      toast.textContent = text;
-      toast.classList.add("show");
+      toast.textContent =
+        text;
+
+      toast.classList.add(
+        "show"
+      );
 
       setTimeout(() => {
-        toast.classList.remove("show");
+
+        toast.classList.remove(
+          "show"
+        );
+
       }, 2500);
 
     }
@@ -1656,34 +2087,64 @@
     async function loadProducts() {
 
       const container =
-        document.getElementById("products");
+        document.getElementById(
+          "products"
+        );
 
       try {
 
         const response =
-          await fetch("/api/products");
+          await fetch(
+            "/api/products"
+          );
+
 
         if (!response.ok) {
-          throw new Error("לא ניתן לטעון מוצרים");
+
+          throw new Error(
+            "לא ניתן לטעון מוצרים"
+          );
+
         }
+
 
         products =
           await response.json();
 
-        renderProducts(products);
+
+        renderProducts(
+          products
+        );
+
 
       } catch (error) {
 
-        console.error(error);
+        console.error(
+          error
+        );
+
 
         container.innerHTML = `
+
           <div class="empty-products">
-            <div style="font-size:50px;">⚠️</div>
-            <h3>לא הצלחנו לטעון את המוצרים</h3>
+
+            <div
+              style="font-size:50px;"
+            >
+              ⚠️
+            </div>
+
+            <h3>
+              לא הצלחנו לטעון את המוצרים
+            </h3>
+
             <p>
-              בדקו שהשרת פעיל ונסו לרענן את הדף.
+              בדקו שהשרת פעיל
+              ונסו לרענן את הדף.
             </p>
+
           </div>
+
         `;
 
       }
@@ -1692,171 +2153,173 @@
 
 
     /* =========================
-       RENDER PRODUCTS
+       PRODUCTS
     ========================= */
 
     function renderProducts(list) {
 
       const container =
-        document.getElementById("products");
+        document.getElementById(
+          "products"
+        );
+
 
       if (!list.length) {
 
         container.innerHTML = `
+
           <div class="empty-products">
             לא נמצאו מוצרים.
           </div>
+
         `;
 
         return;
+
       }
 
-      container.innerHTML = list.map(product => {
 
-        const stock =
-          Number(product.stock || 0);
+      container.innerHTML =
+        list.map(
+          product => {
 
-        const image =
-          String(product.image || "").trim();
+            const stock =
+              Number(
+                product.stock || 0
+              );
 
-        const isUrl =
-          /^https?:\/\//i.test(image);
 
-        const imageHtml =
-          isUrl
-            ? `<img src="${escapeHtml(image)}"
+            const image =
+              String(
+                product.image || ""
+              ).trim();
+
+
+            const isUrl =
+              /^https?:\/\//i.test(
+                image
+              );
+
+
+            const imageHtml =
+              isUrl
+
+                ? `
+
+                  <img
+                    src="${escapeHtml(image)}"
                     alt="${escapeHtml(product.name)}"
-                    onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
-               <span class="product-emoji" style="display:none;">📦</span>`
-            : `<span class="product-emoji">
-                 ${escapeHtml(image || "📦")}
-               </span>`;
+                    onerror="
+                      this.style.display='none';
+                      this.nextElementSibling.style.display='block';
+                    "
+                  >
 
-        return `
+                  <span
+                    class="product-emoji"
+                    style="display:none;"
+                  >
+                    📦
+                  </span>
 
-          <article class="product">
+                `
 
-            <div class="product-image">
+                : `
 
-              ${imageHtml}
+                  <span class="product-emoji">
+                    ${escapeHtml(
+                      image || "📦"
+                    )}
+                  </span>
 
-              <span
-                class="stock-badge ${stock <= 0 ? "out-stock" : ""}">
+                `;
 
-                ${
-                  stock > 0
-                    ? "✓ במלאי"
-                    : "אזל מהמלאי"
-                }
 
-              </span>
+            return `
 
-            </div>
+              <article class="product">
 
-            <div class="product-body">
+                <div class="product-image">
 
-              <h3>
-                ${escapeHtml(product.name)}
-              </h3>
+                  ${imageHtml}
 
-              <div class="product-description">
-                ${escapeHtml(product.description)}
-              </div>
+                  <span
+                    class="
+                      stock-badge
+                      ${stock <= 0
+                        ? "out-stock"
+                        : ""}
+                    "
+                  >
 
-              <div class="product-bottom">
+                    ${
+                      stock > 0
+                        ? "✓ במלאי"
+                        : "אזל מהמלאי"
+                    }
 
-                <div class="price">
-                  ${money(product.price)} ₪
+                  </span>
+
                 </div>
 
-                <button
-                  class="add-button"
-                  ${
-                    stock <= 0
-                      ? "disabled"
-                      : ""
-                  }
-                  onclick="addToCart(${product.id})">
 
-                  ${
-                    stock > 0
-                      ? "הוסף לעגלה"
-                      : "אזל מהמלאי"
-                  }
+                <div class="product-body">
 
-                </button>
-
-              </div>
-
-            </div>
-
-          </article>
-
-        `;
-
-      }).join("");
-
-    }
+                  <h3>
+                    ${escapeHtml(
+                      product.name
+                    )}
+                  </h3>
 
 
-    /* =========================
-       ADD TO CART
-    ========================= */
+                  <div class="product-description">
+                    ${escapeHtml(
+                      product.description
+                    )}
+                  </div>
 
-    function addToCart(productId) {
 
-      const product =
-        products.find(
-          p => Number(p.id) === Number(productId)
-        );
+                  <div class="product-bottom">
 
-      if (!product) {
-        return;
-      }
+                    <div class="price">
+                      ${money(
+                        product.price
+                      )} ₪
+                    </div>
 
-      const stock =
-        Number(product.stock || 0);
 
-      if (stock <= 0) {
-        showToast("המוצר אזל מהמלאי");
-        return;
-      }
+                    <button
+                      class="add-button"
+                      ${
+                        stock <= 0
+                          ? "disabled"
+                          : ""
+                      }
+                      onclick="
+                        addToCart(
+                          ${product.id}
+                        )
+                      "
+                    >
 
-      const existing =
-        cart.find(
-          item =>
-            Number(item.id) === Number(productId)
-        );
+                      ${
+                        stock > 0
+                          ? "הוסף לעגלה"
+                          : "אזל מהמלאי"
+                      }
 
-      if (existing) {
+                    </button>
 
-        if (existing.quantity >= stock) {
+                  </div>
 
-          showToast("אין יותר יחידות במלאי");
-          return;
+                </div>
 
-        }
+              </article>
 
-        existing.quantity++;
+            `;
 
-      } else {
-
-        cart.push({
-          id: Number(product.id),
-          name: product.name,
-          price: Number(product.price),
-          image: product.image || "📦",
-          quantity: 1,
-          stock: stock
-        });
-
-      }
-
-      renderCart();
-
-      openCart();
-
-      showToast("המוצר נוסף לעגלה ✓");
+          }
+        ).join("");
 
     }
 
@@ -1865,37 +2328,154 @@
        CART
     ========================= */
 
-    function changeQuantity(id, amount) {
+    function addToCart(
+      productId
+    ) {
+
+      const product =
+        products.find(
+          p =>
+            Number(p.id) ===
+            Number(productId)
+        );
+
+
+      if (!product) {
+        return;
+      }
+
+
+      const stock =
+        Number(
+          product.stock || 0
+        );
+
+
+      if (stock <= 0) {
+
+        showToast(
+          "המוצר אזל מהמלאי"
+        );
+
+        return;
+
+      }
+
+
+      const existing =
+        cart.find(
+          item =>
+            Number(item.id) ===
+            Number(productId)
+        );
+
+
+      if (existing) {
+
+        if (
+          existing.quantity >=
+          stock
+        ) {
+
+          showToast(
+            "אין יותר יחידות במלאי"
+          );
+
+          return;
+
+        }
+
+
+        existing.quantity++;
+
+      } else {
+
+        cart.push({
+
+          id:
+            Number(product.id),
+
+          name:
+            product.name,
+
+          price:
+            Number(product.price),
+
+          image:
+            product.image || "📦",
+
+          quantity:
+            1,
+
+          stock:
+            stock
+
+        });
+
+      }
+
+
+      renderCart();
+
+      openCart();
+
+      showToast(
+        "המוצר נוסף לעגלה ✓"
+      );
+
+    }
+
+
+    function changeQuantity(
+      id,
+      amount
+    ) {
 
       const item =
         cart.find(
-          item => Number(item.id) === Number(id)
+          item =>
+            Number(item.id) ===
+            Number(id)
         );
+
 
       if (!item) {
         return;
       }
 
-      const newQuantity =
-        item.quantity + amount;
 
-      if (newQuantity <= 0) {
+      const newQuantity =
+        item.quantity +
+        amount;
+
+
+      if (
+        newQuantity <= 0
+      ) {
 
         cart =
           cart.filter(
             item =>
-              Number(item.id) !== Number(id)
+              Number(item.id) !==
+              Number(id)
           );
 
-      } else if (newQuantity <= item.stock) {
+      } else if (
+        newQuantity <=
+        item.stock
+      ) {
 
-        item.quantity = newQuantity;
+        item.quantity =
+          newQuantity;
 
       } else {
 
-        showToast("אין מספיק מלאי");
+        showToast(
+          "אין מספיק מלאי"
+        );
 
       }
+
 
       renderCart();
 
@@ -1907,8 +2487,10 @@
       cart =
         cart.filter(
           item =>
-            Number(item.id) !== Number(id)
+            Number(item.id) !==
+            Number(id)
         );
+
 
       renderCart();
 
@@ -1918,8 +2500,10 @@
     function getCartTotal() {
 
       return cart.reduce(
-        (sum, item) =>
-          sum + item.price * item.quantity,
+        (sum,item) =>
+          sum +
+          item.price *
+          item.quantity,
         0
       );
 
@@ -1929,29 +2513,45 @@
     function renderCart() {
 
       const container =
-        document.getElementById("cartItems");
+        document.getElementById(
+          "cartItems"
+        );
+
 
       const total =
         getCartTotal();
 
+
       const count =
         cart.reduce(
-          (sum, item) =>
-            sum + item.quantity,
+          (sum,item) =>
+            sum +
+            item.quantity,
           0
         );
 
-      document.getElementById("cartCount")
-        .textContent = count;
 
-      document.getElementById("cartTotal")
-        .textContent = money(total);
+      document.getElementById(
+        "cartCount"
+      ).textContent =
+        count;
+
+
+      document.getElementById(
+        "cartTotal"
+      ).textContent =
+        money(total);
+
 
       const checkoutButton =
-        document.getElementById("checkoutButton");
+        document.getElementById(
+          "checkoutButton"
+        );
+
 
       checkoutButton.disabled =
         cart.length === 0;
+
 
       if (!cart.length) {
 
@@ -1963,7 +2563,9 @@
               🛒
             </div>
 
-            <strong>העגלה עדיין ריקה</strong>
+            <strong>
+              העגלה עדיין ריקה
+            </strong>
 
             <p>
               הוסיפו מוצרים מהחנות
@@ -1975,79 +2577,122 @@
         `;
 
         return;
+
       }
 
 
       container.innerHTML =
-        cart.map(item => {
+        cart.map(
+          item => {
 
-          const image =
-            String(item.image || "");
+            const image =
+              String(
+                item.image || ""
+              );
 
-          const isUrl =
-            /^https?:\/\//i.test(image);
 
-          return `
+            const isUrl =
+              /^https?:\/\//i.test(
+                image
+              );
 
-            <div class="cart-item">
 
-              <div class="cart-item-image">
+            return `
 
-                ${
-                  isUrl
-                    ? `<img
-                         src="${escapeHtml(image)}"
-                         alt="${escapeHtml(item.name)}">`
-                    : `<span>
-                         ${escapeHtml(image || "📦")}
-                       </span>`
-                }
+              <div class="cart-item">
 
-              </div>
+                <div class="cart-item-image">
 
-              <div class="cart-item-info">
+                  ${
+                    isUrl
 
-                <strong>
-                  ${escapeHtml(item.name)}
-                </strong>
+                      ? `
+                        <img
+                          src="${escapeHtml(image)}"
+                          alt="${escapeHtml(item.name)}"
+                        >
+                      `
 
-                <div class="cart-item-price">
-                  ${money(item.price)} ₪
-                </div>
-
-                <div class="quantity">
-
-                  <button
-                    onclick="changeQuantity(${item.id}, 1)">
-                    +
-                  </button>
-
-                  <span>
-                    ${item.quantity}
-                  </span>
-
-                  <button
-                    onclick="changeQuantity(${item.id}, -1)">
-                    −
-                  </button>
+                      : `
+                        <span>
+                          ${escapeHtml(
+                            image || "📦"
+                          )}
+                        </span>
+                      `
+                  }
 
                 </div>
 
-                <button
-                  class="remove-item"
-                  onclick="removeFromCart(${item.id})">
 
-                  הסר מהעגלה
+                <div class="cart-item-info">
 
-                </button>
+                  <strong>
+                    ${escapeHtml(
+                      item.name
+                    )}
+                  </strong>
+
+
+                  <div class="cart-item-price">
+                    ${money(
+                      item.price
+                    )} ₪
+                  </div>
+
+
+                  <div class="quantity">
+
+                    <button
+                      onclick="
+                        changeQuantity(
+                          ${item.id},
+                          1
+                        )
+                      "
+                    >
+                      +
+                    </button>
+
+
+                    <span>
+                      ${item.quantity}
+                    </span>
+
+
+                    <button
+                      onclick="
+                        changeQuantity(
+                          ${item.id},
+                          -1
+                        )
+                      "
+                    >
+                      −
+                    </button>
+
+                  </div>
+
+
+                  <button
+                    class="remove-item"
+                    onclick="
+                      removeFromCart(
+                        ${item.id}
+                      )
+                    "
+                  >
+                    הסר מהעגלה
+                  </button>
+
+                </div>
 
               </div>
 
-            </div>
+            `;
 
-          `;
-
-        }).join("");
+          }
+        ).join("");
 
     }
 
@@ -2059,14 +2704,26 @@
     function openCart() {
 
       document
-        .getElementById("cartDrawer")
-        .classList.add("open");
+        .getElementById(
+          "cartDrawer"
+        )
+        .classList.add(
+          "open"
+        );
+
 
       document
-        .getElementById("overlay")
-        .classList.add("show");
+        .getElementById(
+          "overlay"
+        )
+        .classList.add(
+          "show"
+        );
 
-      document.body.classList.add("no-scroll");
+
+      document.body.classList.add(
+        "no-scroll"
+      );
 
     }
 
@@ -2074,14 +2731,26 @@
     function closeCart() {
 
       document
-        .getElementById("cartDrawer")
-        .classList.remove("open");
+        .getElementById(
+          "cartDrawer"
+        )
+        .classList.remove(
+          "open"
+        );
+
 
       document
-        .getElementById("overlay")
-        .classList.remove("show");
+        .getElementById(
+          "overlay"
+        )
+        .classList.remove(
+          "show"
+        );
 
-      document.body.classList.remove("no-scroll");
+
+      document.body.classList.remove(
+        "no-scroll"
+      );
 
     }
 
@@ -2093,21 +2762,40 @@
     function openCheckout() {
 
       if (!cart.length) {
-        showToast("העגלה ריקה");
+
+        showToast(
+          "העגלה ריקה"
+        );
+
         return;
+
       }
+
 
       closeCart();
 
+
       renderCheckout();
 
+
       document
-        .getElementById("checkoutModal")
-        .classList.add("show");
+        .getElementById(
+          "checkoutModal"
+        )
+        .classList.add(
+          "show"
+        );
 
-      document.body.classList.add("no-scroll");
 
-      window.scrollTo(0, 0);
+      document.body.classList.add(
+        "no-scroll"
+      );
+
+
+      window.scrollTo(
+        0,
+        0
+      );
 
     }
 
@@ -2115,10 +2803,17 @@
     function closeCheckout() {
 
       document
-        .getElementById("checkoutModal")
-        .classList.remove("show");
+        .getElementById(
+          "checkoutModal"
+        )
+        .classList.remove(
+          "show"
+        );
 
-      document.body.classList.remove("no-scroll");
+
+      document.body.classList.remove(
+        "no-scroll"
+      );
 
     }
 
@@ -2126,31 +2821,46 @@
     function renderCheckout() {
 
       const container =
-        document.getElementById("checkoutItems");
+        document.getElementById(
+          "checkoutItems"
+        );
+
 
       container.innerHTML =
-        cart.map(item => `
+        cart.map(
+          item => `
 
-          <div class="order-summary-item">
+            <div
+              class="order-summary-item"
+            >
 
-            <span>
-              ${escapeHtml(item.name)}
-              × ${item.quantity}
-            </span>
+              <span>
+                ${escapeHtml(
+                  item.name
+                )}
+                × ${item.quantity}
+              </span>
 
-            <strong>
-              ${money(
-                item.price * item.quantity
-              )} ₪
-            </strong>
 
-          </div>
+              <strong>
+                ${money(
+                  item.price *
+                  item.quantity
+                )} ₪
+              </strong>
 
-        `).join("");
+            </div>
 
-      document.getElementById("checkoutTotal")
-        .textContent =
-        money(getCartTotal());
+          `
+        ).join("");
+
+
+      document.getElementById(
+        "checkoutTotal"
+      ).textContent =
+        money(
+          getCartTotal()
+        );
 
     }
 
@@ -2159,20 +2869,57 @@
        SHIPPING
     ========================= */
 
-    function selectShipping(type) {
+    function selectShipping(
+      type
+    ) {
 
       document
-        .getElementById("shippingDelivery")
+        .getElementById(
+          "shippingDelivery"
+        )
         .classList.toggle(
           "selected",
           type === "delivery"
         );
 
+
       document
-        .getElementById("shippingPickup")
+        .getElementById(
+          "shippingPickup"
+        )
         .classList.toggle(
           "selected",
           type === "pickup"
+        );
+
+    }
+
+
+    /* =========================
+       PAYMENT
+    ========================= */
+
+    function selectPayment(
+      type
+    ) {
+
+      document
+        .getElementById(
+          "paymentCredit"
+        )
+        .classList.toggle(
+          "selected",
+          type === "credit"
+        );
+
+
+      document
+        .getElementById(
+          "paymentCash"
+        )
+        .classList.toggle(
+          "selected",
+          type === "cash"
         );
 
     }
@@ -2183,97 +2930,143 @@
     ========================= */
 
     document
-      .getElementById("orderForm")
+      .getElementById(
+        "orderForm"
+      )
       .addEventListener(
         "submit",
         async function(event) {
 
           event.preventDefault();
 
+
           if (!cart.length) {
 
-            showOrderMessage(
-              "העגלה ריקה.",
-              false
+            showToast(
+              "העגלה ריקה"
             );
 
             return;
 
           }
 
+
           const button =
             document.getElementById(
               "placeOrderButton"
             );
 
-          button.disabled = true;
-          button.textContent =
-            "שולח הזמנה...";
-
 
           const shipping =
-            document.querySelector(
-              'input[name="shipping"]:checked'
-            )?.value || "משלוח רגיל";
+            document
+              .querySelector(
+                'input[name="shipping"]:checked'
+              )
+              ?.value ||
+            "משלוח רגיל";
+
+
+          const paymentMethod =
+            document
+              .querySelector(
+                'input[name="payment"]:checked'
+              )
+              ?.value ||
+            "";
+
+
+          if (
+            ![
+              "אשראי",
+              "מזומן"
+            ].includes(
+              paymentMethod
+            )
+          ) {
+
+            showToast(
+              "יש לבחור אמצעי תשלום"
+            );
+
+            return;
+
+          }
 
 
           const customer = {
 
             name:
               document
-                .getElementById("name")
+                .getElementById(
+                  "name"
+                )
                 .value
                 .trim(),
 
             phone:
               document
-                .getElementById("phone")
+                .getElementById(
+                  "phone"
+                )
                 .value
                 .trim(),
 
             email:
               document
-                .getElementById("email")
+                .getElementById(
+                  "email"
+                )
                 .value
                 .trim(),
 
             city:
               document
-                .getElementById("city")
+                .getElementById(
+                  "city"
+                )
                 .value
                 .trim(),
 
             street:
               document
-                .getElementById("street")
+                .getElementById(
+                  "street"
+                )
                 .value
                 .trim(),
 
             house:
               document
-                .getElementById("house")
+                .getElementById(
+                  "house"
+                )
                 .value
                 .trim(),
 
             apartment:
               document
-                .getElementById("apartment")
+                .getElementById(
+                  "apartment"
+                )
                 .value
                 .trim(),
 
             zip:
               document
-                .getElementById("zip")
+                .getElementById(
+                  "zip"
+                )
                 .value
                 .trim(),
 
             shipping:
-
               shipping,
 
             notes:
               document
-                .getElementById("notes")
+                .getElementById(
+                  "notes"
+                )
                 .value
                 .trim()
 
@@ -2281,21 +3074,33 @@
 
 
           const items =
-            cart.map(item => ({
+            cart.map(
+              item => ({
 
-              id: item.id,
+                id:
+                  item.id,
 
-              name: item.name,
+                name:
+                  item.name,
 
-              price: item.price,
+                price:
+                  item.price,
 
-              quantity: item.quantity
+                quantity:
+                  item.quantity
 
-            }));
+              })
+            );
 
 
           const total =
             getCartTotal();
+
+
+          button.disabled = true;
+
+          button.textContent =
+            "שולח הזמנה...";
 
 
           try {
@@ -2304,35 +3109,40 @@
               await fetch(
                 "/api/orders",
                 {
-                  method: "POST",
+                  method:
+                    "POST",
 
                   headers: {
                     "Content-Type":
                       "application/json"
                   },
 
-                  body: JSON.stringify({
+                  body:
+                    JSON.stringify({
 
-                    customer:
+                      customer:
+                        customer,
 
-                      customer,
+                      items:
+                        items,
 
-                    items:
+                      total:
+                        total,
 
-                      items,
+                      payment_method:
+                        paymentMethod
 
-                    total:
-
-                      total
-
-                  })
-
+                    })
                 }
               );
 
 
             const data =
-              await response.json();
+              await response
+                .json()
+                .catch(
+                  () => ({})
+                );
 
 
             if (!response.ok) {
@@ -2347,34 +3157,43 @@
 
             const orderNumber =
               data.order_number ||
-              "הזמנה התקבלה";
+              data.order?.order_number ||
+              "התקבלה";
 
 
-            showOrderMessage(
-              `
-                <strong>
-                  🎉 ההזמנה התקבלה בהצלחה!
-                </strong>
-                <br>
-                מספר הזמנה:
-                <strong>${escapeHtml(orderNumber)}</strong>
-                <br>
-                תודה רבה על ההזמנה.
-              `,
-              true
-            );
-
-
+            // Clear cart
             cart = [];
 
             renderCart();
 
+
+            // Reset form
             document
-              .getElementById("orderForm")
+              .getElementById(
+                "orderForm"
+              )
               .reset();
 
 
-            selectShipping("delivery");
+            selectShipping(
+              "delivery"
+            );
+
+
+            selectPayment(
+              "credit"
+            );
+
+
+            // Close checkout
+            closeCheckout();
+
+
+            // Show success window
+            showSuccessModal(
+              orderNumber,
+              paymentMethod
+            );
 
 
             button.textContent =
@@ -2388,13 +3207,16 @@
               error
             );
 
-            showOrderMessage(
+
+            showToast(
               "אירעה שגיאה בשליחת ההזמנה: " +
-              error.message,
-              false
+              error.message
             );
 
-            button.disabled = false;
+
+            button.disabled =
+              false;
+
 
             button.textContent =
               "✓ שליחת הזמנה";
@@ -2405,25 +3227,65 @@
       );
 
 
-    function showOrderMessage(
-      text,
-      success
+    /* =========================
+       SUCCESS WINDOW
+    ========================= */
+
+    function showSuccessModal(
+      orderNumber,
+      paymentMethod
     ) {
 
-      const element =
-        document.getElementById(
-          "orderMessage"
+      document.getElementById(
+        "successOrderNumber"
+      ).textContent =
+        "מספר הזמנה: " +
+        orderNumber;
+
+
+      document.getElementById(
+        "successPayment"
+      ).textContent =
+        "אמצעי תשלום: " +
+        paymentMethod;
+
+
+      document
+        .getElementById(
+          "successModal"
+        )
+        .classList.add(
+          "show"
         );
 
-      element.innerHTML = text;
 
-      element.className =
-        "order-message " +
-        (
-          success
-            ? "order-success"
-            : "order-error"
+      document.body.classList.add(
+        "no-scroll"
+      );
+
+    }
+
+
+    function returnToSite() {
+
+      document
+        .getElementById(
+          "successModal"
+        )
+        .classList.remove(
+          "show"
         );
+
+
+      document.body.classList.remove(
+        "no-scroll"
+      );
+
+
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
 
     }
 
@@ -2439,12 +3301,22 @@
           "searchBox"
         );
 
-      box.classList.toggle("active");
 
-      if (box.classList.contains("active")) {
+      box.classList.toggle(
+        "active"
+      );
+
+
+      if (
+        box.classList.contains(
+          "active"
+        )
+      ) {
 
         document
-          .getElementById("searchInput")
+          .getElementById(
+            "searchInput"
+          )
           .focus();
 
       }
@@ -2456,51 +3328,73 @@
 
       const value =
         document
-          .getElementById("searchInput")
+          .getElementById(
+            "searchInput"
+          )
           .value
           .trim()
           .toLowerCase();
 
+
       const filtered =
-        products.filter(product => {
+        products.filter(
+          product => {
 
-          const text =
-            (
-              product.name +
-              " " +
-              product.description
-            ).toLowerCase();
+            const text =
+              (
+                product.name +
+                " " +
+                product.description
+              ).toLowerCase();
 
-          return text.includes(value);
 
-        });
+            return text.includes(
+              value
+            );
 
-      renderProducts(filtered);
+          }
+        );
+
+
+      renderProducts(
+        filtered
+      );
 
     }
 
 
-    function filterProducts(text) {
+    function filterProducts(
+      text
+    ) {
 
       const filtered =
-        products.filter(product => {
+        products.filter(
+          product => {
 
-          return (
-            String(product.name)
+            return String(
+              product.name
+            )
               .toLowerCase()
               .includes(
                 text.toLowerCase()
-              )
-          );
+              );
 
-        });
+          }
+        );
 
-      renderProducts(filtered);
+
+      renderProducts(
+        filtered
+      );
+
 
       document
-        .getElementById("shop")
+        .getElementById(
+          "shop"
+        )
         .scrollIntoView({
-          behavior: "smooth"
+          behavior:
+            "smooth"
         });
 
     }
@@ -2513,9 +3407,12 @@
     function scrollToProducts() {
 
       document
-        .getElementById("shop")
+        .getElementById(
+          "shop"
+        )
         .scrollIntoView({
-          behavior: "smooth"
+          behavior:
+            "smooth"
         });
 
     }
