@@ -12,7 +12,7 @@ app.use(express.static(__dirname));
 
 const PORT = process.env.PORT || 8080;
 
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || '1234';
+const ADMIN_PASSWORD = process.env.RESEND_API_KEY || '12345678';
 
 const DATABASE_URL = process.env.DATABASE_URL;
 
