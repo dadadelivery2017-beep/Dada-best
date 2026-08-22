@@ -1,15 +1,13 @@
+```html
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>Dada Best - Admin</title>
 
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -18,21 +16,12 @@
       color: #172033;
     }
 
-    button,
-    input,
-    textarea,
-    select {
-      font-family: inherit;
-    }
+    button, input, textarea, select { font-family: inherit; }
 
     button {
       cursor: pointer;
       border: 0;
     }
-
-    /* =========================
-       LOGIN
-    ========================= */
 
     #loginScreen {
       min-height: 100vh;
@@ -90,9 +79,7 @@
       font-weight: bold;
     }
 
-    input,
-    textarea,
-    select {
+    input, textarea, select {
       width: 100%;
       padding: 13px 14px;
       border: 1px solid #d7dee8;
@@ -102,9 +89,7 @@
       outline: none;
     }
 
-    input:focus,
-    textarea:focus,
-    select:focus {
+    input:focus, textarea:focus, select:focus {
       border-color: #2563eb;
       box-shadow: 0 0 0 3px rgba(37,99,235,.12);
     }
@@ -127,10 +112,6 @@
       color: #b91c1c;
       display: none;
     }
-
-    /* =========================
-       ADMIN
-    ========================= */
 
     #adminApp {
       display: none;
@@ -156,9 +137,7 @@
       gap: 12px;
     }
 
-    .topbar-title strong {
-      font-size: 20px;
-    }
+    .topbar-title strong { font-size: 20px; }
 
     .status {
       font-size: 13px;
@@ -215,13 +194,9 @@
       width: 100%;
     }
 
-    .tab {
-      display: none;
-    }
+    .tab { display: none; }
 
-    .tab.active {
-      display: block;
-    }
+    .tab.active { display: block; }
 
     .page-header {
       display: flex;
@@ -273,10 +248,6 @@
       color: white;
     }
 
-    /* =========================
-       CARDS
-    ========================= */
-
     .card {
       background: white;
       border-radius: 15px;
@@ -312,10 +283,6 @@
       color: #1d4ed8;
     }
 
-    /* =========================
-       PRODUCTS
-    ========================= */
-
     .product-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -347,17 +314,11 @@
       object-fit: cover;
     }
 
-    .product-card h3 {
-      margin: 5px 0;
-    }
+    .product-card h3 { margin: 5px 0; }
 
-    .product-card small {
-      color: #64748b;
-    }
+    .product-card small { color: #64748b; }
 
-    .product-form {
-      margin-top: 15px;
-    }
+    .product-form { margin-top: 15px; }
 
     .product-actions {
       display: flex;
@@ -365,13 +326,7 @@
       margin-top: 12px;
     }
 
-    .product-actions button {
-      flex: 1;
-    }
-
-    /* =========================
-       ORDERS
-    ========================= */
+    .product-actions button { flex: 1; }
 
     .order-card {
       background: white;
@@ -416,9 +371,7 @@
       margin-bottom: 4px;
     }
 
-    .items-list {
-      margin-top: 12px;
-    }
+    .items-list { margin-top: 12px; }
 
     .item-row {
       display: flex;
@@ -433,10 +386,6 @@
       margin-top: 15px;
     }
 
-    /* =========================
-       CATEGORIES
-    ========================= */
-
     .category-list {
       display: flex;
       flex-wrap: wrap;
@@ -450,10 +399,6 @@
       border-radius: 999px;
       font-weight: bold;
     }
-
-    /* =========================
-       MESSAGE
-    ========================= */
 
     .message {
       padding: 13px 15px;
@@ -480,15 +425,8 @@
       color: #64748b;
     }
 
-    /* =========================
-       RESPONSIVE
-    ========================= */
-
     @media (max-width: 900px) {
-
-      .layout {
-        display: block;
-      }
+      .layout { display: block; }
 
       .sidebar {
         width: 100%;
@@ -510,89 +448,55 @@
     }
 
     @media (max-width: 600px) {
+      .main { padding: 15px; }
 
-      .main {
-        padding: 15px;
-      }
+      .topbar { padding: 12px 15px; }
 
-      .topbar {
-        padding: 12px 15px;
-      }
+      .stats-grid { grid-template-columns: 1fr; }
 
-      .stats-grid {
-        grid-template-columns: 1fr;
-      }
+      .order-info { grid-template-columns: 1fr; }
 
-      .order-info {
-        grid-template-columns: 1fr;
-      }
-
-      .product-grid {
-        grid-template-columns: 1fr;
-      }
+      .product-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 
 <body>
 
-<!-- =========================
-     LOGIN
-========================= -->
-
 <section id="loginScreen">
-
   <div class="login-card">
 
-    <div class="logo">
-      DB
-    </div>
+    <div class="logo">DB</div>
 
     <h1>Dada Best</h1>
 
-    <p>
-      לוח ניהול החנות
-    </p>
+    <p>לוח ניהול החנות</p>
 
     <form id="loginForm">
 
       <div class="field">
-
-        <label>
-          סיסמת אדמין
-        </label>
+        <label>סיסמת אדמין</label>
 
         <input
           type="password"
           id="adminPassword"
           required
           placeholder="הזן סיסמה">
-
       </div>
 
       <button
         type="submit"
         class="primary-btn">
-
         כניסה למערכת
-
       </button>
 
     </form>
 
-    <div
-      id="loginError"
-      class="login-error">
-    </div>
+    <div id="loginError" class="login-error"></div>
 
   </div>
-
 </section>
 
-
-<!-- =========================
-     ADMIN APP
-========================= -->
 
 <section id="adminApp">
 
@@ -611,15 +515,11 @@
       </div>
 
       <div>
-
-        <strong>
-          Dada Best Admin
-        </strong>
+        <strong>Dada Best Admin</strong>
 
         <div class="status">
           מערכת ניהול
         </div>
-
       </div>
 
     </div>
@@ -627,9 +527,7 @@
     <button
       class="logout"
       onclick="logout()">
-
       יציאה
-
     </button>
 
   </header>
@@ -637,48 +535,36 @@
 
   <div class="layout">
 
-    <!-- SIDEBAR -->
-
     <aside class="sidebar">
 
       <button
         class="nav-btn active"
         data-tab="productsTab">
-
         📦 מוצרים
-
       </button>
 
       <button
         class="nav-btn"
         data-tab="categoriesTab">
-
         🗂️ קטגוריות
-
       </button>
 
       <button
         class="nav-btn"
         data-tab="ordersTab">
-
         🛒 הזמנות
-
       </button>
 
       <button
         class="nav-btn"
         data-tab="statsTab">
-
         📊 סטטיסטיקות
-
       </button>
 
       <button
         class="nav-btn"
         data-tab="emailTab">
-
         📧 מייל
-
       </button>
 
     </aside>
@@ -689,34 +575,22 @@
       <div id="globalMessage" class="message"></div>
 
 
-      <!-- =========================
-           PRODUCTS
-      ========================= -->
-
-      <section
-        id="productsTab"
-        class="tab active">
+      <section id="productsTab" class="tab active">
 
         <div class="page-header">
 
           <div>
-
-            <h1>
-              מוצרים
-            </h1>
+            <h1>מוצרים</h1>
 
             <p>
               ניהול מחירים, מלאי ומוצרים
             </p>
-
           </div>
 
           <button
             class="btn btn-blue"
             onclick="showAddProduct()">
-
             + מוצר חדש
-
           </button>
 
         </div>
@@ -738,35 +612,23 @@
               id="productId">
 
             <div class="field">
-
-              <label>
-                שם מוצר
-              </label>
+              <label>שם מוצר</label>
 
               <input
                 id="productName"
                 required>
-
             </div>
 
             <div class="field">
-
-              <label>
-                תיאור
-              </label>
+              <label>תיאור</label>
 
               <textarea
                 id="productDescription"
-                rows="3">
-              </textarea>
-
+                rows="3"></textarea>
             </div>
 
             <div class="field">
-
-              <label>
-                מחיר ₪
-              </label>
+              <label>מחיר ₪</label>
 
               <input
                 id="productPrice"
@@ -774,14 +636,10 @@
                 min="0"
                 step="0.01"
                 required>
-
             </div>
 
             <div class="field">
-
-              <label>
-                מלאי
-              </label>
+              <label>מלאי</label>
 
               <input
                 id="productStock"
@@ -789,31 +647,22 @@
                 min="0"
                 step="1"
                 required>
-
             </div>
 
             <div class="field">
-
-              <label>
-                קטגוריה
-              </label>
+              <label>קטגוריה</label>
 
               <input
                 id="productCategory"
                 placeholder="לדוגמה: מצלמות">
-
             </div>
 
             <div class="field">
-
-              <label>
-                תמונה / אימוג׳י
-              </label>
+              <label>תמונה / אימוג׳י</label>
 
               <input
                 id="productImage"
                 placeholder="https://... או 📹">
-
             </div>
 
             <div class="field">
@@ -833,54 +682,38 @@
             <button
               class="btn btn-green"
               type="submit">
-
               שמור מוצר
-
             </button>
 
             <button
               class="btn btn-gray"
               type="button"
               onclick="hideProductForm()">
-
               ביטול
-
             </button>
 
           </form>
-
         </div>
 
 
         <div
           id="productsGrid"
           class="product-grid">
-
         </div>
 
       </section>
 
 
-      <!-- =========================
-           CATEGORIES
-      ========================= -->
-
-      <section
-        id="categoriesTab"
-        class="tab">
+      <section id="categoriesTab" class="tab">
 
         <div class="page-header">
 
           <div>
-
-            <h1>
-              קטגוריות
-            </h1>
+            <h1>קטגוריות</h1>
 
             <p>
               הקטגוריות הקיימות במוצרים
             </p>
-
           </div>
 
         </div>
@@ -890,7 +723,6 @@
           <div
             id="categoriesList"
             class="category-list">
-
           </div>
 
         </div>
@@ -898,66 +730,41 @@
       </section>
 
 
-      <!-- =========================
-           ORDERS
-      ========================= -->
-
-      <section
-        id="ordersTab"
-        class="tab">
+      <section id="ordersTab" class="tab">
 
         <div class="page-header">
 
           <div>
-
-            <h1>
-              הזמנות
-            </h1>
+            <h1>הזמנות</h1>
 
             <p>
               פרטי הלקוחות וההזמנות
             </p>
-
           </div>
 
           <button
             class="btn btn-blue"
             onclick="loadOrders()">
-
             🔄 רענן
-
           </button>
 
         </div>
 
-        <div
-          id="ordersList">
-
-        </div>
+        <div id="ordersList"></div>
 
       </section>
 
 
-      <!-- =========================
-           STATISTICS
-      ========================= -->
-
-      <section
-        id="statsTab"
-        class="tab">
+      <section id="statsTab" class="tab">
 
         <div class="page-header">
 
           <div>
-
-            <h1>
-              סטטיסטיקות
-            </h1>
+            <h1>סטטיסטיקות</h1>
 
             <p>
               תמונת מצב של החנות
             </p>
-
           </div>
 
         </div>
@@ -1025,21 +832,13 @@
       </section>
 
 
-      <!-- =========================
-           EMAIL
-      ========================= -->
-
-      <section
-        id="emailTab"
-        class="tab">
+      <section id="emailTab" class="tab">
 
         <div class="page-header">
 
           <div>
 
-            <h1>
-              מערכת מייל
-            </h1>
+            <h1>מערכת מייל</h1>
 
             <p>
               בדיקת החיבור ל־Resend
@@ -1048,6 +847,7 @@
           </div>
 
         </div>
+
 
         <div class="card">
 
@@ -1060,7 +860,7 @@
           </p>
 
           <strong>
-            daniel20084@gmail.com
+            dadadelivery2017@gmail.com
           </strong>
 
           <br><br>
@@ -1069,9 +869,7 @@
             id="testEmailButton"
             class="btn btn-email"
             onclick="sendTestEmail()">
-
             📧 שלח מייל בדיקה
-
           </button>
 
           <div
@@ -1100,72 +898,46 @@
   let orders = [];
 
 
-  /* =========================
-     HELPERS
-  ========================= */
-
-  function showMessage(
-    text,
-    type = "success"
-  ) {
+  function showMessage(text, type = "success") {
 
     const box =
-      document.getElementById(
-        "globalMessage"
-      );
+      document.getElementById("globalMessage");
 
     box.className =
       "message " + type;
 
-    box.textContent =
-      text;
+    box.textContent = text;
 
     setTimeout(() => {
-      box.className =
-        "message";
+      box.className = "message";
     }, 5000);
   }
 
 
-  async function api(
-    url,
-    options = {}
-  ) {
+  async function api(url, options = {}) {
 
     options.headers = {
       ...(options.headers || {}),
-      "Content-Type":
-        "application/json",
-      "x-admin-key":
-        adminKey
+      "Content-Type": "application/json",
+      "x-admin-key": adminKey
     };
 
     const response =
-      await fetch(
-        url,
-        options
-      );
+      await fetch(url, options);
 
     const data =
-      await response
-        .json()
-        .catch(() => ({}));
+      await response.json().catch(() => ({}));
 
     if (!response.ok) {
 
       throw new Error(
-        data.error ||
-        "שגיאה בשרת"
+        data.error || "שגיאה בשרת"
       );
     }
 
     return data;
   }
 
-
-  /* =========================
-     LOGIN
-  ========================= */
 
   document
     .getElementById("loginForm")
@@ -1177,16 +949,12 @@
 
         const password =
           document
-            .getElementById(
-              "adminPassword"
-            )
+            .getElementById("adminPassword")
             .value;
 
         const errorBox =
           document
-            .getElementById(
-              "loginError"
-            );
+            .getElementById("loginError");
 
         try {
 
@@ -1200,9 +968,7 @@
                     "application/json"
                 },
                 body:
-                  JSON.stringify({
-                    password
-                  })
+                  JSON.stringify({ password })
               }
             );
 
@@ -1210,14 +976,14 @@
             await response.json();
 
           if (!response.ok) {
+
             throw new Error(
               data.error ||
               "התחברות נכשלה"
             );
           }
 
-          adminKey =
-            data.adminKey;
+          adminKey = data.adminKey;
 
           localStorage.setItem(
             "dada_admin_key",
@@ -1228,11 +994,8 @@
 
         } catch (error) {
 
-          errorBox.style.display =
-            "block";
-
-          errorBox.textContent =
-            error.message;
+          errorBox.style.display = "block";
+          errorBox.textContent = error.message;
         }
       }
     );
@@ -1241,37 +1004,26 @@
   function showAdmin() {
 
     document
-      .getElementById(
-        "loginScreen"
-      )
+      .getElementById("loginScreen")
       .style.display = "none";
 
     document
-      .getElementById(
-        "adminApp"
-      )
+      .getElementById("adminApp")
       .style.display = "block";
 
     loadAll();
-
   }
 
 
   function logout() {
 
-    localStorage.removeItem(
-      "dada_admin_key"
-    );
+    localStorage.removeItem("dada_admin_key");
 
     adminKey = "";
 
     location.reload();
   }
 
-
-  /* =========================
-     NAVIGATION
-  ========================= */
 
   document
     .querySelectorAll(".nav-btn")
@@ -1282,44 +1034,27 @@
         () => {
 
           document
-            .querySelectorAll(
-              ".nav-btn"
-            )
+            .querySelectorAll(".nav-btn")
             .forEach(btn =>
-              btn.classList.remove(
-                "active"
-              )
+              btn.classList.remove("active")
             );
 
           document
             .querySelectorAll(".tab")
             .forEach(tab =>
-              tab.classList.remove(
-                "active"
-              )
+              tab.classList.remove("active")
             );
 
-          button.classList.add(
-            "active"
-          );
+          button.classList.add("active");
 
           document
-            .getElementById(
-              button.dataset.tab
-            )
-            .classList.add(
-              "active"
-            );
-
+            .getElementById(button.dataset.tab)
+            .classList.add("active");
         }
       );
 
     });
 
-
-  /* =========================
-     LOAD ALL
-  ========================= */
 
   async function loadAll() {
 
@@ -1336,8 +1071,7 @@
       );
 
       if (
-        error.message ===
-        "Unauthorized"
+        error.message === "Unauthorized"
       ) {
         logout();
       }
@@ -1345,16 +1079,10 @@
   }
 
 
-  /* =========================
-     PRODUCTS
-  ========================= */
-
   async function loadProducts() {
 
     products =
-      await api(
-        "/api/admin/products"
-      );
+      await api("/api/admin/products");
 
     renderProducts();
     renderCategories();
@@ -1365,9 +1093,7 @@
   function renderProducts() {
 
     const grid =
-      document.getElementById(
-        "productsGrid"
-      );
+      document.getElementById("productsGrid");
 
     if (!products.length) {
 
@@ -1380,18 +1106,13 @@
     grid.innerHTML =
       products.map(product => {
 
-        let imageHtml =
-          "";
+        let imageHtml = "";
 
         if (
           product.image &&
           (
-            product.image.startsWith(
-              "http"
-            ) ||
-            product.image.startsWith(
-              "data:image"
-            )
+            product.image.startsWith("http") ||
+            product.image.startsWith("data:image")
           )
         ) {
 
@@ -1404,8 +1125,7 @@
 
           imageHtml =
             escapeHtml(
-              product.image ||
-              "📦"
+              product.image || "📦"
             );
         }
 
@@ -1418,15 +1138,12 @@
             </div>
 
             <h3>
-              ${escapeHtml(
-                product.name
-              )}
+              ${escapeHtml(product.name)}
             </h3>
 
             <small>
               ${escapeHtml(
-                product.category ||
-                "ללא קטגוריה"
+                product.category || "ללא קטגוריה"
               )}
             </small>
 
@@ -1434,15 +1151,15 @@
 
               <div class="field">
                 <label>שם</label>
+
                 <input
                   id="name-${product.id}"
-                  value="${escapeAttr(
-                    product.name
-                  )}">
+                  value="${escapeAttr(product.name)}">
               </div>
 
               <div class="field">
                 <label>מחיר ₪</label>
+
                 <input
                   id="price-${product.id}"
                   type="number"
@@ -1453,6 +1170,7 @@
 
               <div class="field">
                 <label>מלאי</label>
+
                 <input
                   id="stock-${product.id}"
                   type="number"
@@ -1462,6 +1180,7 @@
 
               <div class="field">
                 <label>קטגוריה</label>
+
                 <input
                   id="category-${product.id}"
                   value="${escapeAttr(
@@ -1471,6 +1190,7 @@
 
               <div class="field">
                 <label>תמונה / אימוג׳י</label>
+
                 <input
                   id="image-${product.id}"
                   value="${escapeAttr(
@@ -1485,9 +1205,7 @@
                   <input
                     type="checkbox"
                     id="active-${product.id}"
-                    ${product.active
-                      ? "checked"
-                      : ""}
+                    ${product.active ? "checked" : ""}
                     style="width:auto;">
 
                   פעיל באתר
@@ -1501,17 +1219,13 @@
                 <button
                   class="btn btn-green"
                   onclick="saveProduct(${product.id})">
-
                   שמור
-
                 </button>
 
                 <button
                   class="btn btn-red"
                   onclick="deleteProduct(${product.id})">
-
                   מחק
-
                 </button>
 
               </div>
@@ -1523,56 +1237,39 @@
         `;
 
       }).join("");
-
   }
 
 
   function showAddProduct() {
 
     document
-      .getElementById(
-        "productFormCard"
-      )
-      .style.display =
-      "block";
+      .getElementById("productFormCard")
+      .style.display = "block";
 
     document
-      .getElementById(
-        "productFormTitle"
-      )
-      .textContent =
-      "הוספת מוצר";
+      .getElementById("productFormTitle")
+      .textContent = "הוספת מוצר";
 
     document
-      .getElementById(
-        "productForm"
-      )
+      .getElementById("productForm")
       .reset();
 
     document
-      .getElementById(
-        "productId"
-      )
+      .getElementById("productId")
       .value = "";
-
   }
 
 
   function hideProductForm() {
 
     document
-      .getElementById(
-        "productFormCard"
-      )
-      .style.display =
-      "none";
+      .getElementById("productFormCard")
+      .style.display = "none";
   }
 
 
   document
-    .getElementById(
-      "productForm"
-    )
+    .getElementById("productForm")
     .addEventListener(
       "submit",
       async function(event) {
@@ -1585,57 +1282,49 @@
 
             name:
               document
-                .getElementById(
-                  "productName"
-                ).value,
+                .getElementById("productName")
+                .value,
 
             description:
               document
-                .getElementById(
-                  "productDescription"
-                ).value,
+                .getElementById("productDescription")
+                .value,
 
             price:
               Number(
                 document
-                  .getElementById(
-                    "productPrice"
-                  ).value
+                  .getElementById("productPrice")
+                  .value
               ),
 
             stock:
               Number(
                 document
-                  .getElementById(
-                    "productStock"
-                  ).value
+                  .getElementById("productStock")
+                  .value
               ),
 
             category:
               document
-                .getElementById(
-                  "productCategory"
-                ).value,
+                .getElementById("productCategory")
+                .value,
 
             image:
               document
-                .getElementById(
-                  "productImage"
-                ).value,
+                .getElementById("productImage")
+                .value,
 
             active:
               document
-                .getElementById(
-                  "productActive"
-                ).checked
+                .getElementById("productActive")
+                .checked
           };
 
           await api(
             "/api/admin/products",
             {
               method: "POST",
-              body:
-                JSON.stringify(data)
+              body: JSON.stringify(data)
             }
           );
 
@@ -1643,9 +1332,7 @@
 
           await loadProducts();
 
-          showMessage(
-            "המוצר נוסף בהצלחה"
-          );
+          showMessage("המוצר נוסף בהצלחה");
 
         } catch (error) {
 
@@ -1667,9 +1354,8 @@
 
         name:
           document
-            .getElementById(
-              `name-${id}`
-            ).value,
+            .getElementById(`name-${id}`)
+            .value,
 
         description:
           products.find(
@@ -1679,52 +1365,44 @@
         price:
           Number(
             document
-              .getElementById(
-                `price-${id}`
-              ).value
+              .getElementById(`price-${id}`)
+              .value
           ),
 
         stock:
           Number(
             document
-              .getElementById(
-                `stock-${id}`
-              ).value
+              .getElementById(`stock-${id}`)
+              .value
           ),
 
         category:
           document
-            .getElementById(
-              `category-${id}`
-            ).value,
+            .getElementById(`category-${id}`)
+            .value,
 
         image:
           document
-            .getElementById(
-              `image-${id}`
-            ).value,
+            .getElementById(`image-${id}`)
+            .value,
 
         active:
           document
-            .getElementById(
-              `active-${id}`
-            ).checked
+            .getElementById(`active-${id}`)
+            .checked
       };
 
       await api(
         `/api/admin/products/${id}`,
         {
           method: "PATCH",
-          body:
-            JSON.stringify(data)
+          body: JSON.stringify(data)
         }
       );
 
       await loadProducts();
 
-      showMessage(
-        "המוצר עודכן בהצלחה"
-      );
+      showMessage("המוצר עודכן בהצלחה");
 
     } catch (error) {
 
@@ -1738,11 +1416,7 @@
 
   async function deleteProduct(id) {
 
-    if (
-      !confirm(
-        "למחוק את המוצר?"
-      )
-    ) {
+    if (!confirm("למחוק את המוצר?")) {
       return;
     }
 
@@ -1757,9 +1431,7 @@
 
       await loadProducts();
 
-      showMessage(
-        "המוצר נמחק"
-      );
+      showMessage("המוצר נמחק");
 
     } catch (error) {
 
@@ -1771,24 +1443,16 @@
   }
 
 
-  /* =========================
-     CATEGORIES
-  ========================= */
-
   function renderCategories() {
 
     const list =
-      document.getElementById(
-        "categoriesList"
-      );
+      document.getElementById("categoriesList");
 
     const categories =
       [
         ...new Set(
           products
-            .map(p =>
-              p.category
-            )
+            .map(p => p.category)
             .filter(Boolean)
         )
       ];
@@ -1809,20 +1473,13 @@
           </div>`
         )
         .join("");
-
   }
 
-
-  /* =========================
-     ORDERS
-  ========================= */
 
   async function loadOrders() {
 
     orders =
-      await api(
-        "/api/orders"
-      );
+      await api("/api/orders");
 
     renderOrders();
     updateStats();
@@ -1832,9 +1489,7 @@
   function renderOrders() {
 
     const container =
-      document.getElementById(
-        "ordersList"
-      );
+      document.getElementById("ordersList");
 
     if (!orders.length) {
 
@@ -1852,11 +1507,8 @@
         try {
 
           items =
-            typeof order.items ===
-            "string"
-              ? JSON.parse(
-                  order.items
-                )
+            typeof order.items === "string"
+              ? JSON.parse(order.items)
               : order.items;
 
         } catch {
@@ -1881,9 +1533,7 @@
                   ${escapeHtml(
                     new Date(
                       order.created_at
-                    ).toLocaleString(
-                      "he-IL"
-                    )
+                    ).toLocaleString("he-IL")
                   )}
                 </small>
 
@@ -1904,8 +1554,7 @@
                   <option
                     value="${status}"
                     ${
-                      order.status ===
-                      status
+                      order.status === status
                         ? "selected"
                         : ""
                     }>
@@ -1922,9 +1571,7 @@
 
               <div class="info-box">
 
-                <strong>
-                  👤 לקוח
-                </strong>
+                <strong>👤 לקוח</strong>
 
                 ${escapeHtml(
                   order.customer_name
@@ -1932,11 +1579,10 @@
 
               </div>
 
+
               <div class="info-box">
 
-                <strong>
-                  📞 טלפון
-                </strong>
+                <strong>📞 טלפון</strong>
 
                 ${escapeHtml(
                   order.phone
@@ -1944,68 +1590,53 @@
 
               </div>
 
+
               <div class="info-box">
 
-                <strong>
-                  📧 אימייל
-                </strong>
+                <strong>📧 אימייל</strong>
 
                 ${escapeHtml(
-                  order.email ||
-                  "לא נמסר"
+                  order.email || "לא נמסר"
                 )}
 
               </div>
 
+
               <div class="info-box">
 
-                <strong>
-                  🚚 משלוח
-                </strong>
+                <strong>🚚 משלוח</strong>
 
                 ${escapeHtml(
-                  order.shipping ||
-                  ""
+                  order.shipping || ""
                 )}
 
               </div>
 
+
               <div class="info-box">
 
-                <strong>
-                  📍 כתובת
-                </strong>
+                <strong>📍 כתובת</strong>
 
-                ${escapeHtml(
-                  order.city
-                )},
-                ${escapeHtml(
-                  order.street
-                )}
-                ${escapeHtml(
-                  order.house_number
-                )}
+                ${escapeHtml(order.city)},
+                ${escapeHtml(order.street)}
+                ${escapeHtml(order.house_number)}
 
                 ${
                   order.apartment
                     ? ", דירה " +
-                      escapeHtml(
-                        order.apartment
-                      )
+                      escapeHtml(order.apartment)
                     : ""
                 }
 
               </div>
 
+
               <div class="info-box">
 
-                <strong>
-                  📝 הערות
-                </strong>
+                <strong>📝 הערות</strong>
 
                 ${escapeHtml(
-                  order.notes ||
-                  "אין"
+                  order.notes || "אין"
                 )}
 
               </div>
@@ -2013,9 +1644,7 @@
             </div>
 
 
-            <strong>
-              פריטים:
-            </strong>
+            <strong>פריטים:</strong>
 
             <div class="items-list">
 
@@ -2026,8 +1655,7 @@
 
                       <span>
                         ${escapeHtml(
-                          item.name ||
-                          "מוצר"
+                          item.name || "מוצר"
                         )}
                         ×
                         ${item.quantity || 1}
@@ -2035,12 +1663,8 @@
 
                       <span>
                         ${
-                          Number(
-                            item.price || 0
-                          ) *
-                          Number(
-                            item.quantity || 1
-                          )
+                          Number(item.price || 0) *
+                          Number(item.quantity || 1)
                         } ₪
                       </span>
 
@@ -2062,15 +1686,12 @@
 
             </div>
 
-
             <br>
 
             <button
               class="btn btn-red"
               onclick="deleteOrder(${order.id})">
-
               מחק הזמנה
-
             </button>
 
           </div>
@@ -2078,14 +1699,10 @@
         `;
 
       }).join("");
-
   }
 
 
-  async function updateOrderStatus(
-    id,
-    status
-  ) {
+  async function updateOrderStatus(id, status) {
 
     try {
 
@@ -2094,9 +1711,7 @@
         {
           method: "PATCH",
           body:
-            JSON.stringify({
-              status
-            })
+            JSON.stringify({ status })
         }
       );
 
@@ -2118,11 +1733,7 @@
 
   async function deleteOrder(id) {
 
-    if (
-      !confirm(
-        "למחוק את ההזמנה?"
-      )
-    ) {
+    if (!confirm("למחוק את ההזמנה?")) {
       return;
     }
 
@@ -2137,9 +1748,7 @@
 
       await loadOrders();
 
-      showMessage(
-        "ההזמנה נמחקה"
-      );
+      showMessage("ההזמנה נמחקה");
 
     } catch (error) {
 
@@ -2151,60 +1760,43 @@
   }
 
 
-  /* =========================
-     STATISTICS
-  ========================= */
-
   function updateStats() {
 
     document
-      .getElementById(
-        "statProducts"
-      )
+      .getElementById("statProducts")
       .textContent =
       products.length;
 
     document
-      .getElementById(
-        "statOrders"
-      )
+      .getElementById("statOrders")
       .textContent =
       orders.length;
 
     const revenue =
       orders.reduce(
         (sum, order) =>
-          sum +
-          Number(
-            order.total || 0
-          ),
+          sum + Number(order.total || 0),
         0
       );
 
     document
-      .getElementById(
-        "statRevenue"
-      )
+      .getElementById("statRevenue")
       .textContent =
-      revenue.toFixed(2) +
-      " ₪";
+      revenue.toFixed(2) + " ₪";
 
     document
-      .getElementById(
-        "statNewOrders"
-      )
+      .getElementById("statNewOrders")
       .textContent =
       orders.filter(
         order =>
-          order.status ===
-          "חדשה"
+          order.status === "חדשה"
       ).length;
-
   }
 
 
   /* =========================
      TEST EMAIL
+     RESEND TEST MODE
   ========================= */
 
   async function sendTestEmail() {
@@ -2221,11 +1813,9 @@
 
     button.disabled = true;
 
-    button.textContent =
-      "⏳ שולח...";
+    button.textContent = "⏳ שולח...";
 
-    resultBox.className =
-      "message";
+    resultBox.className = "message";
 
     try {
 
@@ -2241,7 +1831,7 @@
         "message success";
 
       resultBox.textContent =
-        "✅ המייל נשלח בהצלחה ל־daniel20084@gmail.com. בדוק את תיבת הדואר.";
+        "✅ מייל הבדיקה נשלח בהצלחה ל־dadadelivery2017@gmail.com. בדוק גם בתיקיית ספאם.";
 
     } catch (error) {
 
@@ -2259,59 +1849,31 @@
       button.textContent =
         "📧 שלח מייל בדיקה";
     }
-
   }
 
 
-  /* =========================
-     SECURITY HELPERS
-  ========================= */
-
   function escapeHtml(value) {
 
-    return String(
-      value ?? ""
-    )
-      .replaceAll(
-        "&",
-        "&amp;"
-      )
-      .replaceAll(
-        "<",
-        "&lt;"
-      )
-      .replaceAll(
-        ">",
-        "&gt;"
-      )
-      .replaceAll(
-        '"',
-        "&quot;"
-      )
-      .replaceAll(
-        "'",
-        "&#039;"
-      );
+    return String(value ?? "")
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
   }
 
 
   function escapeAttr(value) {
-
     return escapeHtml(value);
   }
 
 
-  /* =========================
-     AUTO LOGIN
-  ========================= */
-
   if (adminKey) {
-
     showAdmin();
-
   }
 
 </script>
 
 </body>
 </html>
+```
