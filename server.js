@@ -19,138 +19,74 @@ const pool = new Pool({
 });
 
 /* =========================
-   EMAIL - RESEND
+   EMAIL
 ========================= */
 
-const resendApiKey =
-  process.env.RESEND_API_KEY || "";
+const resend = process.env.RESEND_API_KEY
+  ? new Resend(process.env.RESEND_API_KEY)
+  : null;
 
-const resendFromEmail =
-  process.env.RESEND_FROM_EMAIL ||
-  "onboarding@resend.dev";
-
-const resend =
-  resendApiKey
-    ? new Resend(resendApiKey)
-    : null;
-
-console.log(
-  resend
-    ? "Email service: READY"
-    : "Email service: NOT CONFIGURED"
-);
-
-/*
-  במצב Testing של Resend מותר לשלוח
-  רק לכתובת המורשית של החשבון.
-*/
-const TEST_EMAIL =
-  "dadadelivery2017@gmail.com";
-
+const TEST_EMAIL = "dadadelivery2017@gmail.com";
+const FROM_EMAIL = "onboarding@resend.dev";
 
 /* =========================
    MIDDLEWARE
 ========================= */
 
-app.use(
-  express.json({
-    limit: "10mb"
-  })
-);
-
-app.use(
-  express.static(__dirname)
-);
-
+app.use(express.json({ limit: "10mb" }));
+app.use(express.static(__dirname));
 app.disable("x-powered-by");
-
 
 /* =========================
    ADMIN SECURITY
 ========================= */
 
 function getAdminKeys() {
-
   return [
     process.env.ADMIN_KEY,
     process.env.DANIELADMIN
   ].filter(Boolean);
-
 }
 
+function requireAdmin(req, res, next) {
+  const adminKeys = getAdminKeys();
 
-function requireAdmin(
-  req,
-  res,
-  next
-) {
-
-  const adminKeys =
-    getAdminKeys();
-
-  if (!adminKeys.length) {
-
+  if (adminKeys.length === 0) {
     return res.status(500).json({
-      error:
-        "No admin password configured on the server"
+      error: "No admin password configured on the server"
     });
-
   }
 
-  const receivedKey =
-    req.headers["x-admin-key"];
+  const receivedKey = req.headers["x-admin-key"];
 
-  if (
-    !receivedKey ||
-    !adminKeys.includes(receivedKey)
-  ) {
-
+  if (!receivedKey || !adminKeys.includes(receivedKey)) {
     return res.status(401).json({
       error: "Unauthorized"
     });
-
   }
 
   next();
-
 }
-
 
 /* =========================
    ADMIN LOGIN
 ========================= */
 
-app.post(
-  "/api/admin/login",
-  (req, res) => {
+app.post("/api/admin/login", (req, res) => {
+  const { password } = req.body || {};
+  const adminKeys = getAdminKeys();
 
-    const {
-      password
-    } = req.body || {};
-
-    const adminKeys =
-      getAdminKeys();
-
-    if (
-      !password ||
-      !adminKeys.includes(password)
-    ) {
-
-      return res.status(401).json({
-        error:
-          "סיסמת אדמין שגויה"
-      });
-
-    }
-
-    res.json({
-      success: true,
-      adminKey: password
+  if (!password || !adminKeys.includes(password)) {
+    return res.status(401).json({
+      error: "סיסמת אדמין שגויה"
     });
-
   }
-);
 
+  res.json({
+    success: true,
+    adminKey: password
+  });
+});
 
 /* =========================
    TEST EMAIL
@@ -160,133 +96,59 @@ app.post(
   "/api/admin/test-email",
   requireAdmin,
   async (req, res) => {
-
     try {
-
       if (!resend) {
-
         return res.status(500).json({
-          error:
-            "RESEND_API_KEY is not configured"
+          error: "RESEND_API_KEY is not configured"
         });
-
       }
 
-      console.log(
-        "TEST EMAIL: sending..."
-      );
+      const result = await resend.emails.send({
+        from: FROM_EMAIL,
+        to: TEST_EMAIL,
+        subject: "Dada Best - בדיקת מייל",
+        html: `
+          <div dir="rtl" style="font-family:Arial,sans-serif">
+            <h2>שלום מדאדא בסט 👋</h2>
+            <p>זהו מייל בדיקה ממערכת הניהול.</p>
+            <p>אם קיבלת את המייל הזה, חיבור המייל עובד.</p>
+          </div>
+        `
+      });
 
-      console.log(
-        "TEST EMAIL FROM:",
-        resendFromEmail
-      );
-
-      console.log(
-        "TEST EMAIL TO:",
-        TEST_EMAIL
-      );
-
-      const result =
-        await resend.emails.send({
-
-          from:
-            resendFromEmail,
-
-          to:
-            TEST_EMAIL,
-
-          subject:
-            "Dada Best - מייל בדיקה",
-
-          html: `
-            <div
-              dir="rtl"
-              style="
-                font-family:Arial,sans-serif;
-                padding:30px;
-              "
-            >
-
-              <h1>
-                Dada Best
-              </h1>
-
-              <h2>
-                ✅ המייל עובד!
-              </h2>
-
-              <p>
-                זהו מייל בדיקה ממערכת Dada Best.
-              </p>
-
-              <p>
-                אם קיבלת את ההודעה הזאת,
-                החיבור ל־Resend תקין.
-              </p>
-
-            </div>
-          `
-
-        });
-
-      console.log(
-        "TEST EMAIL RESULT:",
-        result
-      );
+      console.log("TEST EMAIL RESULT:", result);
 
       if (result.error) {
+        console.error("TEST EMAIL ERROR:", result.error);
 
-        console.error(
-          "RESEND ERROR:",
-          result.error
-        );
-
-        return res.status(502).json({
+        return res.status(500).json({
           error:
             result.error.message ||
             "Resend failed to send email"
         });
-
       }
 
       res.json({
-
         success: true,
-
-        message:
-          "מייל הבדיקה נשלח בהצלחה",
-
-        email:
-          TEST_EMAIL,
-
-        id:
-          result.data?.id || null
-
+        message: "Test email sent",
+        email: TEST_EMAIL,
+        id: result.data?.id || null
       });
 
     } catch (error) {
-
-      console.error(
-        "TEST EMAIL ERROR:",
-        error
-      );
+      console.error("TEST EMAIL ERROR:", error);
 
       res.status(500).json({
-
         error:
           error.message ||
           "Failed to send test email"
-
       });
-
     }
-
   }
 );
 
-
 /* =========================
-   DATABASE
+   DATABASE INIT
 ========================= */
 
 async function initDatabase() {
@@ -312,7 +174,6 @@ async function initDatabase() {
     )
   `);
 
-
   await pool.query(`
     CREATE TABLE IF NOT EXISTS products (
       id SERIAL PRIMARY KEY,
@@ -327,22 +188,16 @@ async function initDatabase() {
     )
   `);
 
-
   await pool.query(`
     ALTER TABLE products
     ADD COLUMN IF NOT EXISTS category VARCHAR(100) DEFAULT ''
   `);
 
+  const countResult = await pool.query(
+    "SELECT COUNT(*)::int AS count FROM products"
+  );
 
-  const countResult =
-    await pool.query(
-      "SELECT COUNT(*)::int AS count FROM products"
-    );
-
-
-  if (
-    countResult.rows[0].count === 0
-  ) {
+  if (countResult.rows[0].count === 0) {
 
     await pool.query(`
       INSERT INTO products
@@ -412,113 +267,71 @@ async function initDatabase() {
         )
     `);
 
-    console.log(
-      "Initial products created"
-    );
-
+    console.log("Initial products created");
   }
 
-  console.log(
-    "Database ready"
-  );
-
+  console.log("Database ready");
 }
-
 
 /* =========================
    HEALTH
 ========================= */
 
-app.get(
-  "/api/health",
-  async (req, res) => {
+app.get("/api/health", async (req, res) => {
+  try {
 
-    try {
+    await pool.query("SELECT 1");
 
-      await pool.query(
-        "SELECT 1"
-      );
+    res.json({
+      success: true,
+      message: "Dada Best server is working"
+    });
 
-      res.json({
+  } catch (error) {
 
-        success: true,
+    console.error("HEALTH ERROR:", error);
 
-        message:
-          "Dada Best server is working"
-
-      });
-
-    } catch (error) {
-
-      console.error(
-        "HEALTH ERROR:",
-        error
-      );
-
-      res.status(500).json({
-
-        success: false,
-
-        error:
-          "Database connection failed"
-
-      });
-
-    }
-
+    res.status(500).json({
+      success: false,
+      error: "Database connection failed"
+    });
   }
-);
-
+});
 
 /* =========================
    PRODUCTS - PUBLIC
 ========================= */
 
-app.get(
-  "/api/products",
-  async (req, res) => {
+app.get("/api/products", async (req, res) => {
 
-    try {
+  try {
 
-      const result =
-        await pool.query(`
-          SELECT
-            id,
-            name,
-            description,
-            price,
-            stock,
-            image,
-            active,
-            category
-          FROM products
-          WHERE active = TRUE
-          ORDER BY id ASC
-        `);
+    const result = await pool.query(`
+      SELECT
+        id,
+        name,
+        description,
+        price,
+        stock,
+        image,
+        active,
+        category
+      FROM products
+      WHERE active = TRUE
+      ORDER BY id ASC
+    `);
 
-      res.json(
-        result.rows
-      );
+    res.json(result.rows);
 
-    } catch (error) {
+  } catch (error) {
 
-      console.error(
-        "LOAD PRODUCTS ERROR:",
-        error
-      );
+    console.error("LOAD PRODUCTS ERROR:", error);
 
-      res.status(500).json({
-
-        error:
-          "Failed to load products"
-
-      });
-
-    }
-
+    res.status(500).json({
+      error: "Failed to load products"
+    });
   }
-);
-
+});
 
 /* =========================
    PRODUCTS - ADMIN
@@ -531,16 +344,13 @@ app.get(
 
     try {
 
-      const result =
-        await pool.query(`
-          SELECT *
-          FROM products
-          ORDER BY id DESC
-        `);
+      const result = await pool.query(`
+        SELECT *
+        FROM products
+        ORDER BY id DESC
+      `);
 
-      res.json(
-        result.rows
-      );
+      res.json(result.rows);
 
     } catch (error) {
 
@@ -550,17 +360,11 @@ app.get(
       );
 
       res.status(500).json({
-
-        error:
-          "Failed to load products"
-
+        error: "Failed to load products"
       });
-
     }
-
   }
 );
-
 
 /* =========================
    CREATE PRODUCT
@@ -583,100 +387,58 @@ app.post(
         category
       } = req.body;
 
-
-      if (
-        !name ||
-        !String(name).trim()
-      ) {
-
+      if (!name || !String(name).trim()) {
         return res.status(400).json({
-          error:
-            "Product name is required"
+          error: "Product name is required"
         });
-
       }
 
-
-      const productPrice =
-        Number(price);
-
-      const productStock =
-        Number(stock);
-
+      const productPrice = Number(price);
+      const productStock = Number(stock);
 
       if (
-        !Number.isFinite(
-          productPrice
-        ) ||
+        !Number.isFinite(productPrice) ||
         productPrice < 0
       ) {
-
         return res.status(400).json({
-          error:
-            "Invalid price"
+          error: "Invalid price"
         });
-
       }
-
 
       if (
-        !Number.isInteger(
-          productStock
-        ) ||
+        !Number.isInteger(productStock) ||
         productStock < 0
       ) {
-
         return res.status(400).json({
-          error:
-            "Invalid stock"
+          error: "Invalid stock"
         });
-
       }
 
+      const result = await pool.query(`
+        INSERT INTO products
+          (
+            name,
+            description,
+            price,
+            stock,
+            image,
+            active,
+            category
+          )
+        VALUES
+          ($1,$2,$3,$4,$5,$6,$7)
+        RETURNING *
+      `, [
+        String(name).trim(),
+        String(description || "").trim(),
+        productPrice,
+        productStock,
+        String(image || "").trim(),
+        active !== false,
+        String(category || "").trim()
+      ]);
 
-      const result =
-        await pool.query(`
-          INSERT INTO products
-            (
-              name,
-              description,
-              price,
-              stock,
-              image,
-              active,
-              category
-            )
-          VALUES
-            ($1,$2,$3,$4,$5,$6,$7)
-          RETURNING *
-        `, [
-
-          String(name).trim(),
-
-          String(
-            description || ""
-          ).trim(),
-
-          productPrice,
-
-          productStock,
-
-          String(
-            image || ""
-          ).trim(),
-
-          active !== false,
-
-          String(
-            category || ""
-          ).trim()
-
-        ]);
-
-
-      res.status(201).json(
-        result.rows[0]
-      );
+      res.status(201).json(result.rows[0]);
 
     } catch (error) {
 
@@ -686,17 +448,11 @@ app.post(
       );
 
       res.status(500).json({
-
-        error:
-          "Failed to create product"
-
+        error: "Failed to create product"
       });
-
     }
-
   }
 );
-
 
 /* =========================
    UPDATE PRODUCT
@@ -719,113 +475,64 @@ app.patch(
         category
       } = req.body;
 
-
-      if (
-        !name ||
-        !String(name).trim()
-      ) {
-
+      if (!name || !String(name).trim()) {
         return res.status(400).json({
-          error:
-            "Product name is required"
+          error: "Product name is required"
         });
-
       }
 
-
-      const productPrice =
-        Number(price);
-
-      const productStock =
-        Number(stock);
-
+      const productPrice = Number(price);
+      const productStock = Number(stock);
 
       if (
-        !Number.isFinite(
-          productPrice
-        ) ||
+        !Number.isFinite(productPrice) ||
         productPrice < 0
       ) {
-
         return res.status(400).json({
-          error:
-            "Invalid price"
+          error: "Invalid price"
         });
-
       }
 
-
       if (
-        !Number.isInteger(
-          productStock
-        ) ||
+        !Number.isInteger(productStock) ||
         productStock < 0
       ) {
-
         return res.status(400).json({
-          error:
-            "Invalid stock"
+          error: "Invalid stock"
         });
-
       }
 
+      const result = await pool.query(`
+        UPDATE products
+        SET
+          name = $1,
+          description = $2,
+          price = $3,
+          stock = $4,
+          image = $5,
+          active = $6,
+          category = $7,
+          updated_at = CURRENT_TIMESTAMP
+        WHERE id = $8
+        RETURNING *
+      `, [
+        String(name).trim(),
+        String(description || "").trim(),
+        productPrice,
+        productStock,
+        String(image || "").trim(),
+        active !== false,
+        String(category || "").trim(),
+        req.params.id
+      ]);
 
-      const result =
-        await pool.query(`
-          UPDATE products
-          SET
-            name = $1,
-            description = $2,
-            price = $3,
-            stock = $4,
-            image = $5,
-            active = $6,
-            category = $7,
-            updated_at = CURRENT_TIMESTAMP
-          WHERE id = $8
-          RETURNING *
-        `, [
-
-          String(name).trim(),
-
-          String(
-            description || ""
-          ).trim(),
-
-          productPrice,
-
-          productStock,
-
-          String(
-            image || ""
-          ).trim(),
-
-          active !== false,
-
-          String(
-            category || ""
-          ).trim(),
-
-          req.params.id
-
-        ]);
-
-
-      if (
-        !result.rows.length
-      ) {
-
+      if (result.rows.length === 0) {
         return res.status(404).json({
-          error:
-            "Product not found"
+          error: "Product not found"
         });
-
       }
 
-
-      res.json(
-        result.rows[0]
-      );
+      res.json(result.rows[0]);
 
     } catch (error) {
 
@@ -835,17 +542,11 @@ app.patch(
       );
 
       res.status(500).json({
-
-        error:
-          "Failed to update product"
-
+        error: "Failed to update product"
       });
-
     }
-
   }
 );
-
 
 /* =========================
    DELETE PRODUCT
@@ -858,27 +559,17 @@ app.delete(
 
     try {
 
-      const result =
-        await pool.query(`
-          DELETE FROM products
-          WHERE id = $1
-          RETURNING id
-        `, [
-          req.params.id
-        ]);
+      const result = await pool.query(`
+        DELETE FROM products
+        WHERE id = $1
+        RETURNING id
+      `, [req.params.id]);
 
-
-      if (
-        !result.rows.length
-      ) {
-
+      if (result.rows.length === 0) {
         return res.status(404).json({
-          error:
-            "Product not found"
+          error: "Product not found"
         });
-
       }
-
 
       res.json({
         success: true
@@ -892,17 +583,11 @@ app.delete(
       );
 
       res.status(500).json({
-
-        error:
-          "Failed to delete product"
-
+        error: "Failed to delete product"
       });
-
     }
-
   }
 );
-
 
 /* =========================
    ORDERS - ADMIN
@@ -915,14 +600,11 @@ app.get(
 
     try {
 
-      const result =
-        await pool.query(
-          "SELECT * FROM orders ORDER BY created_at DESC"
-        );
-
-      res.json(
-        result.rows
+      const result = await pool.query(
+        "SELECT * FROM orders ORDER BY created_at DESC"
       );
+
+      res.json(result.rows);
 
     } catch (error) {
 
@@ -932,17 +614,11 @@ app.get(
       );
 
       res.status(500).json({
-
-        error:
-          "Failed to load orders"
-
+        error: "Failed to load orders"
       });
-
     }
-
   }
 );
-
 
 /* =========================
    CREATE ORDER
@@ -960,7 +636,6 @@ app.post(
         total
       } = req.body;
 
-
       if (
         !customer ||
         !customer.name ||
@@ -969,112 +644,65 @@ app.post(
         !customer.street ||
         !customer.house
       ) {
-
         return res.status(400).json({
-
-          error:
-            "Missing customer information"
-
+          error: "Missing customer information"
         });
-
       }
-
 
       if (
         !Array.isArray(items) ||
-        !items.length
+        items.length === 0
       ) {
-
         return res.status(400).json({
-
-          error:
-            "Order is empty"
-
+          error: "Order is empty"
         });
-
       }
-
 
       const orderNumber =
         "DADA-" +
-        Date.now()
-          .toString()
-          .slice(-8);
+        Date.now().toString().slice(-8);
 
-
-      const result =
-        await pool.query(`
-          INSERT INTO orders (
-            order_number,
-            customer_name,
-            phone,
-            email,
-            city,
-            street,
-            house_number,
-            apartment,
-            zip,
-            shipping,
-            notes,
-            items,
-            total
-          )
-          VALUES (
-            $1,$2,$3,$4,$5,$6,$7,
-            $8,$9,$10,$11,$12,$13
-          )
-          RETURNING *
-        `, [
-
-          orderNumber,
-
-          String(
-            customer.name
-          ).trim(),
-
-          String(
-            customer.phone
-          ).trim(),
-
-          String(
-            customer.email || ""
-          ).trim(),
-
-          String(
-            customer.city
-          ).trim(),
-
-          String(
-            customer.street
-          ).trim(),
-
-          String(
-            customer.house
-          ).trim(),
-
-          String(
-            customer.apartment || ""
-          ).trim(),
-
-          String(
-            customer.zip || ""
-          ).trim(),
-
-          String(
-            customer.shipping ||
-            "משלוח רגיל"
-          ).trim(),
-
-          String(
-            customer.notes || ""
-          ).trim(),
-
-          JSON.stringify(items),
-
-          Number(total) || 0
-
-        ]);
-
+      const result = await pool.query(`
+        INSERT INTO orders (
+          order_number,
+          customer_name,
+          phone,
+          email,
+          city,
+          street,
+          house_number,
+          apartment,
+          zip,
+          shipping,
+          notes,
+          items,
+          total
+        )
+        VALUES (
+          $1,$2,$3,$4,$5,$6,$7,
+          $8,$9,$10,$11,$12,$13
+        )
+        RETURNING *
+      `, [
+        orderNumber,
+        String(customer.name).trim(),
+        String(customer.phone).trim(),
+        String(customer.email || "").trim(),
+        String(customer.city).trim(),
+        String(customer.street).trim(),
+        String(customer.house).trim(),
+        String(customer.apartment || "").trim(),
+        String(customer.zip || "").trim(),
+        String(
+          customer.shipping ||
+          "משלוח רגיל"
+        ).trim(),
+        String(
+          customer.notes || ""
+        ).trim(),
+        JSON.stringify(items),
+        Number(total) || 0
+      ]);
 
       res.status(201).json(
         result.rows[0]
@@ -1088,17 +716,11 @@ app.post(
       );
 
       res.status(500).json({
-
-        error:
-          "Failed to create order"
-
+        error: "Failed to create order"
       });
-
     }
-
   }
 );
-
 
 /* =========================
    UPDATE ORDER
@@ -1111,69 +733,38 @@ app.patch(
 
     try {
 
-      const {
-        status
-      } = req.body;
-
+      const { status } = req.body;
 
       const allowedStatuses = [
-
         "חדשה",
         "בטיפול",
         "נשלחה",
         "הושלמה"
-
       ];
 
-
-      if (
-        !allowedStatuses.includes(
-          status
-        )
-      ) {
-
+      if (!allowedStatuses.includes(status)) {
         return res.status(400).json({
-
-          error:
-            "Invalid order status"
-
+          error: "Invalid order status"
         });
-
       }
 
+      const result = await pool.query(`
+        UPDATE orders
+        SET status = $1
+        WHERE id = $2
+        RETURNING *
+      `, [
+        status,
+        req.params.id
+      ]);
 
-      const result =
-        await pool.query(`
-          UPDATE orders
-          SET status = $1
-          WHERE id = $2
-          RETURNING *
-        `, [
-
-          status,
-
-          req.params.id
-
-        ]);
-
-
-      if (
-        !result.rows.length
-      ) {
-
+      if (!result.rows.length) {
         return res.status(404).json({
-
-          error:
-            "Order not found"
-
+          error: "Order not found"
         });
-
       }
 
-
-      res.json(
-        result.rows[0]
-      );
+      res.json(result.rows[0]);
 
     } catch (error) {
 
@@ -1183,17 +774,11 @@ app.patch(
       );
 
       res.status(500).json({
-
-        error:
-          "Failed to update order"
-
+        error: "Failed to update order"
       });
-
     }
-
   }
 );
-
 
 /* =========================
    DELETE ORDER
@@ -1206,28 +791,16 @@ app.delete(
 
     try {
 
-      const result =
-        await pool.query(
-          "DELETE FROM orders WHERE id = $1 RETURNING id",
-          [
-            req.params.id
-          ]
-        );
+      const result = await pool.query(
+        "DELETE FROM orders WHERE id = $1 RETURNING id",
+        [req.params.id]
+      );
 
-
-      if (
-        !result.rows.length
-      ) {
-
+      if (!result.rows.length) {
         return res.status(404).json({
-
-          error:
-            "Order not found"
-
+          error: "Order not found"
         });
-
       }
-
 
       res.json({
         success: true
@@ -1241,36 +814,22 @@ app.delete(
       );
 
       res.status(500).json({
-
-        error:
-          "Failed to delete order"
-
+        error: "Failed to delete order"
       });
-
     }
-
   }
 );
-
 
 /* =========================
    HOME
 ========================= */
 
-app.get(
-  "/",
-  (req, res) => {
+app.get("/", (req, res) => {
 
-    res.sendFile(
-      path.join(
-        __dirname,
-        "index.html"
-      )
-    );
-
-  }
-);
-
+  res.sendFile(
+    path.join(__dirname, "index.html")
+  );
+});
 
 /* =========================
    START
@@ -1281,6 +840,13 @@ async function start() {
   try {
 
     await initDatabase();
+
+    console.log(
+      "Email service:",
+      resend
+        ? "READY"
+        : "NOT CONFIGURED"
+    );
 
     app.listen(
       PORT,
@@ -1302,11 +868,8 @@ async function start() {
     );
 
     process.exit(1);
-
   }
-
 }
-
 
 start();
 ```
