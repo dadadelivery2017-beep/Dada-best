@@ -12,18 +12,33 @@ app.use(express.static(__dirname));
 
 const PORT = process.env.PORT || 8080;
 
-const ADMIN_PASSWORD = process.env.RESEND_API_KEY || '12345678';
+// =========================================================
+// ENVIRONMENT
+// =========================================================
 
-const DATABASE_URL = process.env.DATABASE_URL;
+const RESEND_API_KEY =
+  process.env.RESEND_API_KEY;
 
-const RESEND_API_KEY = process.env.RESEND_API_KEY;
+const DATABASE_URL =
+  process.env.DATABASE_URL;
 
 const TEST_EMAIL =
-  process.env.TEST_EMAIL || 'dadadelivery2017@gmail.com';
+  process.env.TEST_EMAIL ||
+  'dadadelivery2017@gmail.com';
 
-const resend = RESEND_API_KEY
-  ? new Resend(RESEND_API_KEY)
-  : null;
+// Admin password = RESEND_API_KEY
+const ADMIN_PASSWORD =
+  RESEND_API_KEY || '';
+
+const resend =
+  RESEND_API_KEY
+    ? new Resend(RESEND_API_KEY)
+    : null;
+
+
+// =========================================================
+// DATABASE
+// =========================================================
 
 const pool = new Pool({
   connectionString: DATABASE_URL,
@@ -33,11 +48,8 @@ const pool = new Pool({
 });
 
 
-/* =========================================================
-   DATABASE
-========================================================= */
-
 async function initDatabase() {
+
   await pool.query(`
     CREATE TABLE IF NOT EXISTS products (
       id SERIAL PRIMARY KEY,
@@ -76,550 +88,1012 @@ async function initDatabase() {
 }
 
 
-/* =========================================================
-   ADMIN AUTH
-========================================================= */
+// =========================================================
+// ADMIN AUTH
+// =========================================================
 
 function adminAuth(req, res, next) {
-  const key = req.headers['x-admin-key'];
 
-  if (!key || key !== ADMIN_PASSWORD) {
+  const key =
+    req.headers['x-admin-key'];
+
+  if (
+    !ADMIN_PASSWORD ||
+    !key ||
+    key !== ADMIN_PASSWORD
+  ) {
+
     return res.status(401).json({
       error: 'Unauthorized'
     });
+
   }
 
   next();
 }
 
 
-/* =========================================================
-   ADMIN LOGIN
-========================================================= */
+// =========================================================
+// ADMIN LOGIN
+// =========================================================
 
-app.post('/api/admin/login', (req, res) => {
-  const password = String(req.body.password || '');
+app.post(
+  '/api/admin/login',
+  (req, res) => {
 
-  if (password !== ADMIN_PASSWORD) {
-    return res.status(401).json({
-      error: 'סיסמה שגויה'
-    });
-  }
+    const password =
+      String(
+        req.body.password || ''
+      ).trim();
 
-  res.json({
-    success: true,
-    adminKey: ADMIN_PASSWORD
-  });
-});
+    if (
+      !ADMIN_PASSWORD ||
+      password !== ADMIN_PASSWORD
+    ) {
 
-
-/* =========================================================
-   PUBLIC PRODUCTS
-========================================================= */
-
-app.get('/api/products', async (req, res) => {
-  try {
-    const result = await pool.query(`
-      SELECT *
-      FROM products
-      WHERE active = TRUE
-      ORDER BY id DESC
-    `);
-
-    res.json(result.rows);
-  } catch (error) {
-    console.error('PUBLIC PRODUCTS ERROR:', error);
-
-    res.status(500).json({
-      error: 'שגיאה בטעינת המוצרים'
-    });
-  }
-});
-
-
-/* =========================================================
-   ADMIN PRODUCTS - GET
-========================================================= */
-
-app.get('/api/admin/products', adminAuth, async (req, res) => {
-  try {
-    const result = await pool.query(`
-      SELECT *
-      FROM products
-      ORDER BY id DESC
-    `);
-
-    res.json(result.rows);
-  } catch (error) {
-    console.error('ADMIN PRODUCTS GET ERROR:', error);
-
-    res.status(500).json({
-      error: 'שגיאה בטעינת המוצרים'
-    });
-  }
-});
-
-
-/* =========================================================
-   ADMIN PRODUCTS - CREATE
-========================================================= */
-
-app.post('/api/admin/products', adminAuth, async (req, res) => {
-  try {
-    const body = req.body || {};
-
-    const name = String(body.name || '').trim();
-    const description = String(body.description || '');
-    const price = Number(body.price || 0);
-    const stock = Number(body.stock || 0);
-    const category = String(body.category || '');
-    const image = String(body.image || '');
-    const active = body.active !== false;
-
-    if (!name) {
-      return res.status(400).json({
-        error: 'חסר שם מוצר'
+      return res.status(401).json({
+        error: 'סיסמה שגויה'
       });
+
     }
-
-    const result = await pool.query(
-      `
-      INSERT INTO products
-      (name, description, price, stock, category, image, active)
-      VALUES ($1, $2, $3, $4, $5, $6, $7)
-      RETURNING *
-      `,
-      [
-        name,
-        description,
-        price,
-        stock,
-        category,
-        image,
-        active
-      ]
-    );
-
-    res.json(result.rows[0]);
-  } catch (error) {
-    console.error('PRODUCT CREATE ERROR:', error);
-
-    res.status(500).json({
-      error: 'שגיאה בהוספת מוצר'
-    });
-  }
-});
-
-
-/* =========================================================
-   ADMIN PRODUCTS - UPDATE
-========================================================= */
-
-app.patch('/api/admin/products/:id', adminAuth, async (req, res) => {
-  try {
-    const id = Number(req.params.id);
-    const body = req.body || {};
-
-    const name = String(body.name || '').trim();
-    const description = String(body.description || '');
-    const price = Number(body.price || 0);
-    const stock = Number(body.stock || 0);
-    const category = String(body.category || '');
-    const image = String(body.image || '');
-    const active = body.active !== false;
-
-    if (!name) {
-      return res.status(400).json({
-        error: 'חסר שם מוצר'
-      });
-    }
-
-    const result = await pool.query(
-      `
-      UPDATE products
-      SET
-        name = $1,
-        description = $2,
-        price = $3,
-        stock = $4,
-        category = $5,
-        image = $6,
-        active = $7
-      WHERE id = $8
-      RETURNING *
-      `,
-      [
-        name,
-        description,
-        price,
-        stock,
-        category,
-        image,
-        active,
-        id
-      ]
-    );
-
-    if (!result.rows.length) {
-      return res.status(404).json({
-        error: 'המוצר לא נמצא'
-      });
-    }
-
-    res.json(result.rows[0]);
-  } catch (error) {
-    console.error('PRODUCT UPDATE ERROR:', error);
-
-    res.status(500).json({
-      error: 'שגיאה בעדכון מוצר'
-    });
-  }
-});
-
-
-/* =========================================================
-   ADMIN PRODUCTS - DELETE
-========================================================= */
-
-app.delete('/api/admin/products/:id', adminAuth, async (req, res) => {
-  try {
-    const id = Number(req.params.id);
-
-    const result = await pool.query(
-      `
-      DELETE FROM products
-      WHERE id = $1
-      RETURNING *
-      `,
-      [id]
-    );
-
-    if (!result.rows.length) {
-      return res.status(404).json({
-        error: 'המוצר לא נמצא'
-      });
-    }
-
-    res.json({
-      success: true
-    });
-  } catch (error) {
-    console.error('PRODUCT DELETE ERROR:', error);
-
-    res.status(500).json({
-      error: 'שגיאה במחיקת מוצר'
-    });
-  }
-});
-
-
-/* =========================================================
-   ORDERS - GET
-========================================================= */
-
-app.get('/api/orders', adminAuth, async (req, res) => {
-  try {
-    const result = await pool.query(`
-      SELECT *
-      FROM orders
-      ORDER BY created_at DESC
-    `);
-
-    res.json(result.rows);
-  } catch (error) {
-    console.error('ORDERS GET ERROR:', error);
-
-    res.status(500).json({
-      error: 'שגיאה בטעינת ההזמנות'
-    });
-  }
-});
-
-
-/* =========================================================
-   ORDERS - CREATE
-========================================================= */
-
-app.post('/api/orders', async (req, res) => {
-  try {
-    const body = req.body || {};
-
-    const customerName = String(body.customer_name || '');
-    const phone = String(body.phone || '');
-    const email = String(body.email || '');
-    const shipping = String(body.shipping || '');
-    const city = String(body.city || '');
-    const street = String(body.street || '');
-    const houseNumber = String(body.house_number || '');
-    const apartment = String(body.apartment || '');
-    const notes = String(body.notes || '');
-
-    const items = Array.isArray(body.items)
-      ? body.items
-      : [];
-
-    const total = Number(body.total || 0);
-
-    const orderNumber =
-      'DB-' +
-      Date.now();
-
-    const result = await pool.query(
-      `
-      INSERT INTO orders (
-        order_number,
-        customer_name,
-        phone,
-        email,
-        shipping,
-        city,
-        street,
-        house_number,
-        apartment,
-        notes,
-        items,
-        total,
-        status
-      )
-      VALUES (
-        $1, $2, $3, $4, $5, $6, $7,
-        $8, $9, $10, $11, $12, $13
-      )
-      RETURNING *
-      `,
-      [
-        orderNumber,
-        customerName,
-        phone,
-        email,
-        shipping,
-        city,
-        street,
-        houseNumber,
-        apartment,
-        notes,
-        JSON.stringify(items),
-        total,
-        'חדשה'
-      ]
-    );
 
     res.json({
       success: true,
-      order: result.rows[0]
+      adminKey: ADMIN_PASSWORD
     });
-  } catch (error) {
-    console.error('ORDER CREATE ERROR:', error);
 
-    res.status(500).json({
-      error: 'שגיאה ביצירת הזמנה'
-    });
   }
-});
+);
 
 
-/* =========================================================
-   ORDERS - UPDATE STATUS
-========================================================= */
+// =========================================================
+// PUBLIC PRODUCTS
+// =========================================================
 
-app.patch('/api/orders/:id', adminAuth, async (req, res) => {
-  try {
-    const id = Number(req.params.id);
+app.get(
+  '/api/products',
+  async (req, res) => {
 
-    const status = String(
-      req.body.status || 'חדשה'
-    );
+    try {
 
-    const result = await pool.query(
-      `
-      UPDATE orders
-      SET status = $1
-      WHERE id = $2
-      RETURNING *
-      `,
-      [
-        status,
-        id
-      ]
-    );
+      const result =
+        await pool.query(`
+          SELECT *
+          FROM products
+          WHERE active = TRUE
+          ORDER BY id DESC
+        `);
 
-    if (!result.rows.length) {
-      return res.status(404).json({
-        error: 'ההזמנה לא נמצאה'
-      });
-    }
+      res.json(
+        result.rows
+      );
 
-    res.json(result.rows[0]);
-  } catch (error) {
-    console.error('ORDER STATUS ERROR:', error);
+    } catch (error) {
 
-    res.status(500).json({
-      error: 'שגיאה בעדכון הזמנה'
-    });
-  }
-});
+      console.error(
+        'PUBLIC PRODUCTS ERROR:',
+        error
+      );
 
-
-/* =========================================================
-   ORDERS - DELETE
-========================================================= */
-
-app.delete('/api/orders/:id', adminAuth, async (req, res) => {
-  try {
-    const id = Number(req.params.id);
-
-    const result = await pool.query(
-      `
-      DELETE FROM orders
-      WHERE id = $1
-      RETURNING *
-      `,
-      [id]
-    );
-
-    if (!result.rows.length) {
-      return res.status(404).json({
-        error: 'ההזמנה לא נמצאה'
-      });
-    }
-
-    res.json({
-      success: true
-    });
-  } catch (error) {
-    console.error('ORDER DELETE ERROR:', error);
-
-    res.status(500).json({
-      error: 'שגיאה במחיקת הזמנה'
-    });
-  }
-});
-
-
-/* =========================================================
-   RESEND TEST EMAIL
-========================================================= */
-
-app.post('/api/admin/test-email', adminAuth, async (req, res) => {
-  console.log('TEST EMAIL REQUEST RECEIVED');
-
-  if (!resend) {
-    console.error('RESEND_API_KEY is missing');
-
-    return res.status(500).json({
-      error: 'RESEND_API_KEY לא מוגדר ב-Railway'
-    });
-  }
-
-  try {
-    console.log('Sending test email to:', TEST_EMAIL);
-
-    const result = await resend.emails.send({
-      from: 'onboarding@resend.dev',
-      to: TEST_EMAIL,
-      subject: 'Dada Best - בדיקת מייל',
-      html: `
-        <div dir="rtl" style="font-family: Arial, sans-serif;">
-          <h1>Dada Best</h1>
-          <p>זהו מייל בדיקה.</p>
-          <p>מערכת המייל מחוברת בהצלחה ל-Resend.</p>
-        </div>
-      `
-    });
-
-    console.log('RESEND RESULT:', result);
-
-    if (result && result.error) {
-      console.error('RESEND ERROR:', result.error);
-
-      return res.status(400).json({
+      res.status(500).json({
         error:
-          result.error.message ||
-          'Resend לא הצליח לשלוח את המייל'
+          'שגיאה בטעינת המוצרים'
       });
+
     }
 
-    return res.json({
-      success: true,
-      message: 'המייל נשלח בהצלחה',
-      id:
-        result &&
-        result.data &&
-        result.data.id
-          ? result.data.id
-          : null
-    });
-  } catch (error) {
-    console.error('TEST EMAIL ERROR:', error);
-
-    return res.status(500).json({
-      error:
-        error.message ||
-        'שגיאה בשליחת המייל'
-    });
   }
-});
+);
 
 
-/* =========================================================
-   HEALTH
-========================================================= */
+// =========================================================
+// ADMIN PRODUCTS - GET
+// =========================================================
 
-app.get('/health', (req, res) => {
-  res.json({
-    ok: true,
-    database: Boolean(DATABASE_URL),
-    email: Boolean(RESEND_API_KEY),
-    testEmailEndpoint: true
-  });
-});
+app.get(
+  '/api/admin/products',
+  adminAuth,
+  async (req, res) => {
+
+    try {
+
+      const result =
+        await pool.query(`
+          SELECT *
+          FROM products
+          ORDER BY id DESC
+        `);
+
+      res.json(
+        result.rows
+      );
+
+    } catch (error) {
+
+      console.error(
+        'ADMIN PRODUCTS GET ERROR:',
+        error
+      );
+
+      res.status(500).json({
+        error:
+          'שגיאה בטעינת המוצרים'
+      });
+
+    }
+
+  }
+);
 
 
-/* =========================================================
-   ROOT
-========================================================= */
+// =========================================================
+// ADMIN PRODUCTS - CREATE
+// =========================================================
 
-app.get('/api/status', (req, res) => {
-  res.json({
-    success: true,
-    message: 'Dada Best server is working'
-  });
-});
+app.post(
+  '/api/admin/products',
+  adminAuth,
+  async (req, res) => {
+
+    try {
+
+      const body =
+        req.body || {};
+
+      const name =
+        String(
+          body.name || ''
+        ).trim();
+
+      const description =
+        String(
+          body.description || ''
+        );
+
+      const price =
+        Number(
+          body.price || 0
+        );
+
+      const stock =
+        Number(
+          body.stock || 0
+        );
+
+      const category =
+        String(
+          body.category || ''
+        );
+
+      const image =
+        String(
+          body.image || ''
+        );
+
+      const active =
+        body.active !== false;
+
+      if (!name) {
+
+        return res.status(400).json({
+          error:
+            'חסר שם מוצר'
+        });
+
+      }
+
+      const result =
+        await pool.query(
+          `
+          INSERT INTO products
+          (
+            name,
+            description,
+            price,
+            stock,
+            category,
+            image,
+            active
+          )
+          VALUES
+          (
+            $1,
+            $2,
+            $3,
+            $4,
+            $5,
+            $6,
+            $7
+          )
+          RETURNING *
+          `,
+          [
+            name,
+            description,
+            price,
+            stock,
+            category,
+            image,
+            active
+          ]
+        );
+
+      res.json(
+        result.rows[0]
+      );
+
+    } catch (error) {
+
+      console.error(
+        'PRODUCT CREATE ERROR:',
+        error
+      );
+
+      res.status(500).json({
+        error:
+          'שגיאה בהוספת מוצר'
+      });
+
+    }
+
+  }
+);
 
 
-/* =========================================================
-   START SERVER
-========================================================= */
+// =========================================================
+// ADMIN PRODUCTS - UPDATE
+// =========================================================
+
+app.patch(
+  '/api/admin/products/:id',
+  adminAuth,
+  async (req, res) => {
+
+    try {
+
+      const id =
+        Number(
+          req.params.id
+        );
+
+      const body =
+        req.body || {};
+
+      const name =
+        String(
+          body.name || ''
+        ).trim();
+
+      const description =
+        String(
+          body.description || ''
+        );
+
+      const price =
+        Number(
+          body.price || 0
+        );
+
+      const stock =
+        Number(
+          body.stock || 0
+        );
+
+      const category =
+        String(
+          body.category || ''
+        );
+
+      const image =
+        String(
+          body.image || ''
+        );
+
+      const active =
+        body.active !== false;
+
+      if (!name) {
+
+        return res.status(400).json({
+          error:
+            'חסר שם מוצר'
+        });
+
+      }
+
+      const result =
+        await pool.query(
+          `
+          UPDATE products
+          SET
+            name = $1,
+            description = $2,
+            price = $3,
+            stock = $4,
+            category = $5,
+            image = $6,
+            active = $7
+          WHERE id = $8
+          RETURNING *
+          `,
+          [
+            name,
+            description,
+            price,
+            stock,
+            category,
+            image,
+            active,
+            id
+          ]
+        );
+
+      if (
+        !result.rows.length
+      ) {
+
+        return res.status(404).json({
+          error:
+            'המוצר לא נמצא'
+        });
+
+      }
+
+      res.json(
+        result.rows[0]
+      );
+
+    } catch (error) {
+
+      console.error(
+        'PRODUCT UPDATE ERROR:',
+        error
+      );
+
+      res.status(500).json({
+        error:
+          'שגיאה בעדכון מוצר'
+      });
+
+    }
+
+  }
+);
+
+
+// =========================================================
+// ADMIN PRODUCTS - DELETE
+// =========================================================
+
+app.delete(
+  '/api/admin/products/:id',
+  adminAuth,
+  async (req, res) => {
+
+    try {
+
+      const id =
+        Number(
+          req.params.id
+        );
+
+      const result =
+        await pool.query(
+          `
+          DELETE FROM products
+          WHERE id = $1
+          RETURNING *
+          `,
+          [id]
+        );
+
+      if (
+        !result.rows.length
+      ) {
+
+        return res.status(404).json({
+          error:
+            'המוצר לא נמצא'
+        });
+
+      }
+
+      res.json({
+        success: true
+      });
+
+    } catch (error) {
+
+      console.error(
+        'PRODUCT DELETE ERROR:',
+        error
+      );
+
+      res.status(500).json({
+        error:
+          'שגיאה במחיקת מוצר'
+      });
+
+    }
+
+  }
+);
+
+
+// =========================================================
+// ORDERS - GET
+// =========================================================
+
+app.get(
+  '/api/orders',
+  adminAuth,
+  async (req, res) => {
+
+    try {
+
+      const result =
+        await pool.query(`
+          SELECT *
+          FROM orders
+          ORDER BY created_at DESC
+        `);
+
+      res.json(
+        result.rows
+      );
+
+    } catch (error) {
+
+      console.error(
+        'ORDERS GET ERROR:',
+        error
+      );
+
+      res.status(500).json({
+        error:
+          'שגיאה בטעינת ההזמנות'
+      });
+
+    }
+
+  }
+);
+
+
+// =========================================================
+// ORDERS - CREATE
+// =========================================================
+
+app.post(
+  '/api/orders',
+  async (req, res) => {
+
+    try {
+
+      const body =
+        req.body || {};
+
+      const customerName =
+        String(
+          body.customer_name || ''
+        );
+
+      const phone =
+        String(
+          body.phone || ''
+        );
+
+      const email =
+        String(
+          body.email || ''
+        );
+
+      const shipping =
+        String(
+          body.shipping || ''
+        );
+
+      const city =
+        String(
+          body.city || ''
+        );
+
+      const street =
+        String(
+          body.street || ''
+        );
+
+      const houseNumber =
+        String(
+          body.house_number || ''
+        );
+
+      const apartment =
+        String(
+          body.apartment || ''
+        );
+
+      const notes =
+        String(
+          body.notes || ''
+        );
+
+      const items =
+        Array.isArray(
+          body.items
+        )
+          ? body.items
+          : [];
+
+      const total =
+        Number(
+          body.total || 0
+        );
+
+      const orderNumber =
+        'DB-' +
+        Date.now();
+
+      const result =
+        await pool.query(
+          `
+          INSERT INTO orders
+          (
+            order_number,
+            customer_name,
+            phone,
+            email,
+            shipping,
+            city,
+            street,
+            house_number,
+            apartment,
+            notes,
+            items,
+            total,
+            status
+          )
+          VALUES
+          (
+            $1,
+            $2,
+            $3,
+            $4,
+            $5,
+            $6,
+            $7,
+            $8,
+            $9,
+            $10,
+            $11,
+            $12,
+            $13
+          )
+          RETURNING *
+          `,
+          [
+            orderNumber,
+            customerName,
+            phone,
+            email,
+            shipping,
+            city,
+            street,
+            houseNumber,
+            apartment,
+            notes,
+            JSON.stringify(items),
+            total,
+            'חדשה'
+          ]
+        );
+
+      res.json({
+        success: true,
+        order:
+          result.rows[0]
+      });
+
+    } catch (error) {
+
+      console.error(
+        'ORDER CREATE ERROR:',
+        error
+      );
+
+      res.status(500).json({
+        error:
+          'שגיאה ביצירת הזמנה'
+      });
+
+    }
+
+  }
+);
+
+
+// =========================================================
+// ORDERS - UPDATE STATUS
+// =========================================================
+
+app.patch(
+  '/api/orders/:id',
+  adminAuth,
+  async (req, res) => {
+
+    try {
+
+      const id =
+        Number(
+          req.params.id
+        );
+
+      const status =
+        String(
+          req.body.status ||
+          'חדשה'
+        );
+
+      const result =
+        await pool.query(
+          `
+          UPDATE orders
+          SET status = $1
+          WHERE id = $2
+          RETURNING *
+          `,
+          [
+            status,
+            id
+          ]
+        );
+
+      if (
+        !result.rows.length
+      ) {
+
+        return res.status(404).json({
+          error:
+            'ההזמנה לא נמצאה'
+        });
+
+      }
+
+      res.json(
+        result.rows[0]
+      );
+
+    } catch (error) {
+
+      console.error(
+        'ORDER STATUS ERROR:',
+        error
+      );
+
+      res.status(500).json({
+        error:
+          'שגיאה בעדכון הזמנה'
+      });
+
+    }
+
+  }
+);
+
+
+// =========================================================
+// ORDERS - DELETE
+// =========================================================
+
+app.delete(
+  '/api/orders/:id',
+  adminAuth,
+  async (req, res) => {
+
+    try {
+
+      const id =
+        Number(
+          req.params.id
+        );
+
+      const result =
+        await pool.query(
+          `
+          DELETE FROM orders
+          WHERE id = $1
+          RETURNING *
+          `,
+          [id]
+        );
+
+      if (
+        !result.rows.length
+      ) {
+
+        return res.status(404).json({
+          error:
+            'ההזמנה לא נמצאה'
+        });
+
+      }
+
+      res.json({
+        success: true
+      });
+
+    } catch (error) {
+
+      console.error(
+        'ORDER DELETE ERROR:',
+        error
+      );
+
+      res.status(500).json({
+        error:
+          'שגיאה במחיקת הזמנה'
+      });
+
+    }
+
+  }
+);
+
+
+// =========================================================
+// RESEND TEST EMAIL
+// =========================================================
+
+app.post(
+  '/api/admin/test-email',
+  adminAuth,
+  async (req, res) => {
+
+    console.log(
+      'TEST EMAIL REQUEST RECEIVED'
+    );
+
+    if (!resend) {
+
+      console.error(
+        'RESEND_API_KEY is missing'
+      );
+
+      return res.status(500).json({
+        error:
+          'RESEND_API_KEY לא מוגדר ב-Railway'
+      });
+
+    }
+
+    try {
+
+      console.log(
+        'Sending test email to:',
+        TEST_EMAIL
+      );
+
+      const result =
+        await resend.emails.send({
+
+          from:
+            'onboarding@resend.dev',
+
+          to:
+            TEST_EMAIL,
+
+          subject:
+            'Dada Best - בדיקת מייל',
+
+          html: `
+            <div
+              dir="rtl"
+              style="
+                font-family:Arial,sans-serif;
+              "
+            >
+
+              <h1>
+                Dada Best
+              </h1>
+
+              <p>
+                זהו מייל בדיקה.
+              </p>
+
+              <p>
+                מערכת המייל מחוברת בהצלחה ל-Resend.
+              </p>
+
+            </div>
+          `
+
+        });
+
+      console.log(
+        'RESEND RESULT:',
+        result
+      );
+
+      if (
+        result &&
+        result.error
+      ) {
+
+        console.error(
+          'RESEND ERROR:',
+          result.error
+        );
+
+        return res.status(400).json({
+          error:
+            result.error.message ||
+            'Resend לא הצליח לשלוח את המייל'
+        });
+
+      }
+
+      return res.json({
+
+        success: true,
+
+        message:
+          'המייל נשלח בהצלחה',
+
+        id:
+          result &&
+          result.data &&
+          result.data.id
+            ? result.data.id
+            : null
+
+      });
+
+    } catch (error) {
+
+      console.error(
+        'TEST EMAIL ERROR:',
+        error
+      );
+
+      return res.status(500).json({
+        error:
+          error.message ||
+          'שגיאה בשליחת המייל'
+      });
+
+    }
+
+  }
+);
+
+
+// =========================================================
+// HEALTH
+// =========================================================
+
+app.get(
+  '/health',
+  (req, res) => {
+
+    res.json({
+
+      ok: true,
+
+      database:
+        Boolean(
+          DATABASE_URL
+        ),
+
+      email:
+        Boolean(
+          RESEND_API_KEY
+        ),
+
+      admin:
+        Boolean(
+          ADMIN_PASSWORD
+        ),
+
+      testEmailEndpoint:
+        true
+
+    });
+
+  }
+);
+
+
+// =========================================================
+// ROOT / API STATUS
+// =========================================================
+
+app.get(
+  '/api/status',
+  (req, res) => {
+
+    res.json({
+
+      success: true,
+
+      message:
+        'Dada Best server is working'
+
+    });
+
+  }
+);
+
+
+// =========================================================
+// START SERVER
+// =========================================================
 
 async function start() {
+
   try {
+
+    if (!DATABASE_URL) {
+
+      console.error(
+        'WARNING: DATABASE_URL is not configured'
+      );
+
+    }
+
+    if (!RESEND_API_KEY) {
+
+      console.error(
+        'WARNING: RESEND_API_KEY is not configured'
+      );
+
+    }
+
     await initDatabase();
 
-    app.listen(PORT, '0.0.0.0', () => {
-      console.log(
-        'Dada Best running on port ' + PORT
-      );
+    app.listen(
+      PORT,
+      '0.0.0.0',
+      () => {
 
-      console.log(
-        'Email service:',
-        resend
-          ? 'READY'
-          : 'NOT CONFIGURED'
-      );
+        console.log(
+          'Dada Best running on port ' +
+          PORT
+        );
 
-      console.log(
-        'Test email endpoint:',
-        'POST /api/admin/test-email'
-      );
-    });
+        console.log(
+          'Email service:',
+          resend
+            ? 'READY'
+            : 'NOT CONFIGURED'
+        );
+
+        console.log(
+          'Admin authentication:',
+          ADMIN_PASSWORD
+            ? 'READY'
+            : 'NOT CONFIGURED'
+        );
+
+        console.log(
+          'Test email endpoint:',
+          'POST /api/admin/test-email'
+        );
+
+      }
+    );
+
   } catch (error) {
+
     console.error(
       'STARTUP ERROR:',
       error
     );
 
     process.exit(1);
+
   }
+
 }
 
 start();
