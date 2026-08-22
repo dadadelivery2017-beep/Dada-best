@@ -12,23 +12,29 @@ app.use(express.static(__dirname));
 
 const PORT = process.env.PORT || 8080;
 
+
 // =========================================================
 // ENVIRONMENT
 // =========================================================
 
-const RESEND_API_KEY =
-  process.env.RESEND_API_KEY;
+// סיסמת האדמין נשארת RESEND_API_KEY
+const ADMIN_PASSWORD =
+  process.env.RESEND_API_KEY || '12345678';
 
 const DATABASE_URL =
   process.env.DATABASE_URL;
+
+const RESEND_API_KEY =
+  process.env.RESEND_API_KEY;
 
 const TEST_EMAIL =
   process.env.TEST_EMAIL ||
   'dadadelivery2017@gmail.com';
 
-// Admin password = RESEND_API_KEY
-const ADMIN_PASSWORD =
-  RESEND_API_KEY || '';
+
+// =========================================================
+// RESEND
+// =========================================================
 
 const resend =
   RESEND_API_KEY
@@ -42,6 +48,7 @@ const resend =
 
 const pool = new Pool({
   connectionString: DATABASE_URL,
+
   ssl: DATABASE_URL
     ? { rejectUnauthorized: false }
     : false
@@ -64,6 +71,7 @@ async function initDatabase() {
     )
   `);
 
+
   await pool.query(`
     CREATE TABLE IF NOT EXISTS orders (
       id SERIAL PRIMARY KEY,
@@ -84,6 +92,7 @@ async function initDatabase() {
     )
   `);
 
+
   console.log('Database ready');
 }
 
@@ -97,8 +106,8 @@ function adminAuth(req, res, next) {
   const key =
     req.headers['x-admin-key'];
 
+
   if (
-    !ADMIN_PASSWORD ||
     !key ||
     key !== ADMIN_PASSWORD
   ) {
@@ -108,6 +117,7 @@ function adminAuth(req, res, next) {
     });
 
   }
+
 
   next();
 }
@@ -124,11 +134,12 @@ app.post(
     const password =
       String(
         req.body.password || ''
-      ).trim();
+      );
+
 
     if (
-      !ADMIN_PASSWORD ||
-      password !== ADMIN_PASSWORD
+      password !==
+      ADMIN_PASSWORD
     ) {
 
       return res.status(401).json({
@@ -136,6 +147,7 @@ app.post(
       });
 
     }
+
 
     res.json({
       success: true,
@@ -164,6 +176,7 @@ app.get(
           ORDER BY id DESC
         `);
 
+
       res.json(
         result.rows
       );
@@ -174,6 +187,7 @@ app.get(
         'PUBLIC PRODUCTS ERROR:',
         error
       );
+
 
       res.status(500).json({
         error:
@@ -204,6 +218,7 @@ app.get(
           ORDER BY id DESC
         `);
 
+
       res.json(
         result.rows
       );
@@ -214,6 +229,7 @@ app.get(
         'ADMIN PRODUCTS GET ERROR:',
         error
       );
+
 
       res.status(500).json({
         error:
@@ -240,38 +256,46 @@ app.post(
       const body =
         req.body || {};
 
+
       const name =
         String(
           body.name || ''
         ).trim();
+
 
       const description =
         String(
           body.description || ''
         );
 
+
       const price =
         Number(
           body.price || 0
         );
+
 
       const stock =
         Number(
           body.stock || 0
         );
 
+
       const category =
         String(
           body.category || ''
         );
+
 
       const image =
         String(
           body.image || ''
         );
 
+
       const active =
         body.active !== false;
+
 
       if (!name) {
 
@@ -282,8 +306,10 @@ app.post(
 
       }
 
+
       const result =
         await pool.query(
+
           `
           INSERT INTO products
           (
@@ -307,6 +333,7 @@ app.post(
           )
           RETURNING *
           `,
+
           [
             name,
             description,
@@ -316,7 +343,9 @@ app.post(
             image,
             active
           ]
+
         );
+
 
       res.json(
         result.rows[0]
@@ -328,6 +357,7 @@ app.post(
         'PRODUCT CREATE ERROR:',
         error
       );
+
 
       res.status(500).json({
         error:
@@ -356,41 +386,50 @@ app.patch(
           req.params.id
         );
 
+
       const body =
         req.body || {};
+
 
       const name =
         String(
           body.name || ''
         ).trim();
 
+
       const description =
         String(
           body.description || ''
         );
+
 
       const price =
         Number(
           body.price || 0
         );
 
+
       const stock =
         Number(
           body.stock || 0
         );
+
 
       const category =
         String(
           body.category || ''
         );
 
+
       const image =
         String(
           body.image || ''
         );
 
+
       const active =
         body.active !== false;
+
 
       if (!name) {
 
@@ -401,8 +440,10 @@ app.patch(
 
       }
 
+
       const result =
         await pool.query(
+
           `
           UPDATE products
           SET
@@ -416,6 +457,7 @@ app.patch(
           WHERE id = $8
           RETURNING *
           `,
+
           [
             name,
             description,
@@ -426,7 +468,9 @@ app.patch(
             active,
             id
           ]
+
         );
+
 
       if (
         !result.rows.length
@@ -439,6 +483,7 @@ app.patch(
 
       }
 
+
       res.json(
         result.rows[0]
       );
@@ -449,6 +494,7 @@ app.patch(
         'PRODUCT UPDATE ERROR:',
         error
       );
+
 
       res.status(500).json({
         error:
@@ -477,15 +523,20 @@ app.delete(
           req.params.id
         );
 
+
       const result =
         await pool.query(
+
           `
           DELETE FROM products
           WHERE id = $1
           RETURNING *
           `,
+
           [id]
+
         );
+
 
       if (
         !result.rows.length
@@ -498,6 +549,7 @@ app.delete(
 
       }
 
+
       res.json({
         success: true
       });
@@ -508,6 +560,7 @@ app.delete(
         'PRODUCT DELETE ERROR:',
         error
       );
+
 
       res.status(500).json({
         error:
@@ -538,6 +591,7 @@ app.get(
           ORDER BY created_at DESC
         `);
 
+
       res.json(
         result.rows
       );
@@ -549,6 +603,7 @@ app.get(
         error
       );
 
+
       res.status(500).json({
         error:
           'שגיאה בטעינת ההזמנות'
@@ -558,6 +613,378 @@ app.get(
 
   }
 );
+
+
+// =========================================================
+// AUTOMATIC ORDER EMAIL
+// =========================================================
+
+async function sendNewOrderEmail(order) {
+
+  if (!resend) {
+
+    console.error(
+      'AUTOMATIC EMAIL: RESEND_API_KEY is missing'
+    );
+
+    return {
+      success: false,
+      error:
+        'RESEND_API_KEY לא מוגדר'
+    };
+
+  }
+
+
+  try {
+
+    let items = [];
+
+
+    try {
+
+      items =
+        typeof order.items === 'string'
+          ? JSON.parse(order.items)
+          : (
+              Array.isArray(order.items)
+                ? order.items
+                : []
+            );
+
+    } catch {
+
+      items = [];
+
+    }
+
+
+    const itemsHtml =
+      items.length
+
+        ? items.map(item => {
+
+            const quantity =
+              Number(
+                item.quantity || 1
+              );
+
+            const price =
+              Number(
+                item.price || 0
+              );
+
+            const lineTotal =
+              price * quantity;
+
+
+            return `
+              <tr>
+                <td style="
+                  padding:8px;
+                  border-bottom:1px solid #eee;
+                ">
+                  ${escapeHtml(
+                    item.name || 'מוצר'
+                  )}
+                </td>
+
+                <td style="
+                  padding:8px;
+                  border-bottom:1px solid #eee;
+                  text-align:center;
+                ">
+                  ${quantity}
+                </td>
+
+                <td style="
+                  padding:8px;
+                  border-bottom:1px solid #eee;
+                ">
+                  ${lineTotal.toFixed(2)} ₪
+                </td>
+              </tr>
+            `;
+
+          }).join('')
+
+        : `
+          <tr>
+            <td colspan="3">
+              אין פירוט פריטים
+            </td>
+          </tr>
+        `;
+
+
+    const address =
+      [
+        order.city,
+        order.street,
+        order.house_number
+      ]
+      .filter(Boolean)
+      .join(', ');
+
+
+    const apartment =
+      order.apartment
+        ? `, דירה ${escapeHtml(order.apartment)}`
+        : '';
+
+
+    const result =
+      await resend.emails.send({
+
+        from:
+          'onboarding@resend.dev',
+
+        to:
+          TEST_EMAIL,
+
+        subject:
+          `🛒 הזמנה חדשה ${order.order_number} - Dada Best`,
+
+        html: `
+
+          <div
+            dir="rtl"
+            style="
+              font-family:Arial,sans-serif;
+              max-width:700px;
+              margin:auto;
+              color:#172033;
+            "
+          >
+
+            <div
+              style="
+                background:#0f172a;
+                color:white;
+                padding:20px;
+                border-radius:12px 12px 0 0;
+              "
+            >
+
+              <h1 style="margin:0;">
+                🛒 Dada Best
+              </h1>
+
+              <p style="margin:8px 0 0;">
+                התקבלה הזמנה חדשה
+              </p>
+
+            </div>
+
+
+            <div
+              style="
+                background:#ffffff;
+                padding:25px;
+                border:1px solid #e2e8f0;
+                border-top:0;
+              "
+            >
+
+              <h2>
+                הזמנה ${escapeHtml(order.order_number)}
+              </h2>
+
+
+              <div
+                style="
+                  background:#f8fafc;
+                  padding:15px;
+                  border-radius:10px;
+                  margin-bottom:20px;
+                "
+              >
+
+                <p>
+                  <strong>לקוח:</strong>
+                  ${escapeHtml(order.customer_name)}
+                </p>
+
+                <p>
+                  <strong>טלפון:</strong>
+                  ${escapeHtml(order.phone)}
+                </p>
+
+                <p>
+                  <strong>אימייל:</strong>
+                  ${escapeHtml(
+                    order.email || 'לא נמסר'
+                  )}
+                </p>
+
+                <p>
+                  <strong>משלוח:</strong>
+                  ${escapeHtml(
+                    order.shipping || ''
+                  )}
+                </p>
+
+                <p>
+                  <strong>כתובת:</strong>
+                  ${escapeHtml(address)}
+                  ${apartment}
+                </p>
+
+                <p>
+                  <strong>הערות:</strong>
+                  ${escapeHtml(
+                    order.notes || 'אין'
+                  )}
+                </p>
+
+              </div>
+
+
+              <h3>
+                פריטים
+              </h3>
+
+
+              <table
+                style="
+                  width:100%;
+                  border-collapse:collapse;
+                "
+              >
+
+                <thead>
+
+                  <tr
+                    style="
+                      background:#f1f5f9;
+                    "
+                  >
+
+                    <th style="padding:10px;">
+                      מוצר
+                    </th>
+
+                    <th style="padding:10px;">
+                      כמות
+                    </th>
+
+                    <th style="padding:10px;">
+                      מחיר
+                    </th>
+
+                  </tr>
+
+                </thead>
+
+
+                <tbody>
+                  ${itemsHtml}
+                </tbody>
+
+              </table>
+
+
+              <div
+                style="
+                  margin-top:20px;
+                  padding:15px;
+                  background:#eff6ff;
+                  border-radius:10px;
+                  font-size:22px;
+                  font-weight:bold;
+                  text-align:center;
+                "
+              >
+
+                סה״כ:
+                ${Number(
+                  order.total || 0
+                ).toFixed(2)}
+                ₪
+
+              </div>
+
+
+              <p
+                style="
+                  margin-top:20px;
+                  color:#64748b;
+                  font-size:13px;
+                "
+              >
+
+                סטטוס:
+                ${escapeHtml(
+                  order.status || 'חדשה'
+                )}
+
+              </p>
+
+            </div>
+
+          </div>
+
+        `
+
+      });
+
+
+    console.log(
+      'AUTOMATIC ORDER EMAIL RESULT:',
+      result
+    );
+
+
+    if (
+      result &&
+      result.error
+    ) {
+
+      console.error(
+        'AUTOMATIC ORDER EMAIL ERROR:',
+        result.error
+      );
+
+
+      return {
+        success: false,
+        error:
+          result.error.message ||
+          'Resend לא הצליח לשלוח את המייל'
+      };
+
+    }
+
+
+    return {
+      success: true,
+      id:
+        result &&
+        result.data &&
+        result.data.id
+          ? result.data.id
+          : null
+    };
+
+
+  } catch (error) {
+
+    console.error(
+      'AUTOMATIC ORDER EMAIL EXCEPTION:',
+      error
+    );
+
+
+    return {
+      success: false,
+      error:
+        error.message ||
+        'שגיאה בשליחת מייל ההזמנה'
+    };
+
+  }
+
+}
 
 
 // =========================================================
@@ -573,72 +1000,87 @@ app.post(
       const body =
         req.body || {};
 
+
       const customerName =
         String(
           body.customer_name || ''
         );
+
 
       const phone =
         String(
           body.phone || ''
         );
 
+
       const email =
         String(
           body.email || ''
         );
+
 
       const shipping =
         String(
           body.shipping || ''
         );
 
+
       const city =
         String(
           body.city || ''
         );
+
 
       const street =
         String(
           body.street || ''
         );
 
+
       const houseNumber =
         String(
           body.house_number || ''
         );
+
 
       const apartment =
         String(
           body.apartment || ''
         );
 
+
       const notes =
         String(
           body.notes || ''
         );
 
+
       const items =
-        Array.isArray(
-          body.items
-        )
+        Array.isArray(body.items)
           ? body.items
           : [];
+
 
       const total =
         Number(
           body.total || 0
         );
 
+
       const orderNumber =
         'DB-' +
         Date.now();
 
+
+      // -----------------------------------------------------
+      // SAVE ORDER
+      // -----------------------------------------------------
+
       const result =
         await pool.query(
+
           `
-          INSERT INTO orders
-          (
+          INSERT INTO orders (
             order_number,
             customer_name,
             phone,
@@ -653,8 +1095,7 @@ app.post(
             total,
             status
           )
-          VALUES
-          (
+          VALUES (
             $1,
             $2,
             $3,
@@ -671,6 +1112,7 @@ app.post(
           )
           RETURNING *
           `,
+
           [
             orderNumber,
             customerName,
@@ -686,13 +1128,69 @@ app.post(
             total,
             'חדשה'
           ]
+
         );
 
+
+      const order =
+        result.rows[0];
+
+
+      console.log(
+        'NEW ORDER CREATED:',
+        order.order_number
+      );
+
+
+      // -----------------------------------------------------
+      // AUTOMATIC EMAIL
+      // -----------------------------------------------------
+
+      const emailResult =
+        await sendNewOrderEmail(
+          order
+        );
+
+
+      if (
+        emailResult.success
+      ) {
+
+        console.log(
+          'ORDER EMAIL SENT:',
+          order.order_number,
+          emailResult.id || ''
+        );
+
+      } else {
+
+        console.error(
+          'ORDER EMAIL FAILED:',
+          order.order_number,
+          emailResult.error
+        );
+
+      }
+
+
+      // -----------------------------------------------------
+      // RESPONSE
+      // -----------------------------------------------------
+
       res.json({
+
         success: true,
-        order:
-          result.rows[0]
+
+        order: order,
+
+        emailSent:
+          emailResult.success,
+
+        emailId:
+          emailResult.id || null
+
       });
+
 
     } catch (error) {
 
@@ -701,9 +1199,12 @@ app.post(
         error
       );
 
+
       res.status(500).json({
+
         error:
           'שגיאה ביצירת הזמנה'
+
       });
 
     }
@@ -728,25 +1229,31 @@ app.patch(
           req.params.id
         );
 
+
       const status =
         String(
           req.body.status ||
           'חדשה'
         );
 
+
       const result =
         await pool.query(
+
           `
           UPDATE orders
           SET status = $1
           WHERE id = $2
           RETURNING *
           `,
+
           [
             status,
             id
           ]
+
         );
+
 
       if (
         !result.rows.length
@@ -759,9 +1266,11 @@ app.patch(
 
       }
 
+
       res.json(
         result.rows[0]
       );
+
 
     } catch (error) {
 
@@ -769,6 +1278,7 @@ app.patch(
         'ORDER STATUS ERROR:',
         error
       );
+
 
       res.status(500).json({
         error:
@@ -797,15 +1307,20 @@ app.delete(
           req.params.id
         );
 
+
       const result =
         await pool.query(
+
           `
           DELETE FROM orders
           WHERE id = $1
           RETURNING *
           `,
+
           [id]
+
         );
+
 
       if (
         !result.rows.length
@@ -818,9 +1333,11 @@ app.delete(
 
       }
 
+
       res.json({
         success: true
       });
+
 
     } catch (error) {
 
@@ -828,6 +1345,7 @@ app.delete(
         'ORDER DELETE ERROR:',
         error
       );
+
 
       res.status(500).json({
         error:
@@ -853,11 +1371,13 @@ app.post(
       'TEST EMAIL REQUEST RECEIVED'
     );
 
+
     if (!resend) {
 
       console.error(
         'RESEND_API_KEY is missing'
       );
+
 
       return res.status(500).json({
         error:
@@ -866,12 +1386,14 @@ app.post(
 
     }
 
+
     try {
 
       console.log(
         'Sending test email to:',
         TEST_EMAIL
       );
+
 
       const result =
         await resend.emails.send({
@@ -886,6 +1408,7 @@ app.post(
             'Dada Best - בדיקת מייל',
 
           html: `
+
             <div
               dir="rtl"
               style="
@@ -902,18 +1425,22 @@ app.post(
               </p>
 
               <p>
-                מערכת המייל מחוברת בהצלחה ל-Resend.
+                מערכת המייל מחוברת
+                בהצלחה ל-Resend.
               </p>
 
             </div>
+
           `
 
         });
+
 
       console.log(
         'RESEND RESULT:',
         result
       );
+
 
       if (
         result &&
@@ -925,13 +1452,17 @@ app.post(
           result.error
         );
 
+
         return res.status(400).json({
+
           error:
             result.error.message ||
             'Resend לא הצליח לשלוח את המייל'
+
         });
 
       }
+
 
       return res.json({
 
@@ -949,6 +1480,7 @@ app.post(
 
       });
 
+
     } catch (error) {
 
       console.error(
@@ -956,10 +1488,13 @@ app.post(
         error
       );
 
+
       return res.status(500).json({
+
         error:
           error.message ||
           'שגיאה בשליחת המייל'
+
       });
 
     }
@@ -990,9 +1525,9 @@ app.get(
           RESEND_API_KEY
         ),
 
-      admin:
+      automaticOrderEmail:
         Boolean(
-          ADMIN_PASSWORD
+          RESEND_API_KEY
         ),
 
       testEmailEndpoint:
@@ -1005,7 +1540,7 @@ app.get(
 
 
 // =========================================================
-// ROOT / API STATUS
+// ROOT API STATUS
 // =========================================================
 
 app.get(
@@ -1026,6 +1561,44 @@ app.get(
 
 
 // =========================================================
+// ESCAPE HTML
+// =========================================================
+
+function escapeHtml(value) {
+
+  return String(
+    value ?? ''
+  )
+
+    .replaceAll(
+      '&',
+      '&amp;'
+    )
+
+    .replaceAll(
+      '<',
+      '&lt;'
+    )
+
+    .replaceAll(
+      '>',
+      '&gt;'
+    )
+
+    .replaceAll(
+      '"',
+      '&quot;'
+    )
+
+    .replaceAll(
+      "'",
+      '&#039;'
+    );
+
+}
+
+
+// =========================================================
 // START SERVER
 // =========================================================
 
@@ -1033,23 +1606,8 @@ async function start() {
 
   try {
 
-    if (!DATABASE_URL) {
-
-      console.error(
-        'WARNING: DATABASE_URL is not configured'
-      );
-
-    }
-
-    if (!RESEND_API_KEY) {
-
-      console.error(
-        'WARNING: RESEND_API_KEY is not configured'
-      );
-
-    }
-
     await initDatabase();
+
 
     app.listen(
       PORT,
@@ -1061,6 +1619,7 @@ async function start() {
           PORT
         );
 
+
         console.log(
           'Email service:',
           resend
@@ -1068,12 +1627,14 @@ async function start() {
             : 'NOT CONFIGURED'
         );
 
+
         console.log(
-          'Admin authentication:',
-          ADMIN_PASSWORD
+          'Automatic order email:',
+          resend
             ? 'READY'
             : 'NOT CONFIGURED'
         );
+
 
         console.log(
           'Test email endpoint:',
@@ -1083,6 +1644,7 @@ async function start() {
       }
     );
 
+
   } catch (error) {
 
     console.error(
@@ -1090,10 +1652,12 @@ async function start() {
       error
     );
 
+
     process.exit(1);
 
   }
 
 }
+
 
 start();
