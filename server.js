@@ -12,7 +12,11 @@ const pool = new Pool({
     : false
 });
 
-app.use(express.json());
+/* =========================
+   MIDDLEWARE
+========================= */
+
+app.use(express.json({ limit: "10mb" }));
 app.use(express.static(__dirname));
 app.disable("x-powered-by");
 
@@ -20,11 +24,15 @@ app.disable("x-powered-by");
    ADMIN SECURITY
 ========================= */
 
-function requireAdmin(req, res, next) {
-  const adminKeys = [
+function getAdminKeys() {
+  return [
     process.env.ADMIN_KEY,
     process.env.DANIELADMIN
   ].filter(Boolean);
+}
+
+function requireAdmin(req, res, next) {
+  const adminKeys = getAdminKeys();
 
   if (adminKeys.length === 0) {
     return res.status(500).json({
@@ -42,6 +50,26 @@ function requireAdmin(req, res, next) {
 
   next();
 }
+
+/* =========================
+   ADMIN LOGIN
+========================= */
+
+app.post("/api/admin/login", (req, res) => {
+  const { password } = req.body || {};
+  const adminKeys = getAdminKeys();
+
+  if (!password || !adminKeys.includes(password)) {
+    return res.status(401).json({
+      error: "סיסמת אדמין שגויה"
+    });
+  }
+
+  res.json({
+    success: true,
+    adminKey: password
+  });
+});
 
 /* =========================
    DATABASE
@@ -83,6 +111,11 @@ async function initDatabase() {
     )
   `);
 
+  await pool.query(`
+    ALTER TABLE products
+    ADD COLUMN IF NOT EXISTS category VARCHAR(100) DEFAULT ''
+  `);
+
   const countResult = await pool.query(
     "SELECT COUNT(*)::int AS count FROM products"
   );
@@ -90,14 +123,70 @@ async function initDatabase() {
   if (countResult.rows[0].count === 0) {
     await pool.query(`
       INSERT INTO products
-        (name, description, price, stock, image, active)
+        (
+          name,
+          description,
+          price,
+          stock,
+          image,
+          active,
+          category
+        )
       VALUES
-        ('מצלמת אבטחה 4MP', 'מצלמת IP איכותית לבית ולעסק.', 349, 20, '📹', TRUE),
-        ('NVR 8 ערוצים', 'מערכת הקלטה לעד 8 מצלמות.', 799, 10, '💾', TRUE),
-        ('דיסק קשיח 2TB', 'דיסק ייעודי למערכות הקלטה.', 449, 15, '💽', TRUE),
-        ('מצלמת WiFi', 'מצלמה אלחוטית עם צפייה מהטלפון.', 299, 25, '📡', TRUE),
-        ('ספק כוח למצלמות', 'ספק כוח איכותי למערכות אבטחה.', 89, 40, '🔌', TRUE),
-        ('ערכת התקנה', 'ציוד בסיסי להתקנת מצלמות.', 159, 12, '🧰', TRUE)
+        (
+          'מצלמת אבטחה 4MP',
+          'מצלמת IP איכותית לבית ולעסק.',
+          349,
+          20,
+          '📹',
+          TRUE,
+          'מצלמות'
+        ),
+        (
+          'NVR 8 ערוצים',
+          'מערכת הקלטה לעד 8 מצלמות.',
+          799,
+          10,
+          '💾',
+          TRUE,
+          'הקלטה'
+        ),
+        (
+          'דיסק קשיח 2TB',
+          'דיסק ייעודי למערכות הקלטה.',
+          449,
+          15,
+          '💽',
+          TRUE,
+          'אחסון'
+        ),
+        (
+          'מצלמת WiFi',
+          'מצלמה אלחוטית עם צפייה מהטלפון.',
+          299,
+          25,
+          '📡',
+          TRUE,
+          'מצלמות'
+        ),
+        (
+          'ספק כוח למצלמות',
+          'ספק כוח איכותי למערכות אבטחה.',
+          89,
+          40,
+          '🔌',
+          TRUE,
+          'אביזרים'
+        ),
+        (
+          'ערכת התקנה',
+          'ציוד בסיסי להתקנת מצלמות.',
+          159,
+          12,
+          '🧰',
+          TRUE,
+          'אביזרים'
+        )
     `);
 
     console.log("Initial products created");
@@ -142,7 +231,8 @@ app.get("/api/products", async (req, res) => {
         price,
         stock,
         image,
-        active
+        active,
+        category
       FROM products
       WHERE active = TRUE
       ORDER BY id ASC
@@ -162,352 +252,469 @@ app.get("/api/products", async (req, res) => {
    PRODUCTS - ADMIN
 ========================= */
 
-app.get("/api/admin/products", requireAdmin, async (req, res) => {
-  try {
-    const result = await pool.query(`
-      SELECT *
-      FROM products
-      ORDER BY id DESC
-    `);
+app.get(
+  "/api/admin/products",
+  requireAdmin,
+  async (req, res) => {
+    try {
+      const result = await pool.query(`
+        SELECT *
+        FROM products
+        ORDER BY id DESC
+      `);
 
-    res.json(result.rows);
-  } catch (error) {
-    console.error("ADMIN PRODUCTS ERROR:", error);
+      res.json(result.rows);
+    } catch (error) {
+      console.error(
+        "ADMIN PRODUCTS ERROR:",
+        error
+      );
 
-    res.status(500).json({
-      error: "Failed to load products"
-    });
+      res.status(500).json({
+        error: "Failed to load products"
+      });
+    }
   }
-});
+);
 
-app.post("/api/admin/products", requireAdmin, async (req, res) => {
-  try {
-    const {
-      name,
-      description,
-      price,
-      stock,
-      image,
-      active
-    } = req.body;
+/* =========================
+   CREATE PRODUCT
+========================= */
 
-    if (!name || !String(name).trim()) {
-      return res.status(400).json({
-        error: "Product name is required"
+app.post(
+  "/api/admin/products",
+  requireAdmin,
+  async (req, res) => {
+    try {
+      const {
+        name,
+        description,
+        price,
+        stock,
+        image,
+        active,
+        category
+      } = req.body;
+
+      if (!name || !String(name).trim()) {
+        return res.status(400).json({
+          error: "Product name is required"
+        });
+      }
+
+      const productPrice = Number(price);
+      const productStock = Number(stock);
+
+      if (
+        !Number.isFinite(productPrice) ||
+        productPrice < 0
+      ) {
+        return res.status(400).json({
+          error: "Invalid price"
+        });
+      }
+
+      if (
+        !Number.isInteger(productStock) ||
+        productStock < 0
+      ) {
+        return res.status(400).json({
+          error: "Invalid stock"
+        });
+      }
+
+      const result = await pool.query(`
+        INSERT INTO products
+          (
+            name,
+            description,
+            price,
+            stock,
+            image,
+            active,
+            category
+          )
+        VALUES
+          ($1,$2,$3,$4,$5,$6,$7)
+        RETURNING *
+      `, [
+        String(name).trim(),
+        String(description || "").trim(),
+        productPrice,
+        productStock,
+        String(image || "").trim(),
+        active !== false,
+        String(category || "").trim()
+      ]);
+
+      res.status(201).json(
+        result.rows[0]
+      );
+
+    } catch (error) {
+      console.error(
+        "CREATE PRODUCT ERROR:",
+        error
+      );
+
+      res.status(500).json({
+        error: "Failed to create product"
       });
     }
-
-    const productPrice = Number(price);
-    const productStock = Number(stock);
-
-    if (!Number.isFinite(productPrice) || productPrice < 0) {
-      return res.status(400).json({
-        error: "Invalid price"
-      });
-    }
-
-    if (!Number.isInteger(productStock) || productStock < 0) {
-      return res.status(400).json({
-        error: "Invalid stock"
-      });
-    }
-
-    const result = await pool.query(`
-      INSERT INTO products
-        (name, description, price, stock, image, active)
-      VALUES
-        ($1, $2, $3, $4, $5, $6)
-      RETURNING *
-    `, [
-      String(name).trim(),
-      String(description || "").trim(),
-      productPrice,
-      productStock,
-      String(image || "").trim(),
-      active !== false
-    ]);
-
-    res.status(201).json(result.rows[0]);
-  } catch (error) {
-    console.error("CREATE PRODUCT ERROR:", error);
-
-    res.status(500).json({
-      error: "Failed to create product"
-    });
   }
-});
+);
 
-app.patch("/api/admin/products/:id", requireAdmin, async (req, res) => {
-  try {
-    const {
-      name,
-      description,
-      price,
-      stock,
-      image,
-      active
-    } = req.body;
+/* =========================
+   UPDATE PRODUCT
+========================= */
 
-    if (!name || !String(name).trim()) {
-      return res.status(400).json({
-        error: "Product name is required"
+app.patch(
+  "/api/admin/products/:id",
+  requireAdmin,
+  async (req, res) => {
+    try {
+      const {
+        name,
+        description,
+        price,
+        stock,
+        image,
+        active,
+        category
+      } = req.body;
+
+      if (!name || !String(name).trim()) {
+        return res.status(400).json({
+          error: "Product name is required"
+        });
+      }
+
+      const productPrice = Number(price);
+      const productStock = Number(stock);
+
+      if (
+        !Number.isFinite(productPrice) ||
+        productPrice < 0
+      ) {
+        return res.status(400).json({
+          error: "Invalid price"
+        });
+      }
+
+      if (
+        !Number.isInteger(productStock) ||
+        productStock < 0
+      ) {
+        return res.status(400).json({
+          error: "Invalid stock"
+        });
+      }
+
+      const result = await pool.query(`
+        UPDATE products
+        SET
+          name = $1,
+          description = $2,
+          price = $3,
+          stock = $4,
+          image = $5,
+          active = $6,
+          category = $7,
+          updated_at = CURRENT_TIMESTAMP
+        WHERE id = $8
+        RETURNING *
+      `, [
+        String(name).trim(),
+        String(description || "").trim(),
+        productPrice,
+        productStock,
+        String(image || "").trim(),
+        active !== false,
+        String(category || "").trim(),
+        req.params.id
+      ]);
+
+      if (result.rows.length === 0) {
+        return res.status(404).json({
+          error: "Product not found"
+        });
+      }
+
+      res.json(result.rows[0]);
+
+    } catch (error) {
+      console.error(
+        "UPDATE PRODUCT ERROR:",
+        error
+      );
+
+      res.status(500).json({
+        error: "Failed to update product"
       });
     }
-
-    const productPrice = Number(price);
-    const productStock = Number(stock);
-
-    if (!Number.isFinite(productPrice) || productPrice < 0) {
-      return res.status(400).json({
-        error: "Invalid price"
-      });
-    }
-
-    if (!Number.isInteger(productStock) || productStock < 0) {
-      return res.status(400).json({
-        error: "Invalid stock"
-      });
-    }
-
-    const result = await pool.query(`
-      UPDATE products
-      SET
-        name = $1,
-        description = $2,
-        price = $3,
-        stock = $4,
-        image = $5,
-        active = $6,
-        updated_at = CURRENT_TIMESTAMP
-      WHERE id = $7
-      RETURNING *
-    `, [
-      String(name).trim(),
-      String(description || "").trim(),
-      productPrice,
-      productStock,
-      String(image || "").trim(),
-      active !== false,
-      req.params.id
-    ]);
-
-    if (result.rows.length === 0) {
-      return res.status(404).json({
-        error: "Product not found"
-      });
-    }
-
-    res.json(result.rows[0]);
-  } catch (error) {
-    console.error("UPDATE PRODUCT ERROR:", error);
-
-    res.status(500).json({
-      error: "Failed to update product"
-    });
   }
-});
+);
 
-app.delete("/api/admin/products/:id", requireAdmin, async (req, res) => {
-  try {
-    const result = await pool.query(`
-      DELETE FROM products
-      WHERE id = $1
-      RETURNING id
-    `, [req.params.id]);
+/* =========================
+   DELETE PRODUCT
+========================= */
 
-    if (result.rows.length === 0) {
-      return res.status(404).json({
-        error: "Product not found"
+app.delete(
+  "/api/admin/products/:id",
+  requireAdmin,
+  async (req, res) => {
+    try {
+      const result = await pool.query(`
+        DELETE FROM products
+        WHERE id = $1
+        RETURNING id
+      `, [req.params.id]);
+
+      if (result.rows.length === 0) {
+        return res.status(404).json({
+          error: "Product not found"
+        });
+      }
+
+      res.json({
+        success: true
+      });
+
+    } catch (error) {
+      console.error(
+        "DELETE PRODUCT ERROR:",
+        error
+      );
+
+      res.status(500).json({
+        error: "Failed to delete product"
       });
     }
-
-    res.json({
-      success: true
-    });
-  } catch (error) {
-    console.error("DELETE PRODUCT ERROR:", error);
-
-    res.status(500).json({
-      error: "Failed to delete product"
-    });
   }
-});
+);
 
 /* =========================
    ORDERS - ADMIN
 ========================= */
 
-app.get("/api/orders", requireAdmin, async (req, res) => {
-  try {
-    const result = await pool.query(
-      "SELECT * FROM orders ORDER BY created_at DESC"
-    );
+app.get(
+  "/api/orders",
+  requireAdmin,
+  async (req, res) => {
+    try {
+      const result = await pool.query(
+        "SELECT * FROM orders ORDER BY created_at DESC"
+      );
 
-    res.json(result.rows);
-  } catch (error) {
-    console.error("LOAD ORDERS ERROR:", error);
+      res.json(result.rows);
 
-    res.status(500).json({
-      error: "Failed to load orders"
-    });
+    } catch (error) {
+      console.error(
+        "LOAD ORDERS ERROR:",
+        error
+      );
+
+      res.status(500).json({
+        error: "Failed to load orders"
+      });
+    }
   }
-});
+);
 
 /* =========================
-   ORDERS - PUBLIC CREATE
+   CREATE ORDER
 ========================= */
 
-app.post("/api/orders", async (req, res) => {
-  try {
-    const {
-      customer,
-      items,
-      total
-    } = req.body;
-
-    if (
-      !customer ||
-      !customer.name ||
-      !customer.phone ||
-      !customer.city ||
-      !customer.street ||
-      !customer.house
-    ) {
-      return res.status(400).json({
-        error: "Missing customer information"
-      });
-    }
-
-    if (!Array.isArray(items) || items.length === 0) {
-      return res.status(400).json({
-        error: "Order is empty"
-      });
-    }
-
-    const orderNumber =
-      "DADA-" + Date.now().toString().slice(-8);
-
-    const result = await pool.query(`
-      INSERT INTO orders (
-        order_number,
-        customer_name,
-        phone,
-        email,
-        city,
-        street,
-        house_number,
-        apartment,
-        zip,
-        shipping,
-        notes,
+app.post(
+  "/api/orders",
+  async (req, res) => {
+    try {
+      const {
+        customer,
         items,
         total
-      )
-      VALUES (
-        $1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13
-      )
-      RETURNING *
-    `, [
-      orderNumber,
-      String(customer.name).trim(),
-      String(customer.phone).trim(),
-      String(customer.email || "").trim(),
-      String(customer.city).trim(),
-      String(customer.street).trim(),
-      String(customer.house).trim(),
-      String(customer.apartment || "").trim(),
-      String(customer.zip || "").trim(),
-      String(customer.shipping || "משלוח רגיל").trim(),
-      String(customer.notes || "").trim(),
-      JSON.stringify(items),
-      Number(total) || 0
-    ]);
+      } = req.body;
 
-    res.status(201).json(result.rows[0]);
-  } catch (error) {
-    console.error("CREATE ORDER ERROR:", error);
+      if (
+        !customer ||
+        !customer.name ||
+        !customer.phone ||
+        !customer.city ||
+        !customer.street ||
+        !customer.house
+      ) {
+        return res.status(400).json({
+          error: "Missing customer information"
+        });
+      }
 
-    res.status(500).json({
-      error: "Failed to create order"
-    });
+      if (
+        !Array.isArray(items) ||
+        items.length === 0
+      ) {
+        return res.status(400).json({
+          error: "Order is empty"
+        });
+      }
+
+      const orderNumber =
+        "DADA-" +
+        Date.now().toString().slice(-8);
+
+      const result = await pool.query(`
+        INSERT INTO orders (
+          order_number,
+          customer_name,
+          phone,
+          email,
+          city,
+          street,
+          house_number,
+          apartment,
+          zip,
+          shipping,
+          notes,
+          items,
+          total
+        )
+        VALUES (
+          $1,$2,$3,$4,$5,$6,$7,
+          $8,$9,$10,$11,$12,$13
+        )
+        RETURNING *
+      `, [
+        orderNumber,
+        String(customer.name).trim(),
+        String(customer.phone).trim(),
+        String(customer.email || "").trim(),
+        String(customer.city).trim(),
+        String(customer.street).trim(),
+        String(customer.house).trim(),
+        String(customer.apartment || "").trim(),
+        String(customer.zip || "").trim(),
+        String(
+          customer.shipping ||
+          "משלוח רגיל"
+        ).trim(),
+        String(
+          customer.notes || ""
+        ).trim(),
+        JSON.stringify(items),
+        Number(total) || 0
+      ]);
+
+      res.status(201).json(
+        result.rows[0]
+      );
+
+    } catch (error) {
+      console.error(
+        "CREATE ORDER ERROR:",
+        error
+      );
+
+      res.status(500).json({
+        error: "Failed to create order"
+      });
+    }
   }
-});
+);
 
 /* =========================
-   ORDERS - ADMIN UPDATE
+   UPDATE ORDER
 ========================= */
 
-app.patch("/api/orders/:id", requireAdmin, async (req, res) => {
-  try {
-    const { status } = req.body;
+app.patch(
+  "/api/orders/:id",
+  requireAdmin,
+  async (req, res) => {
+    try {
+      const { status } = req.body;
 
-    const allowedStatuses = [
-      "חדשה",
-      "בטיפול",
-      "נשלחה",
-      "הושלמה"
-    ];
+      const allowedStatuses = [
+        "חדשה",
+        "בטיפול",
+        "נשלחה",
+        "הושלמה"
+      ];
 
-    if (!allowedStatuses.includes(status)) {
-      return res.status(400).json({
-        error: "Invalid order status"
+      if (
+        !allowedStatuses.includes(status)
+      ) {
+        return res.status(400).json({
+          error: "Invalid order status"
+        });
+      }
+
+      const result = await pool.query(`
+        UPDATE orders
+        SET status = $1
+        WHERE id = $2
+        RETURNING *
+      `, [
+        status,
+        req.params.id
+      ]);
+
+      if (!result.rows.length) {
+        return res.status(404).json({
+          error: "Order not found"
+        });
+      }
+
+      res.json(
+        result.rows[0]
+      );
+
+    } catch (error) {
+      console.error(
+        "UPDATE ORDER ERROR:",
+        error
+      );
+
+      res.status(500).json({
+        error: "Failed to update order"
       });
     }
-
-    const result = await pool.query(`
-      UPDATE orders
-      SET status = $1
-      WHERE id = $2
-      RETURNING *
-    `, [
-      status,
-      req.params.id
-    ]);
-
-    if (result.rows.length === 0) {
-      return res.status(404).json({
-        error: "Order not found"
-      });
-    }
-
-    res.json(result.rows[0]);
-  } catch (error) {
-    console.error("UPDATE ORDER ERROR:", error);
-
-    res.status(500).json({
-      error: "Failed to update order"
-    });
   }
-});
+);
 
 /* =========================
-   ORDERS - ADMIN DELETE
+   DELETE ORDER
 ========================= */
 
-app.delete("/api/orders/:id", requireAdmin, async (req, res) => {
-  try {
-    const result = await pool.query(
-      "DELETE FROM orders WHERE id = $1 RETURNING id",
-      [req.params.id]
-    );
+app.delete(
+  "/api/orders/:id",
+  requireAdmin,
+  async (req, res) => {
+    try {
+      const result = await pool.query(
+        "DELETE FROM orders WHERE id = $1 RETURNING id",
+        [req.params.id]
+      );
 
-    if (result.rows.length === 0) {
-      return res.status(404).json({
-        error: "Order not found"
+      if (!result.rows.length) {
+        return res.status(404).json({
+          error: "Order not found"
+        });
+      }
+
+      res.json({
+        success: true
+      });
+
+    } catch (error) {
+      console.error(
+        "DELETE ORDER ERROR:",
+        error
+      );
+
+      res.status(500).json({
+        error: "Failed to delete order"
       });
     }
-
-    res.json({
-      success: true
-    });
-  } catch (error) {
-    console.error("DELETE ORDER ERROR:", error);
-
-    res.status(500).json({
-      error: "Failed to delete order"
-    });
   }
-});
+);
 
 /* =========================
    HOME
@@ -536,6 +743,7 @@ async function start() {
         );
       }
     );
+
   } catch (error) {
     console.error(
       "SERVER START ERROR:",
