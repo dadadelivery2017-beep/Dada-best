@@ -12,18 +12,18 @@
     }
 
     :root {
-      --blue: #1261d6;
-      --blue-dark: #0847a6;
+      --blue: #0b63ce;
+      --blue-dark: #063b82;
       --blue-light: #eaf3ff;
       --bg: #f4f7fb;
-      --card: #ffffff;
+      --white: #ffffff;
       --text: #172033;
-      --muted: #6b7280;
-      --border: #e5eaf2;
+      --muted: #718096;
+      --border: #e4eaf2;
       --green: #16a34a;
-      --orange: #f59e0b;
       --red: #dc2626;
-      --shadow: 0 10px 35px rgba(20, 50, 100, .08);
+      --orange: #f59e0b;
+      --shadow: 0 10px 35px rgba(20, 60, 110, .08);
     }
 
     body {
@@ -40,7 +40,7 @@
     input,
     textarea,
     select {
-      font-family: inherit;
+      font: inherit;
     }
 
     button {
@@ -61,50 +61,44 @@
       background:
         radial-gradient(
           circle at top right,
-          #2d82ff,
+          #2d8cff,
           transparent 35%
         ),
         linear-gradient(
           135deg,
-          #061a3a,
-          #0b4eaa
+          #061b38,
+          #0b63ce
         );
     }
 
     .login-card {
       width: 100%;
       max-width: 430px;
-      background: white;
+      background: rgba(255,255,255,.97);
       border-radius: 24px;
       padding: 38px;
-      box-shadow:
-        0 30px 80px rgba(0,0,0,.25);
+      box-shadow: 0 30px 80px rgba(0,0,0,.25);
     }
 
     .logo {
-      width: 70px;
-      height: 70px;
-      margin: 0 auto 20px;
+      width: 65px;
+      height: 65px;
+      border-radius: 18px;
+      margin: 0 auto 18px;
 
       display: flex;
       align-items: center;
       justify-content: center;
 
-      border-radius: 20px;
-
-      background:
-        linear-gradient(
-          135deg,
-          var(--blue),
-          #38a0ff
-        );
+      background: linear-gradient(
+        135deg,
+        #0b63ce,
+        #19a0ff
+      );
 
       color: white;
-      font-size: 32px;
+      font-size: 30px;
       font-weight: 900;
-
-      box-shadow:
-        0 12px 25px rgba(18,97,214,.3);
     }
 
     .login-card h1 {
@@ -116,82 +110,61 @@
     .login-card p {
       text-align: center;
       color: var(--muted);
-      margin: 10px 0 30px;
+      margin: 8px 0 28px;
     }
 
-    .form-group {
-      margin-bottom: 17px;
-    }
-
-    label {
-      display: block;
-      margin-bottom: 7px;
-      font-weight: 700;
-    }
-
-    input,
-    textarea,
-    select {
+    .login-card input {
       width: 100%;
+      padding: 15px;
       border: 1px solid var(--border);
-      background: white;
       border-radius: 12px;
-      padding: 13px 14px;
       outline: none;
-      font-size: 15px;
-      transition: .2s;
+      margin-bottom: 12px;
     }
 
-    input:focus,
-    textarea:focus,
-    select:focus {
+    .login-card input:focus {
       border-color: var(--blue);
-      box-shadow:
-        0 0 0 4px rgba(18,97,214,.1);
+      box-shadow: 0 0 0 4px rgba(11,99,206,.1);
     }
 
     .login-btn {
       width: 100%;
+      padding: 15px;
       border: 0;
       border-radius: 12px;
-      padding: 15px;
-
       color: white;
-      font-size: 17px;
-      font-weight: 800;
+      font-weight: bold;
 
       background:
         linear-gradient(
           135deg,
-          var(--blue),
-          #338dff
+          #0b63ce,
+          #168eff
         );
-
-      box-shadow:
-        0 10px 25px rgba(18,97,214,.25);
     }
 
     .login-error {
       display: none;
-      margin-top: 15px;
+      color: var(--red);
+      background: #fff0f0;
       padding: 12px;
       border-radius: 10px;
-
-      background: #fee2e2;
-      color: #991b1b;
-
+      margin-bottom: 12px;
       text-align: center;
-      font-weight: 700;
     }
 
     /* =========================
-       ADMIN LAYOUT
+       APP
     ========================= */
 
-    .admin {
+    .app {
       display: none;
       min-height: 100vh;
     }
+
+    /* =========================
+       SIDEBAR
+    ========================= */
 
     .sidebar {
       position: fixed;
@@ -199,154 +172,133 @@
       top: 0;
       bottom: 0;
 
-      width: 270px;
+      width: 260px;
 
       background:
         linear-gradient(
           180deg,
-          #071b3a,
-          #0a3674
+          #062b5d,
+          #071d3b
         );
 
       color: white;
+      padding: 25px 15px;
 
-      padding: 25px 18px;
-
-      z-index: 100;
+      z-index: 20;
     }
 
     .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-
-      padding: 10px;
-      margin-bottom: 35px;
+      padding: 10px 15px 28px;
+      border-bottom: 1px solid rgba(255,255,255,.1);
+      margin-bottom: 20px;
     }
 
-    .brand-icon {
-      width: 48px;
-      height: 48px;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      background: rgba(255,255,255,.12);
-      border-radius: 14px;
-
+    .brand-title {
       font-size: 24px;
+      font-weight: 900;
     }
 
-    .brand strong {
-      font-size: 21px;
+    .brand-subtitle {
+      color: #a8c9ef;
+      font-size: 13px;
+      margin-top: 5px;
     }
 
-    .brand small {
-      display: block;
-      color: #a9c8f7;
-      margin-top: 3px;
-    }
-
-    .nav-title {
-      color: #8fb2e7;
-      font-size: 12px;
-      margin: 0 12px 10px;
-      font-weight: 700;
-    }
-
-    .nav-btn {
-      width: 100%;
-      border: 0;
-      background: transparent;
-      color: #dbeafe;
-
+    .nav {
       display: flex;
-      align-items: center;
-      gap: 12px;
+      flex-direction: column;
+      gap: 7px;
+    }
 
-      padding: 13px 14px;
-      margin-bottom: 6px;
+    .nav button {
+      width: 100%;
+      text-align: right;
 
+      padding: 14px 16px;
+
+      border: 0;
       border-radius: 12px;
 
-      text-align: right;
-      font-size: 15px;
-      font-weight: 700;
+      color: #d9eaff;
+      background: transparent;
+
+      transition: .2s;
     }
 
-    .nav-btn:hover,
-    .nav-btn.active {
-      background: rgba(255,255,255,.12);
+    .nav button:hover {
+      background: rgba(255,255,255,.08);
+    }
+
+    .nav button.active {
       color: white;
+
+      background:
+        linear-gradient(
+          135deg,
+          #0b63ce,
+          #168eff
+        );
+
+      box-shadow:
+        0 8px 20px rgba(0,120,255,.25);
     }
 
     .logout {
       position: absolute;
-      left: 18px;
-      right: 18px;
-      bottom: 20px;
+      bottom: 25px;
+      right: 15px;
+      left: 15px;
 
-      border: 1px solid rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.15);
       background: rgba(255,255,255,.06);
-
       color: white;
 
-      border-radius: 12px;
-      padding: 12px;
+      padding: 13px;
+      border-radius: 11px;
     }
 
+    /* =========================
+       MAIN
+    ========================= */
+
     .main {
-      margin-right: 270px;
-      min-height: 100vh;
+      margin-right: 260px;
+      padding: 30px;
     }
 
     .topbar {
-      height: 76px;
       background: white;
-      border-bottom: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 18px 22px;
 
       display: flex;
       align-items: center;
       justify-content: space-between;
 
-      padding: 0 30px;
-
-      position: sticky;
-      top: 0;
-      z-index: 50;
+      box-shadow: var(--shadow);
+      margin-bottom: 25px;
     }
 
-    .topbar h2 {
+    .topbar h1 {
       margin: 0;
-      font-size: 23px;
+      font-size: 25px;
     }
 
-    .topbar-right {
+    .status {
       display: flex;
       align-items: center;
-      gap: 12px;
-    }
+      gap: 8px;
 
-    .admin-badge {
-      padding: 9px 13px;
-      background: var(--blue-light);
-      color: var(--blue-dark);
-      border-radius: 10px;
-      font-weight: 800;
-      font-size: 13px;
-    }
-
-    .refresh-btn {
-      border: 1px solid var(--border);
-      background: white;
-      border-radius: 10px;
-      padding: 9px 13px;
+      color: var(--green);
       font-size: 14px;
+      font-weight: bold;
     }
 
-    .content {
-      padding: 30px;
+    .status-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--green);
     }
 
     /* =========================
@@ -361,243 +313,96 @@
       display: block;
     }
 
-    .page-title {
-      margin-bottom: 25px;
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      margin-bottom: 18px;
     }
 
-    .page-title h1 {
-      margin: 0 0 6px;
-      font-size: 29px;
-    }
-
-    .page-title p {
+    .section-header h2 {
       margin: 0;
-      color: var(--muted);
+    }
+
+    /* =========================
+       BUTTONS
+    ========================= */
+
+    .btn {
+      border: 0;
+      border-radius: 10px;
+      padding: 11px 16px;
+      font-weight: bold;
+    }
+
+    .btn-primary {
+      color: white;
+      background: var(--blue);
+    }
+
+    .btn-primary:hover {
+      background: var(--blue-dark);
+    }
+
+    .btn-danger {
+      color: white;
+      background: var(--red);
+    }
+
+    .btn-secondary {
+      background: #edf2f7;
+      color: #26364d;
     }
 
     /* =========================
        STATS
     ========================= */
 
-    .stats {
+    .stats-grid {
       display: grid;
       grid-template-columns:
-        repeat(4, minmax(0,1fr));
+        repeat(4, minmax(0, 1fr));
 
       gap: 18px;
       margin-bottom: 25px;
     }
 
-    .stat {
+    .stat-card {
       background: white;
-      border: 1px solid var(--border);
-      border-radius: 17px;
-      padding: 20px;
+      border-radius: 18px;
+      padding: 22px;
+
       box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
     }
 
-    .stat-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    .stat-card::after {
+      content: "";
+      position: absolute;
+      width: 90px;
+      height: 90px;
+      left: -30px;
+      bottom: -35px;
+
+      border-radius: 50%;
+      background: var(--blue-light);
     }
 
     .stat-icon {
-      width: 45px;
-      height: 45px;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      border-radius: 13px;
-      background: var(--blue-light);
-
-      font-size: 22px;
+      font-size: 25px;
     }
 
-    .stat-number {
-      font-size: 28px;
+    .stat-value {
+      font-size: 30px;
       font-weight: 900;
-      margin-top: 18px;
+      margin-top: 10px;
     }
 
     .stat-label {
       color: var(--muted);
       margin-top: 5px;
-      font-size: 14px;
-    }
-
-    /* =========================
-       TOOLBAR
-    ========================= */
-
-    .toolbar {
-      display: flex;
-      gap: 12px;
-      align-items: center;
-      justify-content: space-between;
-
-      margin-bottom: 18px;
-      flex-wrap: wrap;
-    }
-
-    .search {
-      max-width: 400px;
-      position: relative;
-      flex: 1;
-    }
-
-    .search input {
-      padding-right: 43px;
-    }
-
-    .search span {
-      position: absolute;
-      right: 14px;
-      top: 13px;
-    }
-
-    .primary-btn {
-      border: 0;
-      background:
-        linear-gradient(
-          135deg,
-          var(--blue),
-          #328bff
-        );
-
-      color: white;
-
-      border-radius: 11px;
-      padding: 12px 17px;
-
-      font-weight: 800;
-    }
-
-    /* =========================
-       PRODUCTS
-    ========================= */
-
-    .products-grid {
-      display: grid;
-
-      grid-template-columns:
-        repeat(
-          auto-fill,
-          minmax(250px, 1fr)
-        );
-
-      gap: 18px;
-    }
-
-    .product-card {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 17px;
-      overflow: hidden;
-      box-shadow: var(--shadow);
-    }
-
-    .product-image {
-      height: 170px;
-
-      background:
-        linear-gradient(
-          135deg,
-          #eef6ff,
-          #dcecff
-        );
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      font-size: 60px;
-      overflow: hidden;
-    }
-
-    .product-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .product-body {
-      padding: 18px;
-    }
-
-    .product-name {
-      font-size: 18px;
-      font-weight: 900;
-      margin-bottom: 7px;
-    }
-
-    .product-description {
-      color: var(--muted);
-      min-height: 40px;
-      font-size: 14px;
-    }
-
-    .product-price {
-      color: var(--blue);
-      font-size: 23px;
-      font-weight: 900;
-      margin: 14px 0 4px;
-    }
-
-    .stock {
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    .product-actions {
-      display: flex;
-      gap: 8px;
-      margin-top: 15px;
-    }
-
-    .edit-btn,
-    .delete-btn {
-      flex: 1;
-      border: 0;
-      border-radius: 9px;
-      padding: 10px;
-      font-weight: 700;
-    }
-
-    .edit-btn {
-      background: var(--blue-light);
-      color: var(--blue-dark);
-    }
-
-    .delete-btn {
-      background: #fee2e2;
-      color: #b91c1c;
-    }
-
-    .inactive {
-      opacity: .55;
-    }
-
-    .active-badge,
-    .inactive-badge {
-      display: inline-block;
-      padding: 5px 9px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: 800;
-      margin-top: 8px;
-    }
-
-    .active-badge {
-      background: #dcfce7;
-      color: #166534;
-    }
-
-    .inactive-badge {
-      background: #f3f4f6;
-      color: #6b7280;
     }
 
     /* =========================
@@ -606,93 +411,154 @@
 
     .table-card {
       background: white;
-      border: 1px solid var(--border);
-      border-radius: 17px;
+      border-radius: 18px;
       box-shadow: var(--shadow);
       overflow: hidden;
     }
 
-    .table-scroll {
+    .table-wrap {
       overflow-x: auto;
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
-      min-width: 850px;
+      min-width: 800px;
     }
 
     th {
       background: #f8fafc;
-      color: #475569;
+      color: #64748b;
       font-size: 13px;
       text-align: right;
       padding: 15px;
-      border-bottom: 1px solid var(--border);
     }
 
     td {
       padding: 15px;
-      border-bottom: 1px solid var(--border);
+      border-top: 1px solid var(--border);
       vertical-align: middle;
-      font-size: 14px;
     }
 
-    tr:last-child td {
-      border-bottom: 0;
+    tr:hover td {
+      background: #fbfdff;
     }
 
-    .order-number {
+    .product-image {
+      width: 55px;
+      height: 55px;
+
+      border-radius: 12px;
+
+      object-fit: cover;
+
+      background: #eef5ff;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      font-size: 25px;
+    }
+
+    .product-name {
+      font-weight: bold;
+    }
+
+    .product-description {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 4px;
+    }
+
+    .price {
       font-weight: 900;
       color: var(--blue);
     }
 
-    .customer-name {
-      font-weight: 800;
-    }
+    /* =========================
+       BADGES
+    ========================= */
 
-    .customer-phone {
-      color: var(--muted);
-      margin-top: 4px;
-      direction: ltr;
-      text-align: right;
-    }
-
-    .status {
-      border: 0;
-      border-radius: 20px;
-      padding: 7px 10px;
-      font-weight: 800;
+    .badge {
+      display: inline-flex;
+      padding: 6px 10px;
+      border-radius: 30px;
       font-size: 12px;
+      font-weight: bold;
     }
 
-    .status-new {
-      background: #dbeafe;
-      color: #1d4ed8;
-    }
-
-    .status-work {
-      background: #fef3c7;
-      color: #92400e;
-    }
-
-    .status-shipped {
-      background: #e0e7ff;
-      color: #4338ca;
-    }
-
-    .status-done {
+    .badge-green {
       background: #dcfce7;
       color: #166534;
     }
 
-    .view-btn {
-      border: 0;
+    .badge-red {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .badge-blue {
+      background: #dbeafe;
+      color: #1d4ed8;
+    }
+
+    .badge-orange {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    /* =========================
+       CATEGORIES
+    ========================= */
+
+    .category-grid {
+      display: grid;
+      grid-template-columns:
+        repeat(auto-fill, minmax(230px, 1fr));
+
+      gap: 18px;
+    }
+
+    .category-card {
+      background: white;
+      border-radius: 18px;
+      padding: 20px;
+
+      box-shadow: var(--shadow);
+
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .category-icon {
+      width: 55px;
+      height: 55px;
+
+      border-radius: 15px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
       background: var(--blue-light);
-      color: var(--blue-dark);
-      border-radius: 9px;
-      padding: 8px 12px;
-      font-weight: 800;
+
+      font-size: 25px;
+    }
+
+    .category-info {
+      flex: 1;
+    }
+
+    .category-info h3 {
+      margin: 0;
+    }
+
+    .category-count {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 5px;
     }
 
     /* =========================
@@ -700,70 +566,95 @@
     ========================= */
 
     .modal {
-      display: none;
-
       position: fixed;
       inset: 0;
 
-      background: rgba(5,20,45,.55);
+      background: rgba(0,0,0,.5);
 
-      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
 
       padding: 20px;
 
-      align-items: center;
-      justify-content: center;
+      z-index: 100;
     }
 
-    .modal.open {
+    .modal.show {
       display: flex;
     }
 
     .modal-card {
+      background: white;
       width: 100%;
       max-width: 650px;
+
       max-height: 90vh;
       overflow-y: auto;
 
-      background: white;
-      border-radius: 20px;
+      border-radius: 22px;
       padding: 25px;
 
-      box-shadow:
-        0 30px 80px rgba(0,0,0,.25);
+      box-shadow: 0 30px 80px rgba(0,0,0,.3);
     }
 
     .modal-header {
       display: flex;
-      align-items: center;
       justify-content: space-between;
+      align-items: center;
 
-      margin-bottom: 22px;
+      margin-bottom: 20px;
     }
 
     .modal-header h2 {
       margin: 0;
     }
 
-    .close-btn {
+    .close {
       width: 38px;
       height: 38px;
 
       border: 0;
-      border-radius: 10px;
+      border-radius: 50%;
 
       background: #f1f5f9;
       font-size: 20px;
     }
 
-    .form-grid {
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+
+      border: 1px solid var(--border);
+      border-radius: 11px;
+
+      padding: 12px;
+
+      outline: none;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      border-color: var(--blue);
+    }
+
+    .form-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 15px;
-    }
-
-    .full {
-      grid-column: 1 / -1;
     }
 
     .modal-actions {
@@ -772,109 +663,32 @@
       margin-top: 20px;
     }
 
-    .save-btn {
-      flex: 1;
-      border: 0;
-      background: var(--blue);
-      color: white;
-      padding: 13px;
-      border-radius: 11px;
-      font-weight: 800;
-    }
-
-    .cancel-btn {
-      flex: 1;
-      border: 1px solid var(--border);
-      background: white;
-      padding: 13px;
-      border-radius: 11px;
-      font-weight: 800;
-    }
-
     /* =========================
-       ORDER DETAILS
+       ORDER
     ========================= */
 
-    .detail-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
+    .order-number {
+      font-weight: 900;
+      color: var(--blue);
     }
 
-    .detail-box {
-      background: #f8fafc;
-      border-radius: 12px;
-      padding: 14px;
-    }
-
-    .detail-box strong {
-      display: block;
-      margin-bottom: 5px;
-      color: #475569;
-      font-size: 12px;
+    .customer-details {
+      font-size: 13px;
+      line-height: 1.7;
     }
 
     .order-items {
-      margin-top: 20px;
+      max-width: 250px;
+      font-size: 13px;
     }
 
-    .order-item {
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      padding: 12px 0;
-      border-bottom: 1px solid var(--border);
+    .order-items div {
+      margin-bottom: 4px;
     }
 
     .order-total {
-      text-align: left;
-      font-size: 22px;
       font-weight: 900;
-      color: var(--blue);
-      margin-top: 15px;
-    }
-
-    /* =========================
-       TOAST
-    ========================= */
-
-    .toast {
-      position: fixed;
-      left: 25px;
-      bottom: 25px;
-
-      min-width: 280px;
-
-      padding: 15px 18px;
-
-      border-radius: 13px;
-
-      color: white;
-
-      background: #172033;
-
-      box-shadow:
-        0 15px 40px rgba(0,0,0,.2);
-
-      transform: translateY(120px);
-      opacity: 0;
-
-      transition: .3s;
-
-      z-index: 2000;
-    }
-
-    .toast.show {
-      transform: translateY(0);
-      opacity: 1;
-    }
-
-    .toast.success {
-      background: var(--green);
-    }
-
-    .toast.error {
-      background: var(--red);
+      font-size: 17px;
     }
 
     /* =========================
@@ -888,15 +702,62 @@
     }
 
     .empty-icon {
-      font-size: 50px;
-      margin-bottom: 12px;
+      font-size: 45px;
+      margin-bottom: 10px;
     }
 
     /* =========================
-       MOBILE
+       TOAST
+    ========================= */
+
+    .toast {
+      position: fixed;
+
+      left: 25px;
+      bottom: 25px;
+
+      min-width: 280px;
+
+      padding: 15px 18px;
+
+      background: #111827;
+      color: white;
+
+      border-radius: 12px;
+
+      box-shadow: 0 15px 40px rgba(0,0,0,.2);
+
+      transform: translateY(120px);
+      opacity: 0;
+
+      transition: .3s;
+
+      z-index: 200;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .toast.success {
+      background: #15803d;
+    }
+
+    .toast.error {
+      background: #b91c1c;
+    }
+
+    /* =========================
+       RESPONSIVE
     ========================= */
 
     @media (max-width: 1000px) {
+
+      .stats-grid {
+        grid-template-columns:
+          repeat(2, 1fr);
+      }
 
       .sidebar {
         width: 220px;
@@ -905,75 +766,38 @@
       .main {
         margin-right: 220px;
       }
-
-      .stats {
-        grid-template-columns:
-          repeat(2, 1fr);
-      }
     }
 
     @media (max-width: 700px) {
 
       .sidebar {
-        position: static;
+        position: relative;
         width: 100%;
-        min-height: auto;
-      }
-
-      .admin {
-        display: none;
-      }
-
-      .main {
-        margin-right: 0;
+        height: auto;
       }
 
       .logout {
         position: static;
-        margin-top: 15px;
+        margin-top: 20px;
       }
 
-      .topbar {
+      .main {
+        margin-right: 0;
         padding: 15px;
-        height: auto;
-        gap: 10px;
-        flex-wrap: wrap;
       }
 
-      .content {
-        padding: 18px;
-      }
-
-      .stats {
+      .stats-grid {
         grid-template-columns: 1fr 1fr;
       }
 
-      .form-grid,
-      .detail-grid {
+      .form-row {
         grid-template-columns: 1fr;
       }
 
-      .full {
-        grid-column: auto;
-      }
-
-      .toolbar {
-        align-items: stretch;
-      }
-
-      .search {
-        max-width: none;
-      }
-    }
-
-    @media (max-width: 450px) {
-
-      .stats {
-        grid-template-columns: 1fr;
-      }
-
-      .login-card {
-        padding: 25px;
+      .topbar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
       }
     }
   </style>
@@ -981,9 +805,9 @@
 
 <body>
 
-<!-- =====================================================
+<!-- =========================
      LOGIN
-===================================================== -->
+========================= -->
 
 <div id="loginScreen" class="login-screen">
 
@@ -996,49 +820,39 @@
     <h1>Dada Best</h1>
 
     <p>
-      לוח ניהול החנות
+      מערכת ניהול החנות
     </p>
-
-    <div class="form-group">
-
-      <label>
-        סיסמת אדמין
-      </label>
-
-      <input
-        id="adminPassword"
-        type="password"
-        placeholder="הזן את סיסמת האדמין"
-        autocomplete="current-password"
-      >
-
-    </div>
-
-    <button
-      class="login-btn"
-      onclick="login()"
-    >
-      🔐 כניסה למערכת
-    </button>
 
     <div
       id="loginError"
-      class="login-error"
-    ></div>
+      class="login-error">
+      סיסמת אדמין שגויה או שהשרת לא זמין
+    </div>
+
+    <input
+      id="adminPassword"
+      type="password"
+      placeholder="סיסמת אדמין"
+      autocomplete="current-password">
+
+    <button
+      class="login-btn"
+      onclick="login()">
+
+      כניסה למערכת
+
+    </button>
 
   </div>
 
 </div>
 
 
-<!-- =====================================================
-     ADMIN
-===================================================== -->
+<!-- =========================
+     APP
+========================= -->
 
-<div
-  id="admin"
-  class="admin"
->
+<div id="app" class="app">
 
   <!-- SIDEBAR -->
 
@@ -1046,57 +860,61 @@
 
     <div class="brand">
 
-      <div class="brand-icon">
-        🛒
+      <div class="brand-title">
+        Dada Best
       </div>
 
-      <div>
-
-        <strong>Dada Best</strong>
-
-        <small>
-          Admin Panel
-        </small>
-
+      <div class="brand-subtitle">
+        Admin Dashboard
       </div>
 
     </div>
 
 
-    <div class="nav-title">
-      ניהול
-    </div>
+    <nav class="nav">
 
-    <button
-      class="nav-btn active"
-      onclick="showSection('dashboard', this)"
-    >
-      📊
-      דשבורד
-    </button>
+      <button
+        class="active"
+        data-section="dashboard"
+        onclick="showSection('dashboard', this)">
 
-    <button
-      class="nav-btn"
-      onclick="showSection('products', this)"
-    >
-      🛍️
-      מוצרים
-    </button>
+        📊 סטטיסטיקות
 
-    <button
-      class="nav-btn"
-      onclick="showSection('orders', this)"
-    >
-      📦
-      הזמנות
-    </button>
+      </button>
+
+      <button
+        data-section="products"
+        onclick="showSection('products', this)">
+
+        📦 מוצרים
+
+      </button>
+
+      <button
+        data-section="categories"
+        onclick="showSection('categories', this)">
+
+        🗂️ קטגוריות
+
+      </button>
+
+      <button
+        data-section="orders"
+        onclick="showSection('orders', this)">
+
+        🛒 הזמנות
+
+      </button>
+
+    </nav>
 
 
     <button
       class="logout"
-      onclick="logout()"
-    >
+      onclick="logout()">
+
       🚪 יציאה
+
     </button>
 
   </aside>
@@ -1106,386 +924,380 @@
 
   <main class="main">
 
-    <header class="topbar">
+    <div class="topbar">
 
-      <h2 id="pageTitle">
-        דשבורד
-      </h2>
+      <div>
+        <h1 id="pageTitle">
+          סטטיסטיקות
+        </h1>
+      </div>
 
-      <div class="topbar-right">
+      <div class="status">
 
-        <span class="admin-badge">
-          🟢 מחובר כמנהל
-        </span>
+        <span class="status-dot"></span>
+
+        השרת מחובר
+
+      </div>
+
+    </div>
+
+
+    <!-- =====================
+         DASHBOARD
+    ====================== -->
+
+    <section
+      id="dashboard"
+      class="section active">
+
+      <div class="stats-grid">
+
+        <div class="stat-card">
+
+          <div class="stat-icon">
+            📦
+          </div>
+
+          <div
+            id="statProducts"
+            class="stat-value">
+            0
+          </div>
+
+          <div class="stat-label">
+            מוצרים פעילים
+          </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+          <div class="stat-icon">
+            🛒
+          </div>
+
+          <div
+            id="statOrders"
+            class="stat-value">
+            0
+          </div>
+
+          <div class="stat-label">
+            הזמנות
+          </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+          <div class="stat-icon">
+            💰
+          </div>
+
+          <div
+            id="statRevenue"
+            class="stat-value">
+            0 ₪
+          </div>
+
+          <div class="stat-label">
+            הכנסות
+          </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+          <div class="stat-icon">
+            🗂️
+          </div>
+
+          <div
+            id="statCategories"
+            class="stat-value">
+            0
+          </div>
+
+          <div class="stat-label">
+            קטגוריות
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="table-card">
+
+        <div style="padding:20px">
+
+          <h2 style="margin:0">
+            הזמנות אחרונות
+          </h2>
+
+        </div>
+
+        <div
+          id="recentOrders"
+          class="empty">
+
+          טוען...
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================
+         PRODUCTS
+    ====================== -->
+
+    <section
+      id="products"
+      class="section">
+
+      <div class="section-header">
+
+        <div>
+
+          <h2>
+            ניהול מוצרים
+          </h2>
+
+          <div
+            style="
+              color:#718096;
+              margin-top:5px;
+              font-size:14px;
+            ">
+
+            הוספה, עריכה ומחיקה של מוצרים
+
+          </div>
+
+        </div>
 
         <button
-          class="refresh-btn"
-          onclick="refreshCurrentSection()"
-        >
-          🔄 רענן
+          class="btn btn-primary"
+          onclick="openProductModal()">
+
+          ＋ מוצר חדש
+
         </button>
 
       </div>
 
-    </header>
 
+      <div class="table-card">
 
-    <div class="content">
+        <div class="table-wrap">
 
+          <table>
 
-      <!-- =================================================
-           DASHBOARD
-      ================================================= -->
+            <thead>
 
-      <section
-        id="dashboard"
-        class="section active"
-      >
+              <tr>
 
-        <div class="page-title">
+                <th>
+                  מוצר
+                </th>
 
-          <h1>
-            שלום 👋
-          </h1>
+                <th>
+                  מחיר
+                </th>
 
-          <p>
-            הנה תמונת המצב של החנות שלך
-          </p>
+                <th>
+                  מלאי
+                </th>
+
+                <th>
+                  סטטוס
+                </th>
+
+                <th>
+                  פעולות
+                </th>
+
+              </tr>
+
+            </thead>
+
+            <tbody
+              id="productsTable">
+
+            </tbody>
+
+          </table>
 
         </div>
 
+      </div>
 
-        <div class="stats">
-
-          <div class="stat">
-
-            <div class="stat-top">
-
-              <div>
-                🛍️
-              </div>
-
-              <div class="stat-icon">
-                🛍️
-              </div>
-
-            </div>
-
-            <div
-              id="statProducts"
-              class="stat-number"
-            >
-              0
-            </div>
-
-            <div class="stat-label">
-              מוצרים פעילים
-            </div>
-
-          </div>
+    </section>
 
 
-          <div class="stat">
+    <!-- =====================
+         CATEGORIES
+    ====================== -->
 
-            <div class="stat-top">
+    <section
+      id="categories"
+      class="section">
 
-              <div>
-                📦
-              </div>
+      <div class="section-header">
 
-              <div class="stat-icon">
-                📦
-              </div>
+        <div>
 
-            </div>
+          <h2>
+            ניהול קטגוריות
+          </h2>
 
-            <div
-              id="statOrders"
-              class="stat-number"
-            >
-              0
-            </div>
+          <div
+            style="
+              color:#718096;
+              margin-top:5px;
+              font-size:14px;
+            ">
 
-            <div class="stat-label">
-              סה״כ הזמנות
-            </div>
-
-          </div>
-
-
-          <div class="stat">
-
-            <div class="stat-top">
-
-              <div>
-                🔔
-              </div>
-
-              <div class="stat-icon">
-                🔔
-              </div>
-
-            </div>
-
-            <div
-              id="statNewOrders"
-              class="stat-number"
-            >
-              0
-            </div>
-
-            <div class="stat-label">
-              הזמנות חדשות
-            </div>
-
-          </div>
-
-
-          <div class="stat">
-
-            <div class="stat-top">
-
-              <div>
-                💰
-              </div>
-
-              <div class="stat-icon">
-                💰
-              </div>
-
-            </div>
-
-            <div
-              id="statRevenue"
-              class="stat-number"
-            >
-              0 ₪
-            </div>
-
-            <div class="stat-label">
-              הכנסות
-            </div>
+            ניהול קטגוריות החנות
 
           </div>
 
         </div>
 
+        <button
+          class="btn btn-primary"
+          onclick="openCategoryModal()">
 
-        <div class="table-card">
+          ＋ קטגוריה חדשה
 
-          <div style="padding:20px">
+        </button>
 
-            <h3 style="margin-top:0">
-              הזמנות אחרונות
-            </h3>
-
-            <div
-              id="dashboardOrders"
-            ></div>
-
-          </div>
-
-        </div>
-
-      </section>
+      </div>
 
 
-      <!-- =================================================
-           PRODUCTS
-      ================================================= -->
+      <div
+        id="categoriesGrid"
+        class="category-grid">
 
-      <section
-        id="products"
-        class="section"
-      >
+      </div>
 
-        <div class="page-title">
-
-          <h1>
-            🛍️ ניהול מוצרים
-          </h1>
-
-          <p>
-            הוסף, ערוך ושנה מחירים ומלאי
-          </p>
-
-        </div>
+    </section>
 
 
-        <div class="toolbar">
+    <!-- =====================
+         ORDERS
+    ====================== -->
 
-          <div class="search">
+    <section
+      id="orders"
+      class="section">
 
-            <span>
-              🔎
-            </span>
+      <div class="section-header">
 
-            <input
-              id="productSearch"
-              placeholder="חיפוש מוצר..."
-              oninput="renderProducts()"
-            >
+        <div>
+
+          <h2>
+            ניהול הזמנות
+          </h2>
+
+          <div
+            style="
+              color:#718096;
+              margin-top:5px;
+              font-size:14px;
+            ">
+
+            פרטי הלקוחות וההזמנות
 
           </div>
 
+        </div>
 
-          <button
-            class="primary-btn"
-            onclick="openProductModal()"
-          >
-            ＋ מוצר חדש
-          </button>
+        <button
+          class="btn btn-secondary"
+          onclick="loadOrders()">
+
+          🔄 רענן
+
+        </button>
+
+      </div>
+
+
+      <div class="table-card">
+
+        <div class="table-wrap">
+
+          <table>
+
+            <thead>
+
+              <tr>
+
+                <th>
+                  הזמנה
+                </th>
+
+                <th>
+                  לקוח
+                </th>
+
+                <th>
+                  פריטים
+                </th>
+
+                <th>
+                  משלוח
+                </th>
+
+                <th>
+                  סה״כ
+                </th>
+
+                <th>
+                  סטטוס
+                </th>
+
+                <th>
+                  פעולות
+                </th>
+
+              </tr>
+
+            </thead>
+
+            <tbody
+              id="ordersTable">
+
+            </tbody>
+
+          </table>
 
         </div>
 
+      </div>
 
-        <div
-          id="productsGrid"
-          class="products-grid"
-        ></div>
-
-      </section>
-
-
-      <!-- =================================================
-           ORDERS
-      ================================================= -->
-
-      <section
-        id="orders"
-        class="section"
-      >
-
-        <div class="page-title">
-
-          <h1>
-            📦 ניהול הזמנות
-          </h1>
-
-          <p>
-            כל ההזמנות והפרטים של הלקוחות
-          </p>
-
-        </div>
-
-
-        <div class="toolbar">
-
-          <div class="search">
-
-            <span>
-              🔎
-            </span>
-
-            <input
-              id="orderSearch"
-              placeholder="חיפוש לפי מספר הזמנה, שם או טלפון..."
-              oninput="renderOrders()"
-            >
-
-          </div>
-
-
-          <select
-            id="orderFilter"
-            style="max-width:220px"
-            onchange="renderOrders()"
-          >
-
-            <option value="">
-              כל הסטטוסים
-            </option>
-
-            <option value="חדשה">
-              חדשה
-            </option>
-
-            <option value="בטיפול">
-              בטיפול
-            </option>
-
-            <option value="נשלחה">
-              נשלחה
-            </option>
-
-            <option value="הושלמה">
-              הושלמה
-            </option>
-
-          </select>
-
-        </div>
-
-
-        <div class="table-card">
-
-          <div class="table-scroll">
-
-            <table>
-
-              <thead>
-
-                <tr>
-
-                  <th>
-                    הזמנה
-                  </th>
-
-                  <th>
-                    לקוח
-                  </th>
-
-                  <th>
-                    משלוח
-                  </th>
-
-                  <th>
-                    סכום
-                  </th>
-
-                  <th>
-                    תאריך
-                  </th>
-
-                  <th>
-                    סטטוס
-                  </th>
-
-                  <th>
-                    פעולות
-                  </th>
-
-                </tr>
-
-              </thead>
-
-              <tbody
-                id="ordersTable"
-              ></tbody>
-
-            </table>
-
-          </div>
-
-        </div>
-
-      </section>
-
-    </div>
+    </section>
 
   </main>
 
 </div>
 
 
-<!-- =====================================================
+<!-- =========================
      PRODUCT MODAL
-===================================================== -->
+========================= -->
 
 <div
   id="productModal"
-  class="modal"
->
+  class="modal">
 
   <div class="modal-card">
 
@@ -1496,18 +1308,26 @@
       </h2>
 
       <button
-        class="close-btn"
-        onclick="closeProductModal()"
-      >
+        class="close"
+        onclick="closeProductModal()">
+
         ×
+
       </button>
 
     </div>
 
 
-    <div class="form-grid">
+    <form
+      id="productForm"
+      onsubmit="saveProduct(event)">
 
-      <div class="form-group full">
+      <input
+        type="hidden"
+        id="productId">
+
+
+      <div class="form-group">
 
         <label>
           שם המוצר
@@ -1515,47 +1335,13 @@
 
         <input
           id="productName"
-          placeholder="לדוגמה: מצלמת אבטחה 4MP"
-        >
+          required
+          placeholder="לדוגמה: מצלמת אבטחה 4MP">
 
       </div>
 
 
       <div class="form-group">
-
-        <label>
-          מחיר ₪
-        </label>
-
-        <input
-          id="productPrice"
-          type="number"
-          min="0"
-          step="0.01"
-          placeholder="349"
-        >
-
-      </div>
-
-
-      <div class="form-group">
-
-        <label>
-          מלאי
-        </label>
-
-        <input
-          id="productStock"
-          type="number"
-          min="0"
-          step="1"
-          placeholder="20"
-        >
-
-      </div>
-
-
-      <div class="form-group full">
 
         <label>
           תיאור
@@ -1563,14 +1349,51 @@
 
         <textarea
           id="productDescription"
-          rows="4"
-          placeholder="תיאור המוצר..."
-        ></textarea>
+          rows="3"
+          placeholder="תיאור המוצר">
+
+        </textarea>
 
       </div>
 
 
-      <div class="form-group full">
+      <div class="form-row">
+
+        <div class="form-group">
+
+          <label>
+            מחיר ₪
+          </label>
+
+          <input
+            id="productPrice"
+            type="number"
+            min="0"
+            step="0.01"
+            required>
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label>
+            מלאי
+          </label>
+
+          <input
+            id="productStock"
+            type="number"
+            min="0"
+            step="1"
+            required>
+
+        </div>
+
+      </div>
+
+
+      <div class="form-group">
 
         <label>
           תמונת מוצר
@@ -1578,90 +1401,146 @@
 
         <input
           id="productImage"
-          placeholder="קישור לתמונה או Emoji כמו 📹"
-        >
-
-        <small style="color:#6b7280">
-          אפשר לשים קישור לתמונה באינטרנט.
-        </small>
+          placeholder="כתובת תמונה או אימוג׳י">
 
       </div>
 
 
-      <div class="form-group full">
+      <div class="form-group">
 
         <label>
-          סטטוס מוצר
+          סטטוס
         </label>
 
         <select id="productActive">
 
           <option value="true">
-            מוצר פעיל באתר
+            פעיל
           </option>
 
           <option value="false">
-            מוסתר מהאתר
+            מוסתר
           </option>
 
         </select>
 
       </div>
 
-    </div>
 
+      <div class="modal-actions">
 
-    <div class="modal-actions">
+        <button
+          type="submit"
+          class="btn btn-primary">
 
-      <button
-        class="cancel-btn"
-        onclick="closeProductModal()"
-      >
-        ביטול
-      </button>
+          שמור מוצר
 
-      <button
-        class="save-btn"
-        onclick="saveProduct()"
-      >
-        💾 שמור מוצר
-      </button>
+        </button>
 
-    </div>
+        <button
+          type="button"
+          class="btn btn-secondary"
+          onclick="closeProductModal()">
+
+          ביטול
+
+        </button>
+
+      </div>
+
+    </form>
 
   </div>
 
 </div>
 
 
-<!-- =====================================================
-     ORDER MODAL
-===================================================== -->
+<!-- =========================
+     CATEGORY MODAL
+========================= -->
 
 <div
-  id="orderModal"
-  class="modal"
->
+  id="categoryModal"
+  class="modal">
 
   <div class="modal-card">
 
     <div class="modal-header">
 
       <h2>
-        📦 פרטי הזמנה
+        קטגוריה חדשה
       </h2>
 
       <button
-        class="close-btn"
-        onclick="closeOrderModal()"
-      >
+        class="close"
+        onclick="closeCategoryModal()">
+
         ×
+
       </button>
 
     </div>
 
 
-    <div id="orderDetails"></div>
+    <form
+      id="categoryForm"
+      onsubmit="saveCategory(event)">
+
+      <input
+        type="hidden"
+        id="categoryId">
+
+
+      <div class="form-group">
+
+        <label>
+          שם הקטגוריה
+        </label>
+
+        <input
+          id="categoryName"
+          required
+          placeholder="לדוגמה: מצלמות אבטחה">
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>
+          אייקון
+        </label>
+
+        <input
+          id="categoryIcon"
+          value="📦"
+          placeholder="📦">
+
+      </div>
+
+
+      <div class="modal-actions">
+
+        <button
+          type="submit"
+          class="btn btn-primary">
+
+          שמור קטגוריה
+
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-secondary"
+          onclick="closeCategoryModal()">
+
+          ביטול
+
+        </button>
+
+      </div>
+
+    </form>
 
   </div>
 
@@ -1672,25 +1551,30 @@
 
 <div
   id="toast"
-  class="toast"
-></div>
+  class="toast">
+
+</div>
 
 
 <script>
 
-  /* =====================================================
+  /* =========================
      STATE
-  ===================================================== */
+  ========================= */
 
-  let adminKey = "";
+  let adminKey =
+    localStorage.getItem("dada_admin_key") || "";
+
   let products = [];
+
   let orders = [];
-  let editingProductId = null;
+
+  let categories = [];
 
 
-  /* =====================================================
+  /* =========================
      LOGIN
-  ===================================================== */
+  ========================= */
 
   async function login() {
 
@@ -1699,10 +1583,6 @@
         .getElementById("adminPassword")
         .value
         .trim();
-
-    const error =
-      document
-        .getElementById("loginError");
 
     if (!password) {
 
@@ -1713,8 +1593,6 @@
       return;
     }
 
-    adminKey = password;
-
     try {
 
       const response =
@@ -1722,7 +1600,7 @@
           "/api/admin/products",
           {
             headers: {
-              "x-admin-key": adminKey
+              "x-admin-key": password
             }
           }
         );
@@ -1730,12 +1608,12 @@
       if (!response.ok) {
 
         throw new Error(
-          "סיסמת אדמין שגויה"
+          "Unauthorized"
         );
+
       }
 
-      products =
-        await response.json();
+      adminKey = password;
 
       localStorage.setItem(
         "dada_admin_key",
@@ -1747,67 +1625,52 @@
         .style.display = "none";
 
       document
-        .getElementById("admin")
+        .getElementById("app")
         .style.display = "block";
 
-      await loadOrders();
+      await loadAll();
 
-      renderProducts();
-      updateDashboard();
+    } catch (error) {
 
-      showToast(
-        "ברוך הבא ללוח הניהול!",
-        "success"
-      );
-
-    } catch (err) {
-
-      adminKey = "";
+      console.error(error);
 
       showLoginError(
-        err.message ||
         "סיסמת אדמין שגויה או שהשרת לא זמין"
       );
+
     }
+
   }
 
 
   function showLoginError(text) {
 
     const error =
-      document
-        .getElementById("loginError");
+      document.getElementById(
+        "loginError"
+      );
 
     error.textContent = text;
+
     error.style.display = "block";
+
   }
 
 
   function logout() {
 
-    adminKey = "";
-
     localStorage.removeItem(
       "dada_admin_key"
     );
 
-    document
-      .getElementById("admin")
-      .style.display = "none";
+    location.reload();
 
-    document
-      .getElementById("loginScreen")
-      .style.display = "flex";
-
-    document
-      .getElementById("adminPassword")
-      .value = "";
   }
 
 
-  /* =====================================================
+  /* =========================
      API
-  ===================================================== */
+  ========================= */
 
   async function api(
     url,
@@ -1826,39 +1689,409 @@
         options
       );
 
-    let data = {};
+    let data = null;
 
     try {
-      data = await response.json();
-    } catch {}
+
+      data =
+        await response.json();
+
+    } catch {
+
+      data = {};
+
+    }
 
     if (!response.ok) {
 
       throw new Error(
         data.error ||
-        "שגיאה בשרת"
+        "שגיאה בבקשה"
       );
+
     }
 
     return data;
+
   }
 
 
-  /* =====================================================
-     LOAD PRODUCTS
-  ===================================================== */
+  /* =========================
+     LOAD ALL
+  ========================= */
+
+  async function loadAll() {
+
+    try {
+
+      await Promise.all([
+        loadProducts(),
+        loadOrders(),
+        loadCategories()
+      ]);
+
+      updateStats();
+
+    } catch (error) {
+
+      console.error(error);
+
+      showToast(
+        error.message,
+        "error"
+      );
+
+    }
+
+  }
+
+
+  /* =========================
+     PRODUCTS
+  ========================= */
 
   async function loadProducts() {
 
+    products =
+      await api(
+        "/api/admin/products"
+      );
+
+    renderProducts();
+
+    updateStats();
+
+  }
+
+
+  function renderProducts() {
+
+    const table =
+      document.getElementById(
+        "productsTable"
+      );
+
+    if (!products.length) {
+
+      table.innerHTML = `
+        <tr>
+          <td colspan="5">
+            <div class="empty">
+              <div class="empty-icon">
+                📦
+              </div>
+              עדיין אין מוצרים
+            </div>
+          </td>
+        </tr>
+      `;
+
+      return;
+
+    }
+
+
+    table.innerHTML =
+      products.map(product => {
+
+        const image =
+          product.image || "📦";
+
+        const active =
+          product.active;
+
+        return `
+          <tr>
+
+            <td>
+
+              <div style="
+                display:flex;
+                align-items:center;
+                gap:12px;
+              ">
+
+                <div class="product-image">
+                  ${escapeHtml(image)}
+                </div>
+
+                <div>
+
+                  <div class="product-name">
+                    ${escapeHtml(product.name)}
+                  </div>
+
+                  <div class="product-description">
+                    ${escapeHtml(
+                      product.description || ""
+                    )}
+                  </div>
+
+                </div>
+
+              </div>
+
+            </td>
+
+
+            <td>
+
+              <span class="price">
+                ${Number(product.price).toLocaleString("he-IL")}
+                ₪
+              </span>
+
+            </td>
+
+
+            <td>
+
+              ${
+                Number(product.stock) > 0
+                  ? `
+                    <span class="badge badge-green">
+                      ${product.stock} במלאי
+                    </span>
+                  `
+                  : `
+                    <span class="badge badge-red">
+                      אזל
+                    </span>
+                  `
+              }
+
+            </td>
+
+
+            <td>
+
+              ${
+                active
+                  ? `
+                    <span class="badge badge-green">
+                      פעיל
+                    </span>
+                  `
+                  : `
+                    <span class="badge badge-red">
+                      מוסתר
+                    </span>
+                  `
+              }
+
+            </td>
+
+
+            <td>
+
+              <button
+                class="btn btn-secondary"
+                onclick="editProduct(${product.id})">
+
+                ✏️ עריכה
+
+              </button>
+
+              <button
+                class="btn btn-danger"
+                onclick="deleteProduct(${product.id})">
+
+                🗑️
+
+              </button>
+
+            </td>
+
+          </tr>
+        `;
+
+      }).join("");
+
+  }
+
+
+  function openProductModal() {
+
+    document
+      .getElementById("productForm")
+      .reset();
+
+    document
+      .getElementById("productId")
+      .value = "";
+
+    document
+      .getElementById("productModalTitle")
+      .textContent =
+        "מוצר חדש";
+
+    document
+      .getElementById("productActive")
+      .value = "true";
+
+    document
+      .getElementById("productModal")
+      .classList.add("show");
+
+  }
+
+
+  function closeProductModal() {
+
+    document
+      .getElementById("productModal")
+      .classList.remove("show");
+
+  }
+
+
+  function editProduct(id) {
+
+    const product =
+      products.find(
+        p => Number(p.id) === Number(id)
+      );
+
+    if (!product) return;
+
+
+    document
+      .getElementById("productId")
+      .value = product.id;
+
+    document
+      .getElementById("productName")
+      .value = product.name || "";
+
+    document
+      .getElementById("productDescription")
+      .value =
+        product.description || "";
+
+    document
+      .getElementById("productPrice")
+      .value =
+        product.price || 0;
+
+    document
+      .getElementById("productStock")
+      .value =
+        product.stock || 0;
+
+    document
+      .getElementById("productImage")
+      .value =
+        product.image || "";
+
+    document
+      .getElementById("productActive")
+      .value =
+        product.active
+          ? "true"
+          : "false";
+
+
+    document
+      .getElementById("productModalTitle")
+      .textContent =
+        "עריכת מוצר";
+
+
+    document
+      .getElementById("productModal")
+      .classList.add("show");
+
+  }
+
+
+  async function saveProduct(event) {
+
+    event.preventDefault();
+
+
+    const id =
+      document
+        .getElementById("productId")
+        .value;
+
+
+    const body = {
+
+      name:
+        document
+          .getElementById("productName")
+          .value,
+
+      description:
+        document
+          .getElementById("productDescription")
+          .value,
+
+      price:
+        Number(
+          document
+            .getElementById("productPrice")
+            .value
+        ),
+
+      stock:
+        Number(
+          document
+            .getElementById("productStock")
+            .value
+        ),
+
+      image:
+        document
+          .getElementById("productImage")
+          .value,
+
+      active:
+        document
+          .getElementById("productActive")
+          .value === "true"
+
+    };
+
+
     try {
 
-      products =
+      if (id) {
+
         await api(
-          "/api/admin/products"
+          `/api/admin/products/${id}`,
+          {
+            method: "PATCH",
+            body: JSON.stringify(body)
+          }
         );
 
-      renderProducts();
-      updateDashboard();
+        showToast(
+          "המוצר עודכן בהצלחה",
+          "success"
+        );
+
+      } else {
+
+        await api(
+          "/api/admin/products",
+          {
+            method: "POST",
+            body: JSON.stringify(body)
+          }
+        );
+
+        showToast(
+          "המוצר נוסף בהצלחה",
+          "success"
+        );
+
+      }
+
+
+      closeProductModal();
+
+      await loadProducts();
 
     } catch (error) {
 
@@ -1866,25 +2099,623 @@
         error.message,
         "error"
       );
+
     }
+
   }
 
 
-  /* =====================================================
-     LOAD ORDERS
-  ===================================================== */
+  async function deleteProduct(id) {
+
+    if (
+      !confirm(
+        "האם אתה בטוח שברצונך למחוק את המוצר?"
+      )
+    ) {
+
+      return;
+
+    }
+
+
+    try {
+
+      await api(
+        `/api/admin/products/${id}`,
+        {
+          method: "DELETE"
+        }
+      );
+
+      showToast(
+        "המוצר נמחק",
+        "success"
+      );
+
+      await loadProducts();
+
+    } catch (error) {
+
+      showToast(
+        error.message,
+        "error"
+      );
+
+    }
+
+  }
+
+
+  /* =========================
+     CATEGORIES
+  ========================= */
+
+  async function loadCategories() {
+
+    /*
+      כאשר נוסיף את ה-API של
+      הקטגוריות ב-server.js,
+      הפונקציה הזאת תתחבר אליו.
+
+      כרגע אם endpoint לא קיים,
+      מוצגות קטגוריות מקומיות.
+    */
+
+    try {
+
+      categories =
+        await api(
+          "/api/admin/categories"
+        );
+
+    } catch {
+
+      categories =
+        JSON.parse(
+          localStorage.getItem(
+            "dada_categories"
+          ) || "[]"
+        );
+
+    }
+
+    renderCategories();
+
+    updateStats();
+
+  }
+
+
+  function renderCategories() {
+
+    const grid =
+      document.getElementById(
+        "categoriesGrid"
+      );
+
+
+    if (!categories.length) {
+
+      grid.innerHTML = `
+        <div class="empty"
+             style="
+               grid-column:1/-1;
+               background:white;
+               border-radius:18px;
+             ">
+
+          <div class="empty-icon">
+            🗂️
+          </div>
+
+          עדיין אין קטגוריות
+
+        </div>
+      `;
+
+      return;
+
+    }
+
+
+    grid.innerHTML =
+      categories.map(category => {
+
+        return `
+
+          <div class="category-card">
+
+            <div class="category-icon">
+              ${escapeHtml(
+                category.icon || "📦"
+              )}
+            </div>
+
+            <div class="category-info">
+
+              <h3>
+                ${escapeHtml(
+                  category.name
+                )}
+              </h3>
+
+              <div class="category-count">
+                ${category.product_count || 0}
+                מוצרים
+              </div>
+
+            </div>
+
+            <button
+              class="btn btn-danger"
+              onclick="deleteCategory(${category.id})">
+
+              🗑️
+
+            </button>
+
+          </div>
+
+        `;
+
+      }).join("");
+
+  }
+
+
+  function openCategoryModal() {
+
+    document
+      .getElementById("categoryForm")
+      .reset();
+
+    document
+      .getElementById("categoryId")
+      .value = "";
+
+    document
+      .getElementById("categoryIcon")
+      .value = "📦";
+
+    document
+      .getElementById("categoryModal")
+      .classList.add("show");
+
+  }
+
+
+  function closeCategoryModal() {
+
+    document
+      .getElementById("categoryModal")
+      .classList.remove("show");
+
+  }
+
+
+  async function saveCategory(event) {
+
+    event.preventDefault();
+
+
+    const name =
+      document
+        .getElementById("categoryName")
+        .value
+        .trim();
+
+
+    const icon =
+      document
+        .getElementById("categoryIcon")
+        .value
+        .trim() || "📦";
+
+
+    if (!name) return;
+
+
+    try {
+
+      await api(
+        "/api/admin/categories",
+        {
+          method: "POST",
+          body: JSON.stringify({
+            name,
+            icon
+          })
+        }
+      );
+
+      showToast(
+        "הקטגוריה נוספה",
+        "success"
+      );
+
+      closeCategoryModal();
+
+      await loadCategories();
+
+    } catch (error) {
+
+      /*
+        fallback זמני אם עדיין
+        לא הוספנו את ה-API
+      */
+
+      categories.push({
+        id:
+          Date.now(),
+        name,
+        icon,
+        product_count: 0
+      });
+
+      localStorage.setItem(
+        "dada_categories",
+        JSON.stringify(categories)
+      );
+
+      closeCategoryModal();
+
+      renderCategories();
+
+      updateStats();
+
+      showToast(
+        "הקטגוריה נשמרה במכשיר",
+        "success"
+      );
+
+    }
+
+  }
+
+
+  async function deleteCategory(id) {
+
+    if (
+      !confirm(
+        "האם למחוק את הקטגוריה?"
+      )
+    ) {
+
+      return;
+
+    }
+
+
+    try {
+
+      await api(
+        `/api/admin/categories/${id}`,
+        {
+          method: "DELETE"
+        }
+      );
+
+      showToast(
+        "הקטגוריה נמחקה",
+        "success"
+      );
+
+      await loadCategories();
+
+    } catch {
+
+      categories =
+        categories.filter(
+          category =>
+            Number(category.id) !== Number(id)
+        );
+
+      localStorage.setItem(
+        "dada_categories",
+        JSON.stringify(categories)
+      );
+
+      renderCategories();
+
+      updateStats();
+
+      showToast(
+        "הקטגוריה נמחקה",
+        "success"
+      );
+
+    }
+
+  }
+
+
+  /* =========================
+     ORDERS
+  ========================= */
 
   async function loadOrders() {
 
+    orders =
+      await api(
+        "/api/orders"
+      );
+
+    renderOrders();
+
+    updateStats();
+
+  }
+
+
+  function renderOrders() {
+
+    const table =
+      document.getElementById(
+        "ordersTable"
+      );
+
+
+    if (!orders.length) {
+
+      table.innerHTML = `
+        <tr>
+          <td colspan="7">
+
+            <div class="empty">
+
+              <div class="empty-icon">
+                🛒
+              </div>
+
+              עדיין אין הזמנות
+
+            </div>
+
+          </td>
+        </tr>
+      `;
+
+      return;
+
+    }
+
+
+    table.innerHTML =
+      orders.map(order => {
+
+        let items = [];
+
+        try {
+
+          items =
+            typeof order.items === "string"
+              ? JSON.parse(order.items)
+              : order.items || [];
+
+        } catch {
+
+          items = [];
+
+        }
+
+
+        const itemsHtml =
+          items.map(item => `
+            <div>
+              ${escapeHtml(item.name || "")}
+              × ${item.quantity || 1}
+            </div>
+          `).join("");
+
+
+        return `
+
+          <tr>
+
+            <td>
+
+              <div class="order-number">
+                ${escapeHtml(
+                  order.order_number
+                )}
+              </div>
+
+              <div style="
+                color:#718096;
+                font-size:12px;
+              ">
+
+                ${formatDate(
+                  order.created_at
+                )}
+
+              </div>
+
+            </td>
+
+
+            <td>
+
+              <div class="customer-details">
+
+                <strong>
+                  ${escapeHtml(
+                    order.customer_name
+                  )}
+                </strong>
+
+                <br>
+
+                📞
+                ${escapeHtml(
+                  order.phone
+                )}
+
+                <br>
+
+                ✉️
+                ${escapeHtml(
+                  order.email || "-"
+                )}
+
+                <br>
+
+                📍
+                ${escapeHtml(
+                  order.city
+                )},
+                ${escapeHtml(
+                  order.street
+                )}
+                ${escapeHtml(
+                  order.house_number
+                )}
+
+              </div>
+
+            </td>
+
+
+            <td>
+
+              <div class="order-items">
+
+                ${itemsHtml}
+
+              </div>
+
+            </td>
+
+
+            <td>
+
+              ${
+                order.shipping ===
+                "איסוף עצמי"
+
+                  ? `
+                    <span class="badge badge-orange">
+                      🏪 איסוף עצמי
+                    </span>
+                  `
+
+                  : `
+                    <span class="badge badge-blue">
+                      🚚 משלוח
+                    </span>
+                  `
+              }
+
+            </td>
+
+
+            <td>
+
+              <div class="order-total">
+
+                ${Number(
+                  order.total || 0
+                ).toLocaleString("he-IL")}
+
+                ₪
+
+              </div>
+
+            </td>
+
+
+            <td>
+
+              <select
+                onchange="
+                  updateOrderStatus(
+                    ${order.id},
+                    this.value
+                  )">
+
+                ${orderStatusOptions(
+                  order.status
+                )}
+
+              </select>
+
+            </td>
+
+
+            <td>
+
+              <button
+                class="btn btn-danger"
+                onclick="
+                  deleteOrder(
+                    ${order.id}
+                  )">
+
+                🗑️
+
+              </button>
+
+            </td>
+
+          </tr>
+
+        `;
+
+      }).join("");
+
+  }
+
+
+  function orderStatusOptions(current) {
+
+    const statuses = [
+      "חדשה",
+      "בטיפול",
+      "נשלחה",
+      "הושלמה"
+    ];
+
+
+    return statuses.map(status => `
+
+      <option
+        value="${status}"
+        ${status === current
+          ? "selected"
+          : ""}>
+
+        ${status}
+
+      </option>
+
+    `).join("");
+
+  }
+
+
+  async function updateOrderStatus(
+    id,
+    status
+  ) {
+
     try {
 
-      orders =
-        await api(
-          "/api/orders"
-        );
+      await api(
+        `/api/orders/${id}`,
+        {
+          method: "PATCH",
+          body: JSON.stringify({
+            status
+          })
+        }
+      );
 
-      renderOrders();
-      updateDashboard();
+      showToast(
+        "סטטוס ההזמנה עודכן",
+        "success"
+      );
+
+      await loadOrders();
 
     } catch (error) {
 
@@ -1892,13 +2723,208 @@
         error.message,
         "error"
       );
+
     }
+
   }
 
 
-  /* =====================================================
+  async function deleteOrder(id) {
+
+    if (
+      !confirm(
+        "האם למחוק את ההזמנה?"
+      )
+    ) {
+
+      return;
+
+    }
+
+
+    try {
+
+      await api(
+        `/api/orders/${id}`,
+        {
+          method: "DELETE"
+        }
+      );
+
+      showToast(
+        "ההזמנה נמחקה",
+        "success"
+      );
+
+      await loadOrders();
+
+    } catch (error) {
+
+      showToast(
+        error.message,
+        "error"
+      );
+
+    }
+
+  }
+
+
+  /* =========================
+     STATS
+  ========================= */
+
+  function updateStats() {
+
+    document
+      .getElementById("statProducts")
+      .textContent =
+        products.filter(
+          p => p.active
+        ).length;
+
+
+    document
+      .getElementById("statOrders")
+      .textContent =
+        orders.length;
+
+
+    const revenue =
+      orders.reduce(
+        (sum, order) =>
+          sum +
+          Number(order.total || 0),
+        0
+      );
+
+
+    document
+      .getElementById("statRevenue")
+      .textContent =
+        revenue.toLocaleString(
+          "he-IL"
+        ) + " ₪";
+
+
+    document
+      .getElementById("statCategories")
+      .textContent =
+        categories.length;
+
+
+    renderRecentOrders();
+
+  }
+
+
+  function renderRecentOrders() {
+
+    const container =
+      document.getElementById(
+        "recentOrders"
+      );
+
+
+    const recent =
+      orders.slice(0, 5);
+
+
+    if (!recent.length) {
+
+      container.innerHTML = `
+        <div class="empty">
+          <div class="empty-icon">
+            🛒
+          </div>
+          אין עדיין הזמנות
+        </div>
+      `;
+
+      return;
+
+    }
+
+
+    container.innerHTML = `
+
+      <div class="table-wrap">
+
+        <table>
+
+          <thead>
+
+            <tr>
+
+              <th>
+                הזמנה
+              </th>
+
+              <th>
+                לקוח
+              </th>
+
+              <th>
+                סה״כ
+              </th>
+
+              <th>
+                סטטוס
+              </th>
+
+            </tr>
+
+          </thead>
+
+          <tbody>
+
+            ${recent.map(order => `
+
+              <tr>
+
+                <td class="order-number">
+                  ${escapeHtml(
+                    order.order_number
+                  )}
+                </td>
+
+                <td>
+                  ${escapeHtml(
+                    order.customer_name
+                  )}
+                </td>
+
+                <td class="order-total">
+                  ${Number(
+                    order.total || 0
+                  ).toLocaleString("he-IL")}
+                  ₪
+                </td>
+
+                <td>
+                  ${escapeHtml(
+                    order.status || "חדשה"
+                  )}
+                </td>
+
+              </tr>
+
+            `).join("")}
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    `;
+
+  }
+
+
+  /* =========================
      NAVIGATION
-  ===================================================== */
+  ========================= */
 
   function showSection(
     sectionId,
@@ -1922,7 +2948,7 @@
 
 
     document
-      .querySelectorAll(".nav-btn")
+      .querySelectorAll(".nav button")
       .forEach(btn => {
 
         btn.classList.remove(
@@ -1932,36 +2958,31 @@
       });
 
 
-    if (button) {
-      button.classList.add("active");
-    }
+    button.classList.add("active");
 
 
     const titles = {
 
       dashboard:
-        "דשבורד",
+        "סטטיסטיקות",
 
       products:
         "ניהול מוצרים",
+
+      categories:
+        "ניהול קטגוריות",
 
       orders:
         "ניהול הזמנות"
 
     };
 
+
     document
       .getElementById("pageTitle")
       .textContent =
-      titles[sectionId] ||
-      "Dada Best";
+        titles[sectionId];
 
-
-    if (sectionId === "products") {
-
-      loadProducts();
-
-    }
 
     if (sectionId === "orders") {
 
@@ -1969,1345 +2990,50 @@
 
     }
 
-    if (sectionId === "dashboard") {
+    if (sectionId === "products") {
 
       loadProducts();
-      loadOrders();
+
+    }
+
+    if (sectionId === "categories") {
+
+      loadCategories();
 
     }
 
   }
 
 
-  async function refreshCurrentSection() {
-
-    const active =
-      document
-        .querySelector(
-          ".section.active"
-        );
-
-    if (!active) return;
-
-    if (active.id === "products") {
-
-      await loadProducts();
-
-    } else if (active.id === "orders") {
-
-      await loadOrders();
-
-    } else {
-
-      await loadProducts();
-      await loadOrders();
-
-    }
-
-    showToast(
-      "הנתונים עודכנו",
-      "success"
-    );
-  }
-
-
-  /* =====================================================
-     DASHBOARD
-  ===================================================== */
-
-  function updateDashboard() {
-
-    const activeProducts =
-      products.filter(
-        product =>
-          product.active === true ||
-          product.active === "true"
-      );
-
-    const revenue =
-      orders.reduce(
-        (sum, order) =>
-          sum +
-          Number(order.total || 0),
-        0
-      );
-
-    const newOrders =
-      orders.filter(
-        order =>
-          order.status === "חדשה"
-      ).length;
-
-
-    document
-      .getElementById("statProducts")
-      .textContent =
-      activeProducts.length;
-
-
-    document
-      .getElementById("statOrders")
-      .textContent =
-      orders.length;
-
-
-    document
-      .getElementById("statNewOrders")
-      .textContent =
-      newOrders;
-
-
-    document
-      .getElementById("statRevenue")
-      .textContent =
-      formatMoney(revenue);
-
-
-    renderDashboardOrders();
-  }
-
-
-  function renderDashboardOrders() {
-
-    const container =
-      document
-        .getElementById(
-          "dashboardOrders"
-        );
-
-    const recent =
-      orders.slice(0, 5);
-
-
-    if (!recent.length) {
-
-      container.innerHTML = `
-        <div class="empty">
-          <div class="empty-icon">📦</div>
-          עדיין אין הזמנות
-        </div>
-      `;
-
-      return;
-    }
-
-
-    container.innerHTML = `
-
-      <div class="table-scroll">
-
-        <table>
-
-          <thead>
-
-            <tr>
-              <th>הזמנה</th>
-              <th>לקוח</th>
-              <th>סכום</th>
-              <th>סטטוס</th>
-            </tr>
-
-          </thead>
-
-          <tbody>
-
-            ${recent.map(order => `
-
-              <tr>
-
-                <td class="order-number">
-                  ${escapeHtml(
-                    order.order_number
-                  )}
-                </td>
-
-                <td>
-                  ${escapeHtml(
-                    order.customer_name
-                  )}
-                </td>
-
-                <td>
-                  <strong>
-                    ${formatMoney(
-                      order.total
-                    )}
-                  </strong>
-                </td>
-
-                <td>
-                  ${statusBadge(
-                    order.status
-                  )}
-                </td>
-
-              </tr>
-
-            `).join("")}
-
-          </tbody>
-
-        </table>
-
-      </div>
-
-    `;
-  }
-
-
-  /* =====================================================
-     PRODUCTS
-  ===================================================== */
-
-  function renderProducts() {
-
-    const container =
-      document
-        .getElementById(
-          "productsGrid"
-        );
-
-    const search =
-      (
-        document
-          .getElementById(
-            "productSearch"
-          )
-          ?.value || ""
-      )
-        .trim()
-        .toLowerCase();
-
-
-    const filtered =
-      products.filter(product => {
-
-        const text = `
-          ${product.name}
-          ${product.description}
-        `.toLowerCase();
-
-        return text.includes(search);
-
-      });
-
-
-    if (!filtered.length) {
-
-      container.innerHTML = `
-        <div class="empty" style="grid-column:1/-1">
-
-          <div class="empty-icon">
-            🛍️
-          </div>
-
-          לא נמצאו מוצרים
-
-        </div>
-      `;
-
-      return;
-    }
-
-
-    container.innerHTML =
-      filtered.map(product => {
-
-        const active =
-          product.active === true ||
-          product.active === "true";
-
-
-        const image =
-          product.image || "🛍️";
-
-
-        const imageHtml =
-          image.startsWith("http")
-            ? `
-              <img
-                src="${escapeAttribute(image)}"
-                alt="${escapeAttribute(product.name)}"
-                onerror="this.style.display='none'"
-              >
-            `
-            : `
-              ${escapeHtml(image)}
-            `;
-
-
-        return `
-
-          <div
-            class="product-card
-              ${active ? "" : "inactive"}"
-          >
-
-            <div class="product-image">
-              ${imageHtml}
-            </div>
-
-
-            <div class="product-body">
-
-              <div class="product-name">
-                ${escapeHtml(
-                  product.name
-                )}
-              </div>
-
-
-              <div class="product-description">
-                ${escapeHtml(
-                  product.description || ""
-                )}
-              </div>
-
-
-              <div class="product-price">
-                ${formatMoney(
-                  product.price
-                )}
-              </div>
-
-
-              <div class="stock">
-                מלאי:
-                ${Number(product.stock || 0)}
-              </div>
-
-
-              ${
-                active
-
-                ? `
-                  <span class="active-badge">
-                    ● פעיל באתר
-                  </span>
-                `
-
-                : `
-                  <span class="inactive-badge">
-                    ● מוסתר
-                  </span>
-                `
-              }
-
-
-              <div class="product-actions">
-
-                <button
-                  class="edit-btn"
-                  onclick="editProduct(${product.id})"
-                >
-                  ✏️ עריכה
-                </button>
-
-
-                <button
-                  class="delete-btn"
-                  onclick="deleteProduct(${product.id})"
-                >
-                  🗑️ מחיקה
-                </button>
-
-              </div>
-
-            </div>
-
-          </div>
-
-        `;
-
-      }).join("");
-  }
-
-
-  /* =====================================================
-     PRODUCT MODAL
-  ===================================================== */
-
-  function openProductModal(
-    product = null
-  ) {
-
-    editingProductId =
-      product
-        ? product.id
-        : null;
-
-
-    document
-      .getElementById(
-        "productModalTitle"
-      )
-      .textContent =
-      product
-        ? "עריכת מוצר"
-        : "מוצר חדש";
-
-
-    document
-      .getElementById(
-        "productName"
-      )
-      .value =
-      product?.name || "";
-
-
-    document
-      .getElementById(
-        "productDescription"
-      )
-      .value =
-      product?.description || "";
-
-
-    document
-      .getElementById(
-        "productPrice"
-      )
-      .value =
-      product
-        ? product.price
-        : "";
-
-
-    document
-      .getElementById(
-        "productStock"
-      )
-      .value =
-      product
-        ? product.stock
-        : "";
-
-
-    document
-      .getElementById(
-        "productImage"
-      )
-      .value =
-      product?.image || "";
-
-
-    document
-      .getElementById(
-        "productActive"
-      )
-      .value =
-      product
-        ? String(product.active)
-        : "true";
-
-
-    document
-      .getElementById(
-        "productModal"
-      )
-      .classList.add("open");
-  }
-
-
-  function closeProductModal() {
-
-    document
-      .getElementById(
-        "productModal"
-      )
-      .classList.remove("open");
-
-    editingProductId = null;
-  }
-
-
-  function editProduct(id) {
-
-    const product =
-      products.find(
-        item =>
-          Number(item.id) === Number(id)
-      );
-
-    if (!product) return;
-
-    openProductModal(product);
-  }
-
-
-  async function saveProduct() {
-
-    const name =
-      document
-        .getElementById(
-          "productName"
-        )
-        .value
-        .trim();
-
-
-    const description =
-      document
-        .getElementById(
-          "productDescription"
-        )
-        .value
-        .trim();
-
-
-    const price =
-      Number(
-        document
-          .getElementById(
-            "productPrice"
-          )
-          .value
-      );
-
-
-    const stock =
-      Number(
-        document
-          .getElementById(
-            "productStock"
-          )
-          .value
-      );
-
-
-    const image =
-      document
-        .getElementById(
-          "productImage"
-        )
-        .value
-        .trim();
-
-
-    const active =
-      document
-        .getElementById(
-          "productActive"
-        )
-        .value === "true";
-
-
-    if (!name) {
-
-      showToast(
-        "נא להזין שם מוצר",
-        "error"
-      );
-
-      return;
-    }
-
-
-    if (
-      !Number.isFinite(price) ||
-      price < 0
-    ) {
-
-      showToast(
-        "מחיר לא תקין",
-        "error"
-      );
-
-      return;
-    }
-
-
-    if (
-      !Number.isInteger(stock) ||
-      stock < 0
-    ) {
-
-      showToast(
-        "מלאי לא תקין",
-        "error"
-      );
-
-      return;
-    }
-
-
-    const payload = {
-
-      name,
-      description,
-      price,
-      stock,
-      image,
-      active
-
-    };
-
-
-    try {
-
-      if (editingProductId) {
-
-        await api(
-          `/api/admin/products/${editingProductId}`,
-          {
-            method: "PATCH",
-            body: JSON.stringify(payload)
-          }
-        );
-
-        showToast(
-          "המוצר עודכן בהצלחה",
-          "success"
-        );
-
-      } else {
-
-        await api(
-          "/api/admin/products",
-          {
-            method: "POST",
-            body: JSON.stringify(payload)
-          }
-        );
-
-        showToast(
-          "המוצר נוסף בהצלחה",
-          "success"
-        );
-      }
-
-
-      closeProductModal();
-
-      await loadProducts();
-
-    } catch (error) {
-
-      showToast(
-        error.message,
-        "error"
-      );
-    }
-  }
-
-
-  async function deleteProduct(id) {
-
-    const product =
-      products.find(
-        item =>
-          Number(item.id) === Number(id)
-      );
-
-
-    if (!product) return;
-
-
-    const confirmed =
-      confirm(
-        `האם למחוק את המוצר "${product.name}"?`
-      );
-
-
-    if (!confirmed) return;
-
-
-    try {
-
-      await api(
-        `/api/admin/products/${id}`,
-        {
-          method: "DELETE"
-        }
-      );
-
-
-      showToast(
-        "המוצר נמחק",
-        "success"
-      );
-
-
-      await loadProducts();
-
-    } catch (error) {
-
-      showToast(
-        error.message,
-        "error"
-      );
-    }
-  }
-
-
-  /* =====================================================
-     ORDERS
-  ===================================================== */
-
-  function renderOrders() {
-
-    const tbody =
-      document
-        .getElementById(
-          "ordersTable"
-        );
-
-
-    const search =
-      (
-        document
-          .getElementById(
-            "orderSearch"
-          )
-          ?.value || ""
-      )
-        .trim()
-        .toLowerCase();
-
-
-    const filter =
-      document
-        .getElementById(
-          "orderFilter"
-        )
-        ?.value || "";
-
-
-    const filtered =
-      orders.filter(order => {
-
-        const searchText = `
-
-          ${order.order_number}
-          ${order.customer_name}
-          ${order.phone}
-          ${order.email || ""}
-          ${order.city}
-
-        `.toLowerCase();
-
-
-        const matchesSearch =
-          searchText.includes(search);
-
-
-        const matchesStatus =
-          !filter ||
-          order.status === filter;
-
-
-        return (
-          matchesSearch &&
-          matchesStatus
-        );
-
-      });
-
-
-    if (!filtered.length) {
-
-      tbody.innerHTML = `
-
-        <tr>
-
-          <td
-            colspan="7"
-            class="empty"
-          >
-
-            <div class="empty-icon">
-              📦
-            </div>
-
-            אין הזמנות להצגה
-
-          </td>
-
-        </tr>
-
-      `;
-
-      return;
-    }
-
-
-    tbody.innerHTML =
-      filtered.map(order => {
-
-        const date =
-          formatDate(
-            order.created_at
-          );
-
-
-        return `
-
-          <tr>
-
-            <td>
-
-              <div class="order-number">
-                ${escapeHtml(
-                  order.order_number
-                )}
-              </div>
-
-            </td>
-
-
-            <td>
-
-              <div class="customer-name">
-                ${escapeHtml(
-                  order.customer_name
-                )}
-              </div>
-
-              <div class="customer-phone">
-                ${escapeHtml(
-                  order.phone
-                )}
-              </div>
-
-            </td>
-
-
-            <td>
-
-              ${escapeHtml(
-                order.shipping ||
-                "משלוח רגיל"
-              )}
-
-              <div style="
-                color:#6b7280;
-                margin-top:4px;
-                font-size:12px;
-              ">
-
-                ${escapeHtml(
-                  order.city || ""
-                )}
-
-              </div>
-
-            </td>
-
-
-            <td>
-
-              <strong>
-                ${formatMoney(
-                  order.total
-                )}
-              </strong>
-
-            </td>
-
-
-            <td>
-              ${date}
-            </td>
-
-
-            <td>
-
-              <select
-                class="status ${statusClass(order.status)}"
-                onchange="
-                  updateOrderStatus(
-                    ${order.id},
-                    this.value
-                  )
-                "
-              >
-
-                <option
-                  value="חדשה"
-                  ${order.status === "חדשה" ? "selected" : ""}
-                >
-                  חדשה
-                </option>
-
-                <option
-                  value="בטיפול"
-                  ${order.status === "בטיפול" ? "selected" : ""}
-                >
-                  בטיפול
-                </option>
-
-                <option
-                  value="נשלחה"
-                  ${order.status === "נשלחה" ? "selected" : ""}
-                >
-                  נשלחה
-                </option>
-
-                <option
-                  value="הושלמה"
-                  ${order.status === "הושלמה" ? "selected" : ""}
-                >
-                  הושלמה
-                </option>
-
-              </select>
-
-            </td>
-
-
-            <td>
-
-              <button
-                class="view-btn"
-                onclick="
-                  openOrderModal(${order.id})
-                "
-              >
-                👁️ פרטים
-              </button>
-
-            </td>
-
-          </tr>
-
-        `;
-
-      }).join("");
-  }
-
-
-  async function updateOrderStatus(
-    id,
-    status
-  ) {
-
-    try {
-
-      await api(
-        `/api/orders/${id}`,
-        {
-          method: "PATCH",
-          body: JSON.stringify({
-            status
-          })
-        }
-      );
-
-
-      const order =
-        orders.find(
-          item =>
-            Number(item.id) === Number(id)
-        );
-
-
-      if (order) {
-        order.status = status;
-      }
-
-
-      updateDashboard();
-
-      showToast(
-        "סטטוס ההזמנה עודכן",
-        "success"
-      );
-
-    } catch (error) {
-
-      showToast(
-        error.message,
-        "error"
-      );
-
-      await loadOrders();
-    }
-  }
-
-
-  /* =====================================================
-     ORDER DETAILS
-  ===================================================== */
-
-  function openOrderModal(id) {
-
-    const order =
-      orders.find(
-        item =>
-          Number(item.id) === Number(id)
-      );
-
-
-    if (!order) return;
-
-
-    let items = [];
-
-
-    try {
-
-      items =
-        typeof order.items === "string"
-          ? JSON.parse(order.items)
-          : order.items || [];
-
-    } catch {
-
-      items = [];
-
-    }
-
-
-    const address = [
-
-      order.city,
-      order.street,
-      order.house_number
-        ? "בית " + order.house_number
-        : "",
-      order.apartment
-        ? "דירה " + order.apartment
-        : "",
-      order.zip
-        ? "מיקוד " + order.zip
-        : ""
-
-    ]
-      .filter(Boolean)
-      .join(", ");
-
-
-    document
-      .getElementById(
-        "orderDetails"
-      )
-      .innerHTML = `
-
-        <div class="detail-grid">
-
-          <div class="detail-box">
-
-            <strong>
-              מספר הזמנה
-            </strong>
-
-            ${escapeHtml(
-              order.order_number
-            )}
-
-          </div>
-
-
-          <div class="detail-box">
-
-            <strong>
-              תאריך
-            </strong>
-
-            ${formatDate(
-              order.created_at
-            )}
-
-          </div>
-
-
-          <div class="detail-box">
-
-            <strong>
-              שם הלקוח
-            </strong>
-
-            ${escapeHtml(
-              order.customer_name
-            )}
-
-          </div>
-
-
-          <div class="detail-box">
-
-            <strong>
-              טלפון
-            </strong>
-
-            ${escapeHtml(
-              order.phone
-            )}
-
-          </div>
-
-
-          <div class="detail-box">
-
-            <strong>
-              אימייל
-            </strong>
-
-            ${escapeHtml(
-              order.email ||
-              "לא הוזן"
-            )}
-
-          </div>
-
-
-          <div class="detail-box">
-
-            <strong>
-              סוג קבלה
-            </strong>
-
-            ${escapeHtml(
-              order.shipping ||
-              "משלוח רגיל"
-            )}
-
-          </div>
-
-
-          <div class="detail-box">
-
-            <strong>
-              כתובת
-            </strong>
-
-            ${escapeHtml(
-              address ||
-              "לא הוזנה"
-            )}
-
-          </div>
-
-
-          <div class="detail-box">
-
-            <strong>
-              סטטוס
-            </strong>
-
-            ${statusBadge(
-              order.status
-            )}
-
-          </div>
-
-        </div>
-
-
-        <div class="order-items">
-
-          <h3>
-            🛍️ מוצרים בהזמנה
-          </h3>
-
-
-          ${
-            items.length
-
-              ? items.map(item => `
-
-                  <div class="order-item">
-
-                    <div>
-
-                      <strong>
-                        ${escapeHtml(
-                          item.name || "מוצר"
-                        )}
-                      </strong>
-
-                      <div style="
-                        color:#6b7280;
-                        margin-top:4px;
-                      ">
-
-                        כמות:
-                        ${Number(
-                          item.quantity || 1
-                        )}
-
-                      </div>
-
-                    </div>
-
-
-                    <strong>
-
-                      ${formatMoney(
-                        Number(item.price || 0) *
-                        Number(item.quantity || 1)
-                      )}
-
-                    </strong>
-
-                  </div>
-
-                `).join("")
-
-              : `
-                <div class="empty">
-                  לא נמצאו פריטים
-                </div>
-              `
-          }
-
-
-          <div class="order-total">
-
-            סה״כ:
-            ${formatMoney(
-              order.total
-            )}
-
-          </div>
-
-        </div>
-
-
-        ${
-          order.notes
-
-            ? `
-
-              <div
-                class="detail-box"
-                style="margin-top:18px"
-              >
-
-                <strong>
-                  הערות הלקוח
-                </strong>
-
-                ${escapeHtml(
-                  order.notes
-                )}
-
-              </div>
-
-            `
-
-            : ""
-        }
-
-      `;
-
-
-    document
-      .getElementById(
-        "orderModal"
-      )
-      .classList.add("open");
-  }
-
-
-  function closeOrderModal() {
-
-    document
-      .getElementById(
-        "orderModal"
-      )
-      .classList.remove("open");
-  }
-
-
-  /* =====================================================
+  /* =========================
      HELPERS
-  ===================================================== */
+  ========================= */
 
-  function formatMoney(value) {
+  function escapeHtml(value) {
 
-    return (
-      Number(value || 0)
-        .toLocaleString(
-          "he-IL",
-          {
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 2
-          }
-        )
-      + " ₪"
-    );
+    return String(value ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+
   }
 
 
   function formatDate(date) {
 
-    if (!date) return "-";
+    if (!date) return "";
 
+    return new Date(date)
+      .toLocaleString(
+        "he-IL",
+        {
+          dateStyle: "short",
+          timeStyle: "short"
+        }
+      );
 
-    const d =
-      new Date(date);
-
-
-    if (Number.isNaN(d.getTime())) {
-      return "-";
-    }
-
-
-    return d.toLocaleString(
-      "he-IL",
-      {
-        dateStyle: "short",
-        timeStyle: "short"
-      }
-    );
-  }
-
-
-  function statusClass(status) {
-
-    if (status === "חדשה") {
-      return "status-new";
-    }
-
-    if (status === "בטיפול") {
-      return "status-work";
-    }
-
-    if (status === "נשלחה") {
-      return "status-shipped";
-    }
-
-    if (status === "הושלמה") {
-      return "status-done";
-    }
-
-    return "";
-  }
-
-
-  function statusBadge(status) {
-
-    return `
-
-      <span
-        class="status ${statusClass(status)}"
-      >
-        ${escapeHtml(
-          status || "חדשה"
-        )}
-      </span>
-
-    `;
-  }
-
-
-  function escapeHtml(value) {
-
-    return String(
-      value ?? ""
-    )
-      .replaceAll("&", "&amp;")
-      .replaceAll("<", "&lt;")
-      .replaceAll(">", "&gt;")
-      .replaceAll('"', "&quot;")
-      .replaceAll("'", "&#039;");
-  }
-
-
-  function escapeAttribute(value) {
-
-    return escapeHtml(value);
   }
 
 
@@ -3317,164 +3043,80 @@
   ) {
 
     const toast =
-      document
-        .getElementById(
-          "toast"
-        );
-
+      document.getElementById(
+        "toast"
+      );
 
     toast.textContent = text;
 
     toast.className =
-      "toast show " +
-      type;
+      "toast show " + type;
 
 
-    clearTimeout(
-      window.toastTimer
-    );
+    setTimeout(() => {
 
+      toast.classList.remove(
+        "show"
+      );
 
-    window.toastTimer =
-      setTimeout(() => {
+    }, 3000);
 
-        toast.classList.remove(
-          "show"
-        );
-
-      }, 3500);
   }
 
 
-  /* =====================================================
-     MODAL CLOSE ON BACKDROP
-  ===================================================== */
-
-  document
-    .getElementById(
-      "productModal"
-    )
-    .addEventListener(
-      "click",
-      function(event) {
-
-        if (
-          event.target === this
-        ) {
-
-          closeProductModal();
-
-        }
-
-      }
-    );
-
-
-  document
-    .getElementById(
-      "orderModal"
-    )
-    .addEventListener(
-      "click",
-      function(event) {
-
-        if (
-          event.target === this
-        ) {
-
-          closeOrderModal();
-
-        }
-
-      }
-    );
-
-
-  /* =====================================================
-     ENTER LOGIN
-  ===================================================== */
-
-  document
-    .getElementById(
-      "adminPassword"
-    )
-    .addEventListener(
-      "keydown",
-      function(event) {
-
-        if (
-          event.key === "Enter"
-        ) {
-
-          login();
-
-        }
-
-      }
-    );
-
-
-  /* =====================================================
+  /* =========================
      AUTO LOGIN
-  ===================================================== */
+  ========================= */
 
-  window.addEventListener(
-    "DOMContentLoaded",
-    async function() {
+  async function autoLogin() {
 
-      const savedKey =
-        localStorage.getItem(
-          "dada_admin_key"
+    if (!adminKey) return;
+
+    try {
+
+      const response =
+        await fetch(
+          "/api/admin/products",
+          {
+            headers: {
+              "x-admin-key": adminKey
+            }
+          }
         );
 
 
-      if (!savedKey) {
-        return;
-      }
+      if (!response.ok) {
 
-
-      adminKey = savedKey;
-
-
-      try {
-
-        products =
-          await api(
-            "/api/admin/products"
-          );
-
-        await loadOrders();
-
-
-        document
-          .getElementById(
-            "loginScreen"
-          )
-          .style.display = "none";
-
-
-        document
-          .getElementById(
-            "admin"
-          )
-          .style.display = "block";
-
-
-        renderProducts();
-        renderOrders();
-        updateDashboard();
-
-      } catch {
-
-        localStorage.removeItem(
-          "dada_admin_key"
-        );
-
-        adminKey = "";
+        throw new Error();
 
       }
 
-    });
+
+      document
+        .getElementById("loginScreen")
+        .style.display = "none";
+
+      document
+        .getElementById("app")
+        .style.display = "block";
+
+
+      await loadAll();
+
+    } catch {
+
+      localStorage.removeItem(
+        "dada_admin_key"
+      );
+
+      adminKey = "";
+
+    }
+
+  }
+
+
+  autoLogin();
 
 </script>
 
