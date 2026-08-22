@@ -1,4 +1,3 @@
-```javascript
 const express = require("express");
 const { Pool } = require("pg");
 const path = require("path");
@@ -46,7 +45,6 @@ function requireAdmin(req, res, next) {
 ========================= */
 
 async function initDatabase() {
-
   await pool.query(`
     CREATE TABLE IF NOT EXISTS orders (
       id SERIAL PRIMARY KEY,
@@ -82,23 +80,21 @@ async function initDatabase() {
     )
   `);
 
-  /* מוצרים ראשוניים - נוצרים רק אם הטבלה ריקה */
   const countResult = await pool.query(
     "SELECT COUNT(*)::int AS count FROM products"
   );
 
   if (countResult.rows[0].count === 0) {
-
     await pool.query(`
       INSERT INTO products
-        (name, description, price, stock, image)
+        (name, description, price, stock, image, active)
       VALUES
-        ('מצלמת אבטחה 4MP', 'מצלמת IP איכותית לבית ולעסק.', 349, 20, '📹'),
-        ('NVR 8 ערוצים', 'מערכת הקלטה לעד 8 מצלמות.', 799, 10, '💾'),
-        ('דיסק קשיח 2TB', 'דיסק ייעודי למערכות הקלטה.', 449, 15, '💽'),
-        ('מצלמת WiFi', 'מצלמה אלחוטית עם צפייה מהטלפון.', 299, 25, '📡'),
-        ('ספק כוח למצלמות', 'ספק כוח איכותי למערכות אבטחה.', 89, 40, '🔌'),
-        ('ערכת התקנה', 'ציוד בסיסי להתקנת מצלמות.', 159, 12, '🧰')
+        ('מצלמת אבטחה 4MP', 'מצלמת IP איכותית לבית ולעסק.', 349, 20, '📹', TRUE),
+        ('NVR 8 ערוצים', 'מערכת הקלטה לעד 8 מצלמות.', 799, 10, '💾', TRUE),
+        ('דיסק קשיח 2TB', 'דיסק ייעודי למערכות הקלטה.', 449, 15, '💽', TRUE),
+        ('מצלמת WiFi', 'מצלמה אלחוטית עם צפייה מהטלפון.', 299, 25, '📡', TRUE),
+        ('ספק כוח למצלמות', 'ספק כוח איכותי למערכות אבטחה.', 89, 40, '🔌', TRUE),
+        ('ערכת התקנה', 'ציוד בסיסי להתקנת מצלמות.', 159, 12, '🧰', TRUE)
     `);
 
     console.log("Initial products created");
@@ -112,22 +108,19 @@ async function initDatabase() {
 ========================= */
 
 app.get("/api/health", async (req, res) => {
-
   try {
-
     await pool.query("SELECT 1");
 
     res.json({
       success: true,
       message: "Dada Best server is working"
     });
-
   } catch (error) {
-
-    console.error(error);
+    console.error("HEALTH ERROR:", error);
 
     res.status(500).json({
-      success: false
+      success: false,
+      error: "Database connection failed"
     });
   }
 });
@@ -137,9 +130,7 @@ app.get("/api/health", async (req, res) => {
 ========================= */
 
 app.get("/api/products", async (req, res) => {
-
   try {
-
     const result = await pool.query(`
       SELECT
         id,
@@ -155,9 +146,7 @@ app.get("/api/products", async (req, res) => {
     `);
 
     res.json(result.rows);
-
   } catch (error) {
-
     console.error("LOAD PRODUCTS ERROR:", error);
 
     res.status(500).json({
@@ -171,9 +160,7 @@ app.get("/api/products", async (req, res) => {
 ========================= */
 
 app.get("/api/admin/products", requireAdmin, async (req, res) => {
-
   try {
-
     const result = await pool.query(`
       SELECT *
       FROM products
@@ -181,9 +168,7 @@ app.get("/api/admin/products", requireAdmin, async (req, res) => {
     `);
 
     res.json(result.rows);
-
   } catch (error) {
-
     console.error("ADMIN PRODUCTS ERROR:", error);
 
     res.status(500).json({
@@ -192,74 +177,8 @@ app.get("/api/admin/products", requireAdmin, async (req, res) => {
   }
 });
 
-
 app.post("/api/admin/products", requireAdmin, async (req, res) => {
-
   try {
-
-    const {
-      name,
-      description,
-      price,
-      stock,
-      image
-    } = req.body;
-
-    if (!name || !String(name).trim()) {
-
-      return res.status(400).json({
-        error: "Product name is required"
-      });
-    }
-
-    const productPrice = Number(price);
-    const productStock = Number(stock);
-
-    if (!Number.isFinite(productPrice) || productPrice < 0) {
-
-      return res.status(400).json({
-        error: "Invalid price"
-      });
-    }
-
-    if (!Number.isInteger(productStock) || productStock < 0) {
-
-      return res.status(400).json({
-        error: "Invalid stock"
-      });
-    }
-
-    const result = await pool.query(`
-      INSERT INTO products
-        (name, description, price, stock, image)
-      VALUES
-        ($1, $2, $3, $4, $5)
-      RETURNING *
-    `, [
-      String(name).trim(),
-      String(description || "").trim(),
-      productPrice,
-      productStock,
-      String(image || "").trim()
-    ]);
-
-    res.status(201).json(result.rows[0]);
-
-  } catch (error) {
-
-    console.error("CREATE PRODUCT ERROR:", error);
-
-    res.status(500).json({
-      error: "Failed to create product"
-    });
-  }
-});
-
-
-app.patch("/api/admin/products/:id", requireAdmin, async (req, res) => {
-
-  try {
-
     const {
       name,
       description,
@@ -270,7 +189,6 @@ app.patch("/api/admin/products/:id", requireAdmin, async (req, res) => {
     } = req.body;
 
     if (!name || !String(name).trim()) {
-
       return res.status(400).json({
         error: "Product name is required"
       });
@@ -280,14 +198,69 @@ app.patch("/api/admin/products/:id", requireAdmin, async (req, res) => {
     const productStock = Number(stock);
 
     if (!Number.isFinite(productPrice) || productPrice < 0) {
-
       return res.status(400).json({
         error: "Invalid price"
       });
     }
 
     if (!Number.isInteger(productStock) || productStock < 0) {
+      return res.status(400).json({
+        error: "Invalid stock"
+      });
+    }
 
+    const result = await pool.query(`
+      INSERT INTO products
+        (name, description, price, stock, image, active)
+      VALUES
+        ($1, $2, $3, $4, $5, $6)
+      RETURNING *
+    `, [
+      String(name).trim(),
+      String(description || "").trim(),
+      productPrice,
+      productStock,
+      String(image || "").trim(),
+      active !== false
+    ]);
+
+    res.status(201).json(result.rows[0]);
+  } catch (error) {
+    console.error("CREATE PRODUCT ERROR:", error);
+
+    res.status(500).json({
+      error: "Failed to create product"
+    });
+  }
+});
+
+app.patch("/api/admin/products/:id", requireAdmin, async (req, res) => {
+  try {
+    const {
+      name,
+      description,
+      price,
+      stock,
+      image,
+      active
+    } = req.body;
+
+    if (!name || !String(name).trim()) {
+      return res.status(400).json({
+        error: "Product name is required"
+      });
+    }
+
+    const productPrice = Number(price);
+    const productStock = Number(stock);
+
+    if (!Number.isFinite(productPrice) || productPrice < 0) {
+      return res.status(400).json({
+        error: "Invalid price"
+      });
+    }
+
+    if (!Number.isInteger(productStock) || productStock < 0) {
       return res.status(400).json({
         error: "Invalid stock"
       });
@@ -316,16 +289,13 @@ app.patch("/api/admin/products/:id", requireAdmin, async (req, res) => {
     ]);
 
     if (result.rows.length === 0) {
-
       return res.status(404).json({
         error: "Product not found"
       });
     }
 
     res.json(result.rows[0]);
-
   } catch (error) {
-
     console.error("UPDATE PRODUCT ERROR:", error);
 
     res.status(500).json({
@@ -334,11 +304,8 @@ app.patch("/api/admin/products/:id", requireAdmin, async (req, res) => {
   }
 });
 
-
 app.delete("/api/admin/products/:id", requireAdmin, async (req, res) => {
-
   try {
-
     const result = await pool.query(`
       DELETE FROM products
       WHERE id = $1
@@ -346,7 +313,6 @@ app.delete("/api/admin/products/:id", requireAdmin, async (req, res) => {
     `, [req.params.id]);
 
     if (result.rows.length === 0) {
-
       return res.status(404).json({
         error: "Product not found"
       });
@@ -355,9 +321,7 @@ app.delete("/api/admin/products/:id", requireAdmin, async (req, res) => {
     res.json({
       success: true
     });
-
   } catch (error) {
-
     console.error("DELETE PRODUCT ERROR:", error);
 
     res.status(500).json({
@@ -367,22 +331,18 @@ app.delete("/api/admin/products/:id", requireAdmin, async (req, res) => {
 });
 
 /* =========================
-   ORDERS
+   ORDERS - ADMIN
 ========================= */
 
 app.get("/api/orders", requireAdmin, async (req, res) => {
-
   try {
-
     const result = await pool.query(
       "SELECT * FROM orders ORDER BY created_at DESC"
     );
 
     res.json(result.rows);
-
   } catch (error) {
-
-    console.error(error);
+    console.error("LOAD ORDERS ERROR:", error);
 
     res.status(500).json({
       error: "Failed to load orders"
@@ -390,11 +350,12 @@ app.get("/api/orders", requireAdmin, async (req, res) => {
   }
 });
 
+/* =========================
+   ORDERS - PUBLIC CREATE
+========================= */
 
 app.post("/api/orders", async (req, res) => {
-
   try {
-
     const {
       customer,
       items,
@@ -409,14 +370,12 @@ app.post("/api/orders", async (req, res) => {
       !customer.street ||
       !customer.house
     ) {
-
       return res.status(400).json({
         error: "Missing customer information"
       });
     }
 
     if (!Array.isArray(items) || items.length === 0) {
-
       return res.status(400).json({
         error: "Order is empty"
       });
@@ -447,24 +406,22 @@ app.post("/api/orders", async (req, res) => {
       RETURNING *
     `, [
       orderNumber,
-      customer.name,
-      customer.phone,
-      customer.email || "",
-      customer.city,
-      customer.street,
-      customer.house,
-      customer.apartment || "",
-      customer.zip || "",
-      customer.shipping || "משלוח רגיל",
-      customer.notes || "",
+      String(customer.name).trim(),
+      String(customer.phone).trim(),
+      String(customer.email || "").trim(),
+      String(customer.city).trim(),
+      String(customer.street).trim(),
+      String(customer.house).trim(),
+      String(customer.apartment || "").trim(),
+      String(customer.zip || "").trim(),
+      String(customer.shipping || "משלוח רגיל").trim(),
+      String(customer.notes || "").trim(),
       JSON.stringify(items),
       Number(total) || 0
     ]);
 
     res.status(201).json(result.rows[0]);
-
   } catch (error) {
-
     console.error("CREATE ORDER ERROR:", error);
 
     res.status(500).json({
@@ -473,12 +430,26 @@ app.post("/api/orders", async (req, res) => {
   }
 });
 
+/* =========================
+   ORDERS - ADMIN UPDATE
+========================= */
 
 app.patch("/api/orders/:id", requireAdmin, async (req, res) => {
-
   try {
-
     const { status } = req.body;
+
+    const allowedStatuses = [
+      "חדשה",
+      "בטיפול",
+      "נשלחה",
+      "הושלמה"
+    ];
+
+    if (!allowedStatuses.includes(status)) {
+      return res.status(400).json({
+        error: "Invalid order status"
+      });
+    }
 
     const result = await pool.query(`
       UPDATE orders
@@ -491,17 +462,14 @@ app.patch("/api/orders/:id", requireAdmin, async (req, res) => {
     ]);
 
     if (result.rows.length === 0) {
-
       return res.status(404).json({
         error: "Order not found"
       });
     }
 
     res.json(result.rows[0]);
-
   } catch (error) {
-
-    console.error(error);
+    console.error("UPDATE ORDER ERROR:", error);
 
     res.status(500).json({
       error: "Failed to update order"
@@ -509,23 +477,28 @@ app.patch("/api/orders/:id", requireAdmin, async (req, res) => {
   }
 });
 
+/* =========================
+   ORDERS - ADMIN DELETE
+========================= */
 
 app.delete("/api/orders/:id", requireAdmin, async (req, res) => {
-
   try {
-
-    await pool.query(
-      "DELETE FROM orders WHERE id = $1",
+    const result = await pool.query(
+      "DELETE FROM orders WHERE id = $1 RETURNING id",
       [req.params.id]
     );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({
+        error: "Order not found"
+      });
+    }
 
     res.json({
       success: true
     });
-
   } catch (error) {
-
-    console.error(error);
+    console.error("DELETE ORDER ERROR:", error);
 
     res.status(500).json({
       error: "Failed to delete order"
@@ -538,7 +511,6 @@ app.delete("/api/orders/:id", requireAdmin, async (req, res) => {
 ========================= */
 
 app.get("/", (req, res) => {
-
   res.sendFile(
     path.join(__dirname, "index.html")
   );
@@ -549,24 +521,19 @@ app.get("/", (req, res) => {
 ========================= */
 
 async function start() {
-
   try {
-
     await initDatabase();
 
     app.listen(
       PORT,
       "0.0.0.0",
       () => {
-
         console.log(
           `Dada Best running on port ${PORT}`
         );
       }
     );
-
   } catch (error) {
-
     console.error(
       "SERVER START ERROR:",
       error
@@ -577,4 +544,3 @@ async function start() {
 }
 
 start();
-```
