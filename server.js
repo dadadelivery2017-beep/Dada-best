@@ -77,7 +77,6 @@ async function initDatabase() {
     )
   `);
 
-
   await pool.query(`
     CREATE TABLE IF NOT EXISTS orders (
       id SERIAL PRIMARY KEY,
@@ -99,15 +98,11 @@ async function initDatabase() {
     )
   `);
 
-
-  // חשוב:
-  // אם טבלת orders כבר קיימת מהגרסה הישנה,
-  // העמודה הזאת תתווסף בלי למחוק הזמנות קיימות.
+  // Adds the column if the orders table already existed
   await pool.query(`
     ALTER TABLE orders
     ADD COLUMN IF NOT EXISTS payment_method TEXT DEFAULT ''
   `);
-
 
   console.log('Database ready');
 }
@@ -123,7 +118,6 @@ function adminAuth(req, res, next) {
       req.headers['x-admin-key'] || ''
     );
 
-
   if (
     !key ||
     key !== ADMIN_PASSWORD
@@ -134,7 +128,6 @@ function adminAuth(req, res, next) {
     });
 
   }
-
 
   next();
 }
@@ -154,7 +147,6 @@ app.post(
           req.body?.password || ''
         );
 
-
       if (
         password !==
         ADMIN_PASSWORD
@@ -165,7 +157,6 @@ app.post(
         });
 
       }
-
 
       return res.json({
         success: true,
@@ -178,7 +169,6 @@ app.post(
         'LOGIN ERROR:',
         error
       );
-
 
       return res.status(500).json({
         error:
@@ -208,7 +198,6 @@ app.get(
           ORDER BY id DESC
         `);
 
-
       return res.json(
         result.rows
       );
@@ -219,7 +208,6 @@ app.get(
         'PUBLIC PRODUCTS ERROR:',
         error
       );
-
 
       return res.status(500).json({
         error:
@@ -249,7 +237,6 @@ app.get(
           ORDER BY id DESC
         `);
 
-
       return res.json(
         result.rows
       );
@@ -260,7 +247,6 @@ app.get(
         'ADMIN PRODUCTS GET ERROR:',
         error
       );
-
 
       return res.status(500).json({
         error:
@@ -286,46 +272,38 @@ app.post(
       const body =
         req.body || {};
 
-
       const name =
         String(
           body.name || ''
         ).trim();
-
 
       const description =
         String(
           body.description || ''
         );
 
-
       const price =
         Number(
           body.price || 0
         );
-
 
       const stock =
         Number(
           body.stock || 0
         );
 
-
       const category =
         String(
           body.category || ''
         );
-
 
       const image =
         String(
           body.image || ''
         );
 
-
       const active =
         body.active !== false;
-
 
       if (!name) {
 
@@ -335,7 +313,6 @@ app.post(
         });
 
       }
-
 
       const result =
         await pool.query(
@@ -373,7 +350,6 @@ app.post(
           ]
         );
 
-
       return res.json(
         result.rows[0]
       );
@@ -384,7 +360,6 @@ app.post(
         'PRODUCT CREATE ERROR:',
         error
       );
-
 
       return res.status(500).json({
         error:
@@ -412,50 +387,41 @@ app.patch(
           req.params.id
         );
 
-
       const body =
         req.body || {};
-
 
       const name =
         String(
           body.name || ''
         ).trim();
 
-
       const description =
         String(
           body.description || ''
         );
-
 
       const price =
         Number(
           body.price || 0
         );
 
-
       const stock =
         Number(
           body.stock || 0
         );
-
 
       const category =
         String(
           body.category || ''
         );
 
-
       const image =
         String(
           body.image || ''
         );
 
-
       const active =
         body.active !== false;
-
 
       if (
         !Number.isInteger(id)
@@ -468,7 +434,6 @@ app.patch(
 
       }
 
-
       if (!name) {
 
         return res.status(400).json({
@@ -477,7 +442,6 @@ app.patch(
         });
 
       }
-
 
       const result =
         await pool.query(
@@ -506,7 +470,6 @@ app.patch(
           ]
         );
 
-
       if (!result.rows.length) {
 
         return res.status(404).json({
@@ -515,7 +478,6 @@ app.patch(
         });
 
       }
-
 
       return res.json(
         result.rows[0]
@@ -527,7 +489,6 @@ app.patch(
         'PRODUCT UPDATE ERROR:',
         error
       );
-
 
       return res.status(500).json({
         error:
@@ -555,7 +516,6 @@ app.delete(
           req.params.id
         );
 
-
       if (
         !Number.isInteger(id)
       ) {
@@ -567,7 +527,6 @@ app.delete(
 
       }
 
-
       const result =
         await pool.query(
           `
@@ -578,7 +537,6 @@ app.delete(
           [id]
         );
 
-
       if (!result.rows.length) {
 
         return res.status(404).json({
@@ -587,7 +545,6 @@ app.delete(
         });
 
       }
-
 
       return res.json({
         success: true
@@ -599,7 +556,6 @@ app.delete(
         'PRODUCT DELETE ERROR:',
         error
       );
-
 
       return res.status(500).json({
         error:
@@ -629,7 +585,6 @@ app.get(
           ORDER BY created_at DESC
         `);
 
-
       return res.json(
         result.rows
       );
@@ -640,7 +595,6 @@ app.get(
         'ORDERS GET ERROR:',
         error
       );
-
 
       return res.status(500).json({
         error:
@@ -656,30 +610,10 @@ app.get(
 // EXTRACT CUSTOMER DATA
 // =========================================================
 //
-// ה-index.html שלך שולח:
-// {
-//   customer: {
-//     name,
-//     phone,
-//     email,
-//     city,
-//     street,
-//     house,
-//     apartment,
-//     zip,
-//     shipping,
-//     notes
-//   },
-//   items,
-//   total,
-//   payment_method
-// }
-//
-// השרת הישן חיפש:
-// body.customer_name
-//
-// כאן אנחנו תומכים בשני המבנים.
-//
+// Supports both:
+// customer: { ... }
+// and direct fields from older versions.
+// =========================================================
 
 function getCustomerData(body) {
 
@@ -688,7 +622,6 @@ function getCustomerData(body) {
     typeof body.customer === 'object'
       ? body.customer
       : {};
-
 
   return {
 
@@ -775,31 +708,27 @@ async function sendNewOrderEmails(order) {
 
   }
 
-
   let items = [];
-
 
   try {
 
     items =
       Array.isArray(order.items)
-
         ? order.items
-
         : typeof order.items === 'string'
-
-          ? JSON.parse(
-              order.items
-            )
-
+          ? JSON.parse(order.items)
           : [];
 
-  } catch {
+  } catch (error) {
+
+    console.error(
+      'ITEMS JSON ERROR:',
+      error
+    );
 
     items = [];
 
   }
-
 
   const itemsHtml =
     items.length
@@ -813,13 +742,11 @@ async function sendNewOrderEmails(order) {
                 'מוצר'
               );
 
-
             const quantity =
               Number(
                 item.quantity ||
                 1
               );
-
 
             const price =
               Number(
@@ -827,11 +754,9 @@ async function sendNewOrderEmails(order) {
                 0
               );
 
-
             const subtotal =
               price *
               quantity;
-
 
             return `
 
@@ -841,9 +766,7 @@ async function sendNewOrderEmails(order) {
                   padding:10px;
                   border-bottom:1px solid #eee;
                 ">
-                  ${escapeHtml(
-                    name
-                  )}
+                  ${escapeHtml(name)}
                 </td>
 
                 <td style="
@@ -883,19 +806,16 @@ async function sendNewOrderEmails(order) {
 
         `;
 
-
   const customerEmail =
     String(
       order.email || ''
     ).trim();
-
 
   const paymentText =
     String(
       order.payment_method ||
       'לא נבחר'
     );
-
 
   const address =
     [
@@ -906,14 +826,10 @@ async function sendNewOrderEmails(order) {
       .filter(Boolean)
       .join(', ');
 
-
   const apartmentText =
     order.apartment
-      ? `, דירה ${escapeHtml(
-          order.apartment
-        )}`
+      ? `, דירה ${escapeHtml(order.apartment)}`
       : '';
-
 
   // =======================================================
   // ADMIN EMAIL
@@ -949,7 +865,6 @@ async function sendNewOrderEmails(order) {
 
       </div>
 
-
       <div
         style="
           background:#ffffff;
@@ -960,76 +875,54 @@ async function sendNewOrderEmails(order) {
 
         <h2>
           הזמנה
-          ${escapeHtml(
-            order.order_number
-          )}
+          ${escapeHtml(order.order_number)}
         </h2>
-
 
         <p>
           <strong>לקוח:</strong>
-          ${escapeHtml(
-            order.customer_name
-          )}
+          ${escapeHtml(order.customer_name)}
         </p>
-
 
         <p>
           <strong>טלפון:</strong>
-          ${escapeHtml(
-            order.phone
-          )}
+          ${escapeHtml(order.phone)}
         </p>
-
 
         <p>
           <strong>אימייל:</strong>
           ${escapeHtml(
-            order.email ||
-            'לא נמסר'
+            order.email || 'לא נמסר'
           )}
         </p>
-
 
         <p>
           <strong>אופן קבלה:</strong>
           ${escapeHtml(
-            order.shipping ||
-            'לא נבחר'
+            order.shipping || 'לא נבחר'
           )}
         </p>
-
 
         <p>
           <strong>אמצעי תשלום:</strong>
-          ${escapeHtml(
-            paymentText
-          )}
+          ${escapeHtml(paymentText)}
         </p>
-
 
         <p>
           <strong>כתובת:</strong>
-          ${escapeHtml(
-            address
-          )}
+          ${escapeHtml(address)}
           ${apartmentText}
         </p>
-
 
         <p>
           <strong>הערות:</strong>
           ${escapeHtml(
-            order.notes ||
-            'אין'
+            order.notes || 'אין'
           )}
         </p>
-
 
         <h3>
           פריטים
         </h3>
-
 
         <table
           style="
@@ -1063,15 +956,11 @@ async function sendNewOrderEmails(order) {
 
           </thead>
 
-
           <tbody>
-
             ${itemsHtml}
-
           </tbody>
 
         </table>
-
 
         <div
           style="
@@ -1099,8 +988,12 @@ async function sendNewOrderEmails(order) {
 
   `;
 
-
   try {
+
+    console.log(
+      'SENDING ADMIN ORDER EMAIL TO:',
+      ADMIN_EMAIL
+    );
 
     const adminResult =
       await resend.emails.send({
@@ -1119,12 +1012,10 @@ async function sendNewOrderEmails(order) {
 
       });
 
-
     console.log(
       'ADMIN ORDER EMAIL RESULT:',
       adminResult
     );
-
 
     if (
       adminResult &&
@@ -1155,7 +1046,6 @@ async function sendNewOrderEmails(order) {
 
   }
 
-
   // =======================================================
   // CUSTOMER EMAIL
   // =======================================================
@@ -1169,7 +1059,6 @@ async function sendNewOrderEmails(order) {
     return;
 
   }
-
 
   const customerHtml = `
 
@@ -1191,25 +1080,20 @@ async function sendNewOrderEmails(order) {
         Dada Best
       </h1>
 
-
       <h2>
         🎉 תודה על ההזמנה!
       </h2>
 
-
       <p>
         שלום
         ${escapeHtml(
-          order.customer_name ||
-          ''
+          order.customer_name || ''
         )},
       </p>
-
 
       <p>
         קיבלנו את ההזמנה שלך בהצלחה.
       </p>
-
 
       <p>
         <strong>
@@ -1221,22 +1105,27 @@ async function sendNewOrderEmails(order) {
         )}
       </p>
 
-
       <p>
         <strong>
           אמצעי תשלום:
         </strong>
 
-        ${escapeHtml(
-          paymentText
-        )}
+        ${escapeHtml(paymentText)}
       </p>
 
+      <p>
+        <strong>
+          אופן קבלה:
+        </strong>
+
+        ${escapeHtml(
+          order.shipping || 'לא נבחר'
+        )}
+      </p>
 
       <h3>
         סיכום ההזמנה
       </h3>
-
 
       <table
         style="
@@ -1266,15 +1155,11 @@ async function sendNewOrderEmails(order) {
 
         </thead>
 
-
         <tbody>
-
           ${itemsHtml}
-
         </tbody>
 
       </table>
-
 
       <h2>
 
@@ -1286,29 +1171,26 @@ async function sendNewOrderEmails(order) {
 
       </h2>
 
-
       <p>
-
-        ניצור איתך קשר לגבי
-        המשך הטיפול בהזמנה.
-
+        ניצור איתך קשר לגבי המשך הטיפול בהזמנה.
       </p>
 
-
       <p>
-
         תודה,
         <br>
         Dada Best
-
       </p>
 
     </div>
 
   `;
 
-
   try {
+
+    console.log(
+      'SENDING CUSTOMER ORDER EMAIL TO:',
+      customerEmail
+    );
 
     const customerResult =
       await resend.emails.send({
@@ -1327,12 +1209,10 @@ async function sendNewOrderEmails(order) {
 
       });
 
-
     console.log(
       'CUSTOMER ORDER EMAIL RESULT:',
       customerResult
     );
-
 
     if (
       customerResult &&
@@ -1342,6 +1222,14 @@ async function sendNewOrderEmails(order) {
       console.error(
         'CUSTOMER RESEND ERROR:',
         customerResult.error
+      );
+
+    } else {
+
+      console.log(
+        'CUSTOMER ORDER EMAIL SENT:',
+        customerResult?.data?.id ||
+        'no-id'
       );
 
     }
@@ -1370,39 +1258,39 @@ app.post(
       const body =
         req.body || {};
 
-
       // -----------------------------------------------------
-      // Accept both:
-      // customer: { ... }
-      // and old direct fields
+      // CUSTOMER
       // -----------------------------------------------------
 
       const customer =
-        getCustomerData(
-          body
-        );
+        getCustomerData(body);
 
+      // -----------------------------------------------------
+      // ITEMS
+      // -----------------------------------------------------
 
       const items =
-        Array.isArray(
-          body.items
-        )
+        Array.isArray(body.items)
           ? body.items
           : [];
 
+      // -----------------------------------------------------
+      // TOTAL
+      // -----------------------------------------------------
 
       const total =
         Number(
           body.total || 0
         );
 
+      // -----------------------------------------------------
+      // PAYMENT
+      // -----------------------------------------------------
 
       const paymentMethod =
         String(
-          body.payment_method ||
-          ''
+          body.payment_method || ''
         ).trim();
-
 
       // -----------------------------------------------------
       // VALIDATION
@@ -1417,7 +1305,6 @@ app.post(
 
       }
 
-
       if (!customer.phone) {
 
         return res.status(400).json({
@@ -1427,7 +1314,6 @@ app.post(
 
       }
 
-
       if (!items.length) {
 
         return res.status(400).json({
@@ -1436,7 +1322,6 @@ app.post(
         });
 
       }
-
 
       if (
         ![
@@ -1454,7 +1339,6 @@ app.post(
 
       }
 
-
       // -----------------------------------------------------
       // ORDER NUMBER
       // -----------------------------------------------------
@@ -1462,7 +1346,6 @@ app.post(
       const orderNumber =
         'DB-' +
         Date.now();
-
 
       // -----------------------------------------------------
       // SAVE ORDER
@@ -1525,34 +1408,39 @@ app.post(
           ]
         );
 
-
       const order =
         result.rows[0];
-
 
       console.log(
         'NEW ORDER CREATED:',
         order.order_number
       );
 
-
       console.log(
         'CUSTOMER:',
         order.customer_name
       );
-
 
       console.log(
         'CUSTOMER EMAIL:',
         order.email || 'NONE'
       );
 
-
       console.log(
         'PAYMENT:',
         order.payment_method
       );
 
+      // -----------------------------------------------------
+      // SEND EMAILS NOW
+      // -----------------------------------------------------
+      //
+      // This was the missing part in your previous version.
+      //
+
+      await sendNewOrderEmails(
+        order
+      );
 
       // -----------------------------------------------------
       // RETURN SUCCESS
@@ -1560,7 +1448,8 @@ app.post(
 
       return res.json({
 
-        success: true,
+        success:
+          true,
 
         order:
           order,
@@ -1570,7 +1459,6 @@ app.post(
 
       });
 
-
     } catch (error) {
 
       console.error(
@@ -1578,54 +1466,12 @@ app.post(
         error
       );
 
-
       return res.status(500).json({
         error:
           'שגיאה ביצירת הזמנה'
       });
 
     }
-
-  }
-);
-
-// =========================================================
-// SEND ORDER EMAIL AFTER SAVE
-// =========================================================
-//
-// We intentionally call this after the order is saved.
-// Email failure will not delete the order.
-//
-
-async function processOrderEmail(
-  order
-) {
-
-  try {
-
-    await sendNewOrderEmails(
-      order
-    );
-
-  } catch (error) {
-
-    console.error(
-      'ORDER EMAIL PROCESS ERROR:',
-      error
-    );
-
-  }
-
-}
-
-
-// Re-register order route behavior using middleware.
-// This keeps the existing route above intact while ensuring
-// emails are sent after a successful response.
-app.use(
-  async (req, res, next) => {
-
-    next();
 
   }
 );
@@ -1646,13 +1492,11 @@ app.patch(
           req.params.id
         );
 
-
       const status =
         String(
           req.body?.status ||
           'חדשה'
         );
-
 
       if (
         !Number.isInteger(id)
@@ -1664,7 +1508,6 @@ app.patch(
         });
 
       }
-
 
       const result =
         await pool.query(
@@ -1680,7 +1523,6 @@ app.patch(
           ]
         );
 
-
       if (!result.rows.length) {
 
         return res.status(404).json({
@@ -1690,11 +1532,9 @@ app.patch(
 
       }
 
-
       return res.json(
         result.rows[0]
       );
-
 
     } catch (error) {
 
@@ -1702,7 +1542,6 @@ app.patch(
         'ORDER STATUS ERROR:',
         error
       );
-
 
       return res.status(500).json({
         error:
@@ -1730,7 +1569,6 @@ app.delete(
           req.params.id
         );
 
-
       if (
         !Number.isInteger(id)
       ) {
@@ -1742,7 +1580,6 @@ app.delete(
 
       }
 
-
       const result =
         await pool.query(
           `
@@ -1753,7 +1590,6 @@ app.delete(
           [id]
         );
 
-
       if (!result.rows.length) {
 
         return res.status(404).json({
@@ -1763,11 +1599,9 @@ app.delete(
 
       }
 
-
       return res.json({
         success: true
       });
-
 
     } catch (error) {
 
@@ -1775,7 +1609,6 @@ app.delete(
         'ORDER DELETE ERROR:',
         error
       );
-
 
       return res.status(500).json({
         error:
@@ -1800,13 +1633,11 @@ app.post(
       'TEST EMAIL REQUEST RECEIVED'
     );
 
-
     if (!resend) {
 
       console.error(
         'RESEND_API_KEY is missing'
       );
-
 
       return res.status(500).json({
         error:
@@ -1815,14 +1646,12 @@ app.post(
 
     }
 
-
     try {
 
       console.log(
         'Sending test email to:',
         TEST_EMAIL
       );
-
 
       const result =
         await resend.emails.send({
@@ -1863,12 +1692,10 @@ app.post(
 
         });
 
-
       console.log(
         'RESEND RESULT:',
         result
       );
-
 
       if (
         result &&
@@ -1880,7 +1707,6 @@ app.post(
           result.error
         );
 
-
         return res.status(400).json({
 
           error:
@@ -1890,7 +1716,6 @@ app.post(
         });
 
       }
-
 
       return res.json({
 
@@ -1905,14 +1730,12 @@ app.post(
 
       });
 
-
     } catch (error) {
 
       console.error(
         'TEST EMAIL ERROR:',
         error
       );
-
 
       return res.status(500).json({
 
@@ -2038,7 +1861,6 @@ async function start() {
 
     }
 
-
     if (!RESEND_API_KEY) {
 
       console.error(
@@ -2047,9 +1869,7 @@ async function start() {
 
     }
 
-
     await initDatabase();
-
 
     app.listen(
       PORT,
@@ -2061,7 +1881,6 @@ async function start() {
           PORT
         );
 
-
         console.log(
           'Email service:',
           resend
@@ -2069,12 +1888,10 @@ async function start() {
             : 'NOT CONFIGURED'
         );
 
-
         console.log(
           'Admin email:',
           ADMIN_EMAIL
         );
-
 
         console.log(
           'Automatic order email:',
@@ -2083,12 +1900,10 @@ async function start() {
             : 'NOT CONFIGURED'
         );
 
-
         console.log(
           'Payment methods:',
           'אשראי, מזומן'
         );
-
 
         console.log(
           'Test email endpoint:',
@@ -2098,7 +1913,6 @@ async function start() {
       }
     );
 
-
   } catch (error) {
 
     console.error(
@@ -2106,14 +1920,10 @@ async function start() {
       error
     );
 
-
-    process.exit(
-      1
-    );
+    process.exit(1);
 
   }
 
 }
-
 
 start();
